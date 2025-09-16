@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
@@ -46,7 +47,11 @@ public class imageController {
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
         }
-
+        try {
+            System.out.println(resource.getURL());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         StreamingResponseBody streamingResponseBody = outputStream -> {
             try (InputStream inputStream = resource.getInputStream()) {
                 Thumbnails.of(inputStream)
