@@ -1,5 +1,6 @@
 package com.ligg.image_demo.controller;
 
+import jakarta.validation.constraints.DecimalMin;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.InputStream;
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api")
@@ -38,15 +38,10 @@ public class imageController {
     }
 
     @GetMapping("/image/compressed")
-    public ResponseEntity<?> getImageStream(
+    public ResponseEntity<StreamingResponseBody> getImageStream(
             @RequestParam(defaultValue = "0.5") double scale,
-            @RequestParam(defaultValue = "0.8") float quality
+            @DecimalMin("0.1") @RequestParam(defaultValue = "0.8") float quality
     ) {
-        if (scale <= 0 || scale > 3 || quality <= 0 || quality > 1) {
-            HashMap<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "参数无效");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
         Resource resource = new ClassPathResource(IMAGE_PATH);
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
