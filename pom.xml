@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ligg</groupId>
-    <artifactId>image_text</artifactId>
+    <artifactId>image-compression</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>image_text</name>
-    <description>image_text</description>
+    <name>image-compression</name>
+    <description>image-compression</description>
     <url/>
     <licenses>
         <license/>

@@ -6,10 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.IOException;
@@ -19,39 +16,43 @@ import java.io.InputStream;
 @RequestMapping("/api")
 public class imageController {
 
-    private static final String IMAGE_PATH = "templates/更衣人偶坠入爱河_1756915020203.jpg";
+    private static final String IMAGE_PATH = "templates/";
+    private static final String VIDEO_PATH = "templates/video/";
 
-    @GetMapping("/image")
-    public ResponseEntity<Resource> getImage() {
-        Resource resource = new ClassPathResource(IMAGE_PATH);
+    @GetMapping("/video/{name}")
+    public ResponseEntity<StreamingResponseBody> getVideo(@PathVariable String name) throws IOException {
+        Resource resource = new ClassPathResource(VIDEO_PATH + name);
 
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
         }
 
-        // 设置响应头
+        StreamingResponseBody streamingResponseBody = outputStream -> {
+            try (InputStream inputStream = resource.getInputStream()) {
+                inputStream.transferTo(outputStream);
+            }
+        };
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
-
+        headers.add(HttpHeaders.CONTENT_TYPE, "video/mp4");
         return ResponseEntity.ok()
                 .headers(headers)
-                .body(resource);
+                .body(streamingResponseBody);
     }
 
-    @GetMapping("/image/compressed")
+    @GetMapping("/image/compressed/{imageName}")
     public ResponseEntity<StreamingResponseBody> getImageStream(
-            @RequestParam(defaultValue = "0.5") double scale,
-            @DecimalMin("0.1") @RequestParam(defaultValue = "0.8") float quality
-    ) {
-        Resource resource = new ClassPathResource(IMAGE_PATH);
+            @RequestParam(defaultValue = "0.8") double scale,
+            @DecimalMin("0.1") @RequestParam(defaultValue = "0.8") float quality,
+            @PathVariable String imageName) {
+        Resource resource = new ClassPathResource(IMAGE_PATH + imageName);
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
         }
-        try {
-            System.out.println(resource.getURL());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            System.out.println(resource.getURL());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         StreamingResponseBody streamingResponseBody = outputStream -> {
             try (InputStream inputStream = resource.getInputStream()) {
                 Thumbnails.of(inputStream)
