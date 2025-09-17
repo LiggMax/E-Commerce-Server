@@ -1,6 +1,6 @@
 package com.ligg.image_demo.controller;
 
-import jakarta.validation.constraints.DecimalMin;
+import Imagenum.ImageType;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -11,6 +11,9 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -39,25 +42,25 @@ public class imageController {
                 .body(streamingResponseBody);
     }
 
-    @GetMapping("/image/compressed/{imageName}")
+    @GetMapping("/image/{type}/{imageName}")
     public ResponseEntity<StreamingResponseBody> getImageStream(
-            @RequestParam(defaultValue = "0.8") double scale,
-            @DecimalMin("0.1") @RequestParam(defaultValue = "0.8") float quality,
-            @PathVariable String imageName) {
+            @PathVariable String imageName, @PathVariable String type) {
         Resource resource = new ClassPathResource(IMAGE_PATH + imageName);
         if (!resource.exists()) {
             return ResponseEntity.notFound().build();
         }
-//        try {
-//            System.out.println(resource.getURL());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+
+        ImageType imageType;
+        try {
+            imageType = ImageType.valueOf(type.toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
         StreamingResponseBody streamingResponseBody = outputStream -> {
             try (InputStream inputStream = resource.getInputStream()) {
                 Thumbnails.of(inputStream)
-                        .scale(scale)
-                        .outputQuality(quality)
+                        .scale(imageType.getScale())
+                        .outputQuality(imageType.getQuality())
                         .outputFormat("jpg")
                         .toOutputStream(outputStream);
             }
@@ -68,5 +71,17 @@ public class imageController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(streamingResponseBody);
+    }
+
+    @GetMapping("/image/types")
+    public ResponseEntity<Map<String, String>> getImageTypes() {
+        Map<String, String> imageTypes = new HashMap<>();
+        String baseUrl = "http://192.168.124.3:8080/api/image/";
+
+        Arrays.stream(ImageType.values()).forEach(type -> {
+            imageTypes.put(type.name(), baseUrl + type.name() + "/更衣人偶_1756915020203.jpg");
+        });
+
+        return ResponseEntity.ok(imageTypes);
     }
 }

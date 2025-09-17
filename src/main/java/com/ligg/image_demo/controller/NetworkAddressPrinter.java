@@ -19,7 +19,6 @@ public class NetworkAddressPrinter implements ApplicationRunner {
             InetAddress localHost = InetAddress.getLocalHost();
             String hostAddress = localHost.getHostAddress();
             System.out.println("===============================================");
-            System.out.println("应用已启动，请通过以下地址访问:");
             System.out.println("局域网访问地址: http://" + hostAddress + ":8080");
             System.out.println("本地访问地址: http://localhost:8080");
             System.out.println("===============================================");
