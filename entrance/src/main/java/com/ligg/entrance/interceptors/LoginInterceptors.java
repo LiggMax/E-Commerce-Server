@@ -33,12 +33,15 @@ public class LoginInterceptors implements HandlerInterceptor {
         String Token = request.getHeader("Authorization");
 
         try {
+            if (Token == null){
+                throw new RuntimeException("缺少授权标头");
+            }
             Map<String, Object> claims = jwtUtil.parseToken(Token);
             String userId = (String) claims.get("userId");
             //从Redis中获取用户信息
             String redisUserToken = (String) redisUtil.get("Token:" + userId);
             if (redisUserToken == null) {
-                throw new RuntimeException();
+                throw new RuntimeException("未获得授权...");
             }
             Map<String, Object> userInfo = jwtUtil.parseToken(redisUserToken);
             ThreadLocalUtil.set(userInfo);
