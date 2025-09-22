@@ -12,19 +12,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>entrance</name>
     <description>entrance</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+    <packaging>jar</packaging>
+
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -34,6 +23,18 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.ligg</groupId>
+            <artifactId>ECommerce-client</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ligg</groupId>
+            <artifactId>ECommerce-admin</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -41,6 +42,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <!--指定启动类-->
+                <configuration>
+                    <mainClass>com.ligg.entrance.EntranceApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

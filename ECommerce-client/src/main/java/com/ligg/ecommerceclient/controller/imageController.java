@@ -87,4 +87,9 @@ public class imageController {
 
         return ResponseEntity.ok(imageTypes);
     }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello world";
+    }
 }

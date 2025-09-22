@@ -1,4 +1,4 @@
-package com.ligg.ecommerceclient.controller;
+package com.ligg.entrance;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -8,7 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * @Author Administrator
+ * @Author Ligg
  * @Time 2025/9/17
  **/
 @Component
