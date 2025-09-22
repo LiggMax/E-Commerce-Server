@@ -1,4 +1,4 @@
-package Imagenum;
+package com.ligg.Imagenum;
 
 import lombok.Getter;
 

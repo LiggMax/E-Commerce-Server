@@ -1,4 +1,4 @@
-package com.ligg.image_demo.controller;
+package com.ligg.ecommerceclient.controller;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
