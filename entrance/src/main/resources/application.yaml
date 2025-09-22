@@ -13,3 +13,6 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true # 开启自动驼峰命名
+jwt:
+  key: ligg
+  expire: 6 #过期时间 单位：小时

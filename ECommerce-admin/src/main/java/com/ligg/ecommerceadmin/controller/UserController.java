@@ -1,0 +1,59 @@
+package com.ligg.ecommerceadmin.controller;
+
+import com.ligg.ecommerceadmin.service.UserService;
+import com.ligg.entity.admin.UserEntity;
+import com.ligg.service.LoginService;
+import com.ligg.statuEnum.BusinessStates;
+import com.ligg.utils.BCryptUtil;
+import com.ligg.utils.Response;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @Author Ligg
+ * @Time 2025/9/22
+ **/
+@RestController
+@RequestMapping("/api/admin/user")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private LoginService loginService;
+    /**
+     * 注册账户
+     */
+    @PostMapping("/register")
+    public Response<String> register(@NotNull String account, @NotNull String password) {
+        if(account.length() < 6 || account.length() > 30 || password.length() < 6 || password.length() > 30){
+            return Response.error(BusinessStates.VALIDATION_FAILED);
+        }
+
+        if(userService.getUserInfoByAccount(account) != null){
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED,"该账号已被注册");
+        }
+        userService.register(account, password);
+        return Response.success(BusinessStates.SUCCESS);
+    }
+
+    /**
+     * 登录
+     */
+    @PostMapping("/login")
+    public Response<String> login(@NotNull String account, @NotNull String password) {
+        UserEntity userInfo = userService.getUserInfoByAccount(account);
+        if(userInfo == null){
+            return Response.error(BusinessStates.FORBIDDEN,"账号或密码错误");
+        }
+        if(!BCryptUtil.verify(password, userInfo.getPassword())){
+            return Response.error(BusinessStates.FORBIDDEN,"账号或密码错误");
+        }
+        String token = loginService.generateToken(userInfo);
+        return Response.success(BusinessStates.SUCCESS, token);
+    }
+}
