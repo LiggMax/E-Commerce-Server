@@ -25,11 +25,23 @@
 
     <properties>
         <java.version>17</java.version>
+        <spring-boot.version>3.5.5</spring-boot.version>
+        <knife4j.version>4.4.0</knife4j.version>
+        <jwt.version>4.4.0</jwt.version>
+        <mybatis-plus.version>3.5.12</mybatis-plus.version>
+        <mybatis-plus-jsqlparser.version>3.5.12</mybatis-plus-jsqlparser.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
         </dependency>
 
         <dependency>
@@ -54,7 +66,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>4.4.0</version>
+            <version>${jwt.version}</version>
         </dependency>
 
         <!-- bcrypt依赖 -->
@@ -79,14 +91,14 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-            <version>3.5.12</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
 
         <!-- MyBatis-Plus JSQLParser 依赖 (Spring Boot 3 需要) -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-jsqlparser</artifactId>
-            <version>3.5.12</version>
+            <version>${mybatis-plus-jsqlparser.version}</version>
         </dependency>
 
         <!--redis依赖-->
@@ -96,11 +108,11 @@
         </dependency>
 
         <!--限制接口的频率依赖-->
-        <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-ratelimiter</artifactId>
-            <version>1.7.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.github.resilience4j</groupId>-->
+<!--            <artifactId>resilience4j-ratelimiter</artifactId>-->
+<!--            <version>1.7.0</version>-->
+<!--        </dependency>-->
 
         <!--参数校验依赖-->
         <dependency>
