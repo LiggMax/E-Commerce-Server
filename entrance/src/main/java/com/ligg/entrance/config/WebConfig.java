@@ -24,6 +24,6 @@ public class WebConfig implements WebMvcConfigurer {
                 //拦截路径
                 .addPathPatterns("/api/admin/**")
                 //放行路径
-                .excludePathPatterns("/api/admin/user/account/**");
+                .excludePathPatterns("/api/admin/account/**");
     }
 }
