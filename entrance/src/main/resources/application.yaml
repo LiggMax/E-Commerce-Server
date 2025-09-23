@@ -31,4 +31,6 @@ token:
 
 ##文件配置
 file:
-  imagePath: resources/image
+  image:
+    base-path: resources/image # 用相对路径(相对于项目运行目录)
+    relative-path: /image # 图片访问的相对路径前缀(用于返回给前端)

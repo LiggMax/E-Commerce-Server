@@ -26,6 +26,7 @@ public class NetworkAddressPrinter implements ApplicationRunner {
             System.out.println("===============================================");
             System.out.println("局域网访问地址: http://" + hostAddress + ":" + this.port);
             System.out.println("本地访问地址: http://localhost:" + this.port);
+            System.out.println("在线文档地址: http://localhost:" + this.port + "/doc.html");
             System.out.println("===============================================");
         } catch (UnknownHostException e) {
             System.out.println("无法获取本机IP地址");
