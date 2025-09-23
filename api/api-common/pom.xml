@@ -1,22 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>api</artifactId>
-    <packaging>pom</packaging>
-    <name>api</name>
-
     <parent>
         <groupId>com.ligg</groupId>
-        <artifactId>Ecommerce</artifactId>
+        <artifactId>api</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <modules>
-        <module>api-admin</module>
-        <module>api-client</module>
-        <module>api-common</module>
-    </modules>
+    <artifactId>api-common</artifactId>
+    <packaging>jar</packaging>
+
+    <name>api-common</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,13 +25,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>
