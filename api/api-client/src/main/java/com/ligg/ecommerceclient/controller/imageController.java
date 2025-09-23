@@ -94,8 +94,15 @@ public class imageController {
         return ResponseEntity.ok(imageTypes);
     }
 
+    /**
+     * 获取图片资源
+     *
+     * @param date       图片日期
+     * @param imageName  图片名称
+     * @return 图片内容
+     */
     @GetMapping("/image/{date}/{imageName}")
-    public ResponseEntity<StreamingResponseBody> getImage(
+    public ResponseEntity<StreamingResponseBody> getImageStream(
             @PathVariable String date,
             @PathVariable String imageName) {
 
