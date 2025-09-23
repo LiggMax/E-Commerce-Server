@@ -104,6 +104,7 @@ public class imageController {
             return ResponseEntity.notFound().build();
         }
 
+        // 创建流，将图片内容写入响应体
         StreamingResponseBody streamingResponseBody = outputStream -> {
             try (InputStream inputStream = Files.newInputStream(imagePath)) {
                 inputStream.transferTo(outputStream);
