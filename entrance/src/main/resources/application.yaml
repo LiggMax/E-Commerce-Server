@@ -28,3 +28,7 @@ jwt:
 
 token:
   expire: 6 #过期时间
+
+##文件配置
+file:
+  imagePath: resources/image
