@@ -5,6 +5,8 @@ import com.ligg.ecommerceadmin.service.CarouselService;
 import com.ligg.service.FileService;
 import com.ligg.statuEnum.BusinessStates;
 import com.ligg.utils.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * 轮播图控制器
  **/
+@Tag(name = "轮播图接口")
 @RestController
 @RequestMapping("/api/admin/carousel")
 public class CarouselController {
@@ -30,6 +33,7 @@ public class CarouselController {
     /**
      * 上传轮播图数据
      */
+    @Operation(summary  = "上传轮播图数据")
     @PostMapping("/upload")
     public Response<String> upload(@RequestBody CarouselDto carousel) {
 
