@@ -26,13 +26,13 @@
 
         <dependency>
             <groupId>com.ligg</groupId>
-            <artifactId>ECommerce-client</artifactId>
+            <artifactId>api-client</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.ligg</groupId>
-            <artifactId>ECommerce-admin</artifactId>
+            <artifactId>api-admin</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
