@@ -19,16 +19,16 @@ import java.util.Map;
 public class JWTUtil {
 
     @Value("${jwt.key}")
-    private  String KEY;
-    @Value("${jwt.expire}")
-    private  Long EXPIRE;  //过期时间
+    private String KEY;
+    @Value("${token.expire}")
+    private Long EXPIRE;  //过期时间
 
     /**
      * 生成token
      *
      * @return token
      */
-    public  String createToken(Map<String, Object> claims) {
+    public String createToken(Map<String, Object> claims) {
         return JWT.create()
                 .withClaim("claims", claims)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRE * 60 * 60 * 1000))
@@ -40,7 +40,7 @@ public class JWTUtil {
      *
      * @return token解析获取到的数据
      */
-    public  Map<String, Object> parseToken(String token) {
+    public Map<String, Object> parseToken(String token) {
         try {
             return JWT.require(Algorithm.HMAC256(KEY))
                     .build()

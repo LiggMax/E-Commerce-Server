@@ -16,18 +16,5 @@ import java.util.Map;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
-    private JWTUtil jwtUtil;
-    /**
-     * 生成token
-     * @param userEntity 用户信息
-     * @return  token
-     */
-    @Override
-    public String generateToken(UserEntity userEntity) {
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("userId", userEntity.getUserId());
-        userInfo.put("account", userEntity.getAccount());
-        return jwtUtil.createToken(userInfo);
-    }
+
 }

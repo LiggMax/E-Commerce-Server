@@ -20,12 +20,29 @@ import lombok.NoArgsConstructor;
 public class CarouselEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    /**
+     * 标题
+     */
     private String title;
+
+    /**
+     * 副标题
+     */
+    private String subtitle;
+
+    /**
+     * 描述
+     */
     private String description;
+
+    /**
+     * 状态
+     */
     private Integer status;
 
     /**
-     * 跳转目标
+     * 打开方式
      */
     private String target;
 
@@ -34,10 +51,7 @@ public class CarouselEntity {
      */
     private Integer sort;
 
-    /**
-     * 副标题
-     */
-    private String subtitle;
+
 
     /**
      * 图片地址

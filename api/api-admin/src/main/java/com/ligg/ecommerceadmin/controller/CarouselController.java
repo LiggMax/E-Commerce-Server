@@ -1,7 +1,7 @@
 package com.ligg.ecommerceadmin.controller;
 
+import com.ligg.dto.admin.CarouselDto;
 import com.ligg.ecommerceadmin.service.CarouselService;
-import com.ligg.entity.admin.CarouselEntity;
 import com.ligg.statuEnum.BusinessStates;
 import com.ligg.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class CarouselController {
      * 上传轮播图数据
      */
     @PostMapping("/upload")
-    public Response<String> upload(@RequestBody CarouselEntity carousel) {
+    public Response<String> upload(@RequestBody CarouselDto carousel) {
 
         int res = carouselService.upload(carousel);
         return Response.success(BusinessStates.SUCCESS);

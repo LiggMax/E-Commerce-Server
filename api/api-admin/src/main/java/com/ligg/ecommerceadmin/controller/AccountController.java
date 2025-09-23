@@ -1,5 +1,6 @@
 package com.ligg.ecommerceadmin.controller;
 
+import com.ligg.ecommerceadmin.service.TokenService;
 import com.ligg.ecommerceadmin.service.UserService;
 import com.ligg.entity.admin.UserEntity;
 import com.ligg.service.LoginService;
@@ -25,7 +26,7 @@ public class AccountController {
     private UserService userService;
 
     @Autowired
-    private LoginService loginService;
+    private TokenService tokenService;
 
     /**
      * 注册账户
@@ -55,7 +56,8 @@ public class AccountController {
         if (!BCryptUtil.verify(password, userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
         }
-        String token = loginService.generateToken(userInfo);
+        String token = tokenService.generateToken(userInfo);
+        tokenService.saveToken(token, userInfo.getUserId());
         return Response.success(BusinessStates.SUCCESS, token);
     }
 }

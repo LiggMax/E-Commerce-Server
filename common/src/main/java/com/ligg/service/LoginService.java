@@ -7,8 +7,5 @@ import com.ligg.entity.admin.UserEntity;
  * @Time 2025/9/22
  **/
 public interface LoginService {
-    /**
-     * 生成token
-     */
-    String generateToken(UserEntity userEntity);
+
 }
