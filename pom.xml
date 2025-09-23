@@ -38,6 +38,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--knife4j依赖-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
@@ -108,11 +109,11 @@
         </dependency>
 
         <!--限制接口的频率依赖-->
-<!--        <dependency>-->
-<!--            <groupId>io.github.resilience4j</groupId>-->
-<!--            <artifactId>resilience4j-ratelimiter</artifactId>-->
-<!--            <version>1.7.0</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.github.resilience4j</groupId>-->
+        <!--            <artifactId>resilience4j-ratelimiter</artifactId>-->
+        <!--            <version>1.7.0</version>-->
+        <!--        </dependency>-->
 
         <!--参数校验依赖-->
         <dependency>
@@ -128,11 +129,11 @@
         </dependency>
 
         <!--minio-->
-<!--        <dependency>-->
-<!--            <groupId>io.minio</groupId>-->
-<!--            <artifactId>minio</artifactId>-->
-<!--            <version>8.2.1</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.minio</groupId>-->
+        <!--            <artifactId>minio</artifactId>-->
+        <!--            <version>8.2.1</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
