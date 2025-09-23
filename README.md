@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/Maven-3.6+-orange?logo=apache-maven" alt="Maven" />
 </p>
 
-### 🏗️后端技术栈
+### 🏗️ 技术栈
 
 * **核心框架**: Spring Boot 3.5.5
 * **数据库**: MySQL 8.0
