@@ -1,7 +1,6 @@
-package com.ligg.ecommerceclient.controller;
+package com.ligg.common.controller;
 
 import com.ligg.Imagenum.ImageType;
-import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -32,7 +31,7 @@ public class imageController {
     private static final String VIDEO_PATH = "templates/video/";
 
     @GetMapping("/video/{name}")
-    public ResponseEntity<StreamingResponseBody> getVideo(@PathVariable String name) throws IOException {
+    public ResponseEntity<StreamingResponseBody> getVideo(@PathVariable String name) {
         Resource resource = new ClassPathResource(VIDEO_PATH + name);
 
         if (!resource.exists()) {
@@ -46,9 +45,7 @@ public class imageController {
         };
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "video/mp4");
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(streamingResponseBody);
+        return ResponseEntity.ok().headers(headers).body(streamingResponseBody);
     }
 
 //    @GetMapping("/image/{type}/{imageName}")
@@ -87,9 +84,7 @@ public class imageController {
         Map<String, String> imageTypes = new HashMap<>();
         String baseUrl = "http://192.168.124.3:8080/api/image/";
 
-        Arrays.stream(ImageType.values()).forEach(type -> {
-            imageTypes.put(type.name(), baseUrl + type.name() + "/更衣人偶_1756915020203.jpg");
-        });
+        Arrays.stream(ImageType.values()).forEach(type -> imageTypes.put(type.name(), baseUrl + type.name() + "/更衣人偶_1756915020203.jpg"));
 
         return ResponseEntity.ok(imageTypes);
     }
@@ -97,14 +92,12 @@ public class imageController {
     /**
      * 获取图片资源
      *
-     * @param date       图片日期
-     * @param imageName  图片名称
+     * @param date      图片日期
+     * @param imageName 图片名称
      * @return 图片内容
      */
     @GetMapping("/image/{date}/{imageName}")
-    public ResponseEntity<StreamingResponseBody> getImageStream(
-            @PathVariable String date,
-            @PathVariable String imageName) {
+    public ResponseEntity<StreamingResponseBody> getImageStream(@PathVariable String date, @PathVariable String imageName) {
 
         Path imagePath = Paths.get(IMAGE_PATH, date, imageName);
         if (!Files.exists(imagePath)) {
@@ -120,9 +113,7 @@ public class imageController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
 
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(streamingResponseBody);
+        return ResponseEntity.ok().headers(headers).body(streamingResponseBody);
     }
 
 }
