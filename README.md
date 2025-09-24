@@ -1,4 +1,4 @@
-# E-commerce-Api
+# E-Commerce-Server
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-17-orange?logo=java" alt="Java 17" />
