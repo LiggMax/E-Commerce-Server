@@ -9,8 +9,11 @@ import com.ligg.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @Author Ligg
@@ -33,8 +36,8 @@ public class CarouselController {
      * 上传轮播图数据
      */
     @Operation(summary = "上传轮播图数据")
-    @PostMapping("/upload")
-    public Response<String> upload(CarouselDto carousel,
+    @PostMapping
+    public Response<String> upload(@Validated CarouselDto carousel,
                                    MultipartFile imageFile) {
         String imagePath = fileService.uploadImage(imageFile);
         if (imageFile.getSize() > 1024 * 1024 * 2) {
@@ -59,11 +62,12 @@ public class CarouselController {
     }
 
     /**
-     * 上传轮播图图片
+     * 获取轮播图数据
      */
-    @PostMapping("/file")
-    public Response<String> uploadFile(MultipartFile file) {
-        String url = fileService.uploadImage(file);
-        return Response.success(BusinessStates.SUCCESS, url);
+    @Operation(summary = "获取轮播图数据")
+    @GetMapping
+    public Response<List<CarouselEntity>> getCarousel() {
+        List<CarouselEntity> carouselList = carouselService.getCarousel();
+        return Response.success(BusinessStates.SUCCESS, carouselList);
     }
 }
