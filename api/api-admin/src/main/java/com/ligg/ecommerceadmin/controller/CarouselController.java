@@ -8,6 +8,7 @@ import com.ligg.statuEnum.BusinessStates;
 import com.ligg.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,14 +46,7 @@ public class CarouselController {
         }
 
         CarouselEntity entity = new CarouselEntity();
-        entity.setTitle(carousel.getTitle());
-        entity.setSubtitle(carousel.getSubtitle());
-        entity.setDescription(carousel.getDescription());
-        entity.setStatus(carousel.getStatus());
-        entity.setTarget(carousel.getTarget());
-        entity.setSort(carousel.getSort());
-        entity.setLink(carousel.getLink());
-        entity.setButtonText(carousel.getButtonText());
+        BeanUtils.copyProperties(carousel, entity);
         if (!imagePath.isEmpty()) {
             entity.setImagePath(imagePath);
         }
