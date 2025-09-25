@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ligg.common.entity.CarouselEntity;
 import com.ligg.common.mapper.CarouselMapper;
 import com.ligg.common.service.CarouselService;
+import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.vo.CarouselVo;
 import com.ligg.common.vo.PageVo;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +28,9 @@ public class CarouselServiceImpl implements CarouselService {
     @Autowired
     private CarouselMapper carouselMapper;
 
+    @Autowired
+    private ImageUtil imageUtil;
+
     /**
      * 上传轮播图数据
      */
@@ -44,14 +48,13 @@ public class CarouselServiceImpl implements CarouselService {
     public List<CarouselVo> getCarouselList() {
         List<CarouselEntity> entityList = carouselMapper.selectList(new LambdaQueryWrapper<CarouselEntity>()
                 .orderByAsc(CarouselEntity::getSort));
+
         return entityList.stream().map(entity -> {
             CarouselVo carouselVo = new CarouselVo();
             BeanUtils.copyProperties(entity, carouselVo);
             //TODO 处理图片路径
-            CarouselVo.Images images = new CarouselVo.Images();
-            images.setLargeImage("待实现...");
-            images.setSmallImage("待实现...");
-            carouselVo.setImagePath(images);
+            CarouselVo.Images imagePath = imageUtil.getImagePath(entity.getImagePath());
+            carouselVo.setImagePath(imagePath);
             return carouselVo;
         }).toList();
     }
