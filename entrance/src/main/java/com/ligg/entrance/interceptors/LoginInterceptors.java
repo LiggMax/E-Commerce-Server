@@ -1,8 +1,8 @@
 package com.ligg.entrance.interceptors;
 
-import com.ligg.utils.JWTUtil;
-import com.ligg.utils.RedisUtil;
-import com.ligg.utils.ThreadLocalUtil;
+import com.ligg.common.utils.JWTUtil;
+import com.ligg.common.utils.RedisUtil;
+import com.ligg.common.utils.ThreadLocalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
