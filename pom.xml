@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ligg</groupId>
-    <artifactId>Ecommerce</artifactId>
+    <artifactId>e-commerce-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Ecommerce</name>
-    <description>Ecommerce</description>
+    <name>e-commerce-server</name>
+    <description>e-commerce-server</description>
     <packaging>pom</packaging>
 
     <parent>

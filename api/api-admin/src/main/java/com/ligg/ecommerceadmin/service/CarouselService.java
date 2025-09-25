@@ -1,6 +1,6 @@
 package com.ligg.ecommerceadmin.service;
 
-import com.ligg.entity.admin.CarouselEntity;
+import com.ligg.entity.CarouselEntity;
 
 import java.util.List;
 

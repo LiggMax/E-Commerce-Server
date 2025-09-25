@@ -3,13 +3,12 @@ package com.ligg.ecommerceadmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ligg.ecommerceadmin.mapper.UserMapper;
 import com.ligg.ecommerceadmin.service.UserService;
-import com.ligg.entity.admin.UserEntity;
+import com.ligg.entity.UserEntity;
 import com.ligg.utils.BCryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 /**

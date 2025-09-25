@@ -24,7 +24,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true # 开启自动驼峰命名
 jwt:
-  key: ligg
+  key: ligg #加密密钥
 
 token:
   expire: 6 #过期时间
@@ -33,7 +33,7 @@ token:
 file:
   image:
     base-path: resources/image # 用相对路径(相对于项目运行目录)
-    relative-path: /image # 图片访问的相对路径前缀(用于返回给前端)
+    relative-path: /api/image # 图片访问的相对路径前缀(用于返回给前端)
 
 api:
   base-url: "http://localhost:8899" #填写后端的ip或域名(用于拼接完整的资源访问路径)

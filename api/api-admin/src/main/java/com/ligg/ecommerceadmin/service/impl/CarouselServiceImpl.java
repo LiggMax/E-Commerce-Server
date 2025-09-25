@@ -3,7 +3,7 @@ package com.ligg.ecommerceadmin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ligg.ecommerceadmin.mapper.CarouselMapper;
 import com.ligg.ecommerceadmin.service.CarouselService;
-import com.ligg.entity.admin.CarouselEntity;
+import com.ligg.entity.CarouselEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

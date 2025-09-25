@@ -53,7 +53,7 @@ public class FileServiceImpl implements FileService {
             // 保存文件
             imageFile.transferTo(filePath);
 
-            return "/api" +IMAGE_RELATIVE_PATH + '/' + datePath + '/' + uniqueFileName;
+            return IMAGE_RELATIVE_PATH + '/' + datePath + '/' + uniqueFileName;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

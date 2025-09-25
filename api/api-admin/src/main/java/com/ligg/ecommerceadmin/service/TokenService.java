@@ -1,8 +1,6 @@
 package com.ligg.ecommerceadmin.service;
 
-import com.ligg.entity.admin.UserEntity;
-import com.ligg.utils.JWTUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ligg.entity.UserEntity;
 
 public interface TokenService {
 

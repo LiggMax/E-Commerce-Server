@@ -1,6 +1,6 @@
 package com.ligg.ecommerceadmin.service;
 
-import com.ligg.entity.admin.UserEntity;
+import com.ligg.entity.UserEntity;
 import jakarta.validation.constraints.NotNull;
 
 /**

@@ -1,7 +1,7 @@
 package com.ligg.ecommerceadmin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ligg.entity.admin.UserEntity;
+import com.ligg.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

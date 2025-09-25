@@ -1,7 +1,7 @@
 package com.ligg.ecommerceadmin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ligg.entity.admin.CarouselEntity;
+import com.ligg.entity.CarouselEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

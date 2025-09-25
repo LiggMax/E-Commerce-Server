@@ -8,7 +8,7 @@
 
     <parent>
         <groupId>com.ligg</groupId>
-        <artifactId>Ecommerce</artifactId>
+        <artifactId>e-commerce-server</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -28,8 +28,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
                 </configuration>

@@ -1,7 +1,7 @@
 package com.ligg.ecommerceadmin.service.impl;
 
 import com.ligg.ecommerceadmin.service.TokenService;
-import com.ligg.entity.admin.UserEntity;
+import com.ligg.entity.UserEntity;
 import com.ligg.utils.JWTUtil;
 import com.ligg.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;

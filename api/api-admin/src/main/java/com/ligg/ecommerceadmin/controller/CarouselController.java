@@ -2,7 +2,7 @@ package com.ligg.ecommerceadmin.controller;
 
 import com.ligg.dto.admin.CarouselDto;
 import com.ligg.ecommerceadmin.service.CarouselService;
-import com.ligg.entity.admin.CarouselEntity;
+import com.ligg.entity.CarouselEntity;
 import com.ligg.service.FileService;
 import com.ligg.statuEnum.BusinessStates;
 import com.ligg.utils.Response;

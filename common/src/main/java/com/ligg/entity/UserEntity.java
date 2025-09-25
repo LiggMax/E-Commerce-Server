@@ -1,4 +1,4 @@
-package com.ligg.entity.admin;
+package com.ligg.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
