@@ -1,6 +1,6 @@
 package com.ligg.common.service;
 
-import com.ligg.common.vo.CarouselVo;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 /**
  * @Author Ligg
@@ -8,5 +8,22 @@ import com.ligg.common.vo.CarouselVo;
  **/
 public interface ImageService {
 
+    /**
+     * 获取多种图片输入流
+     *
+     * @param type      图片类型
+     * @param date      图片日期
+     * @param imageName 图片名称
+     * @return 图片输入流
+     */
+    StreamingResponseBody getImageInputStream(String type, String date, String imageName);
 
+    /**
+     * 获取图片输入流
+     *
+     * @param date      图片日期
+     * @param imageName 图片名称
+     * @return 图片输入流
+     */
+    StreamingResponseBody getImageInputStream(String date, String imageName);
 }

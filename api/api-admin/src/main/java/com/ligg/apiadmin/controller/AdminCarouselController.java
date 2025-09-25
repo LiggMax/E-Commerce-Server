@@ -15,6 +15,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author Ligg
  * @Time 2025/9/23
@@ -45,6 +47,7 @@ public class AdminCarouselController {
         }
 
         CarouselEntity entity = new CarouselEntity();
+        entity.setCreatedAt(LocalDateTime.now());
         BeanUtils.copyProperties(carousel, entity);
         if (!imagePath.isEmpty()) {
             entity.setImagePath(imagePath);

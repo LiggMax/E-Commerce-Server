@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author Ligg
  * @Time 2025/9/23
@@ -83,4 +85,10 @@ public class CarouselEntity {
     @NotNull
     @Pattern(regexp = "^.{1,20}$", message = "按钮文字长度不能超过20个字符")
     private String buttonText;
+
+    /**
+     * 创建时间
+     */
+    @NotNull
+    private LocalDateTime createdAt;
 }
