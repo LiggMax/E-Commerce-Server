@@ -1,6 +1,7 @@
 package com.ligg.ecommerceadmin.service;
 
 import com.ligg.entity.CarouselEntity;
+import com.ligg.vo.PageVo;
 
 import java.util.List;
 
@@ -16,7 +17,10 @@ public interface CarouselService {
     int upload(CarouselEntity carousel);
 
     /**
-     * 获取轮播图数据
+     * 分页获取轮播图数据
+     * @param pageNumber 页码
+     * @param pageSize 每页大小
+     * @return 分页结果
      */
-    List<CarouselEntity> getCarousel();
+    PageVo<CarouselEntity> getCarouselPage(Long pageNumber, Long pageSize);
 }

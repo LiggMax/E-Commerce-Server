@@ -1,14 +1,14 @@
 package com.ligg.ecommerceadmin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ligg.ecommerceadmin.mapper.CarouselMapper;
 import com.ligg.ecommerceadmin.service.CarouselService;
 import com.ligg.entity.CarouselEntity;
+import com.ligg.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @Author Ligg
@@ -32,17 +32,27 @@ public class CarouselServiceImpl implements CarouselService {
     }
 
     /**
-     * 获取轮播图数据
-     *
-     * @return 轮播图数据集合
+     * 分页获取轮播图数据
      */
     @Override
-    public List<CarouselEntity> getCarousel() {
-        List<CarouselEntity> entityList = carouselMapper.selectList(new LambdaQueryWrapper<CarouselEntity>()
+    public PageVo<CarouselEntity> getCarouselPage(Long pageNumber, Long pageSize) {
+        //创建分页对象
+        Page<CarouselEntity> page = new Page<>(pageNumber, pageSize);
+
+        // 分页查询
+        carouselMapper.selectPage(page, new LambdaQueryWrapper<CarouselEntity>()
                 .orderByAsc(CarouselEntity::getSort));
-        for (CarouselEntity entity : entityList) {
-            entity.setImagePath(BASEURL + entity.getImagePath());
-        }
-        return entityList;
+
+        //处理图片路径
+        page.getRecords().forEach(carousel -> {
+            carousel.setImagePath(BASEURL + carousel.getImagePath());
+        });
+
+        //封装PageVo
+        PageVo<CarouselEntity> pageVo = new PageVo<>();
+        pageVo.setPages(page.getPages());
+        pageVo.setTotal(page.getTotal());
+        pageVo.setList(page.getRecords());
+        return pageVo;
     }
 }

@@ -6,6 +6,8 @@ import com.ligg.entity.CarouselEntity;
 import com.ligg.service.FileService;
 import com.ligg.statuEnum.BusinessStates;
 import com.ligg.utils.Response;
+import com.ligg.vo.CarouselVo;
+import com.ligg.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
@@ -60,8 +62,8 @@ public class CarouselController {
      */
     @Operation(summary = "获取轮播图数据")
     @GetMapping
-    public Response<List<CarouselEntity>> getCarousel() {
-        List<CarouselEntity> carouselList = carouselService.getCarousel();
-        return Response.success(BusinessStates.SUCCESS, carouselList);
+    public Response<PageVo<CarouselEntity>> getCarousel(Long pageNumber, Long pageSize) {
+        PageVo<CarouselEntity> carouselPage = carouselService.getCarouselPage(pageNumber,pageSize);
+        return Response.success(BusinessStates.SUCCESS,carouselPage);
     }
 }

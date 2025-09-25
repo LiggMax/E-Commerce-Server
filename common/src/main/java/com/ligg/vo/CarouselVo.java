@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
  * @Author Ligg
  * @Time 2025/9/25
@@ -50,7 +51,7 @@ public class CarouselVo {
     /**
      * 图片地址
      */
-    private String imagePath;
+    private Images imagePath;
 
     /**
      * 跳转链接
@@ -61,4 +62,13 @@ public class CarouselVo {
      * 按钮文字
      */
     private String buttonText;
+
+    /**
+     * 图片s
+     */
+    public static class Images {
+        private String largeImage;
+        private String smallImage;
+    }
 }
+
