@@ -27,7 +27,7 @@ public class AdminCarouselServiceImpl implements AdminCarouselService {
      * 上传轮播图数据
      */
     @Override
-    public int upload(CarouselEntity carousel) {
+    public int save(CarouselEntity carousel) {
         return carouselMapper.insert(carousel);
     }
 

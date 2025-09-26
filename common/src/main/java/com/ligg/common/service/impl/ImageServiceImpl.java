@@ -24,6 +24,14 @@ public class ImageServiceImpl implements ImageService {
     @Value("${file.image.base-path}")
     private String IMAGE_PATH;
 
+    /**
+     * 获取多质量图片输入流
+     *
+     * @param type      图片类型
+     * @param date      图片日期
+     * @param imageName 图片名称
+     * @return 图片输入流
+     */
     @Override
     public StreamingResponseBody getImageInputStream(String type, String date, String imageName) {
 

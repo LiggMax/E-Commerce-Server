@@ -60,9 +60,7 @@ public class CarouselDto {
     /**
      * 跳转链接
      */
-    @NotNull
     @Schema(description = "跳转链接")
-    @Pattern(regexp = "^.{1,255}$", message = "跳转链接长度不能超过255个字符")
     private String link;
 
     /**

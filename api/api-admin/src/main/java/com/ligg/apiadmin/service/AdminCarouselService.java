@@ -12,7 +12,7 @@ public interface AdminCarouselService {
     /**
      * 上传轮播图数据
      */
-    int upload(CarouselEntity carousel);
+    int save(CarouselEntity carousel);
 
     /**
      * 分页获取轮播图数据

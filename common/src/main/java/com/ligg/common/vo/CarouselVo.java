@@ -49,7 +49,7 @@ public class CarouselVo {
     /**
      * 图片地址
      */
-    private Images imagePath;
+    private Images images;
 
     /**
      * 跳转链接

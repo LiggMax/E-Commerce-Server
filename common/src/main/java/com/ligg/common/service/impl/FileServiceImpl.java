@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+
 @Service
 public class FileServiceImpl implements FileService {
 
@@ -23,7 +24,7 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public String uploadImage(MultipartFile imageFile) {
+    public String uploadImage(MultipartFile imageFile, String path) {
         if (imageFile.isEmpty()) {
             throw new IllegalArgumentException("上传文件为空");
         }
@@ -43,7 +44,8 @@ public class FileServiceImpl implements FileService {
 
             //创建目录
             String datePath = java.time.LocalDate.now().toString();
-            Path directoryPath = Paths.get(IMAGE_PATH + '/' + datePath);
+            String typePath = path == null ? "" : path;
+            Path directoryPath = Paths.get(IMAGE_PATH + '/' + typePath + '/' + datePath);
             if (!Files.exists(directoryPath)) {
                 Files.createDirectories(directoryPath);
             }
