@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/25
+ **/
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.service.CarouselService;
@@ -11,10 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * @Author Ligg
- * @Time 2025/9/25
- **/
 
 /**
  * 轮播图接口

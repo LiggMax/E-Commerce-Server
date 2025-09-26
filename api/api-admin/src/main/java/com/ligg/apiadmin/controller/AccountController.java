@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/23
+ **/
 package com.ligg.apiadmin.controller;
 
 import com.ligg.common.entity.UserEntity;
@@ -14,12 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Author Ligg
- * @Time 2025/9/23
- *
- * <p>
  * 账户接口
- **/
+ */
 @RestController
 @RequestMapping("/api/admin/account")
 public class AccountController {

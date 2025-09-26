@@ -1,8 +1,13 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/23
+ * <p>
+ **/
 package com.ligg.apiadmin.controller;
 
+import com.ligg.apiadmin.service.AdminCarouselService;
 import com.ligg.common.dto.CarouselDto;
 import com.ligg.common.entity.CarouselEntity;
-import com.ligg.common.service.CarouselService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.statuEnum.BusinessStates;
 import com.ligg.common.utils.Response;
@@ -18,18 +23,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 
 /**
- * @Author Ligg
- * @Time 2025/9/23
- * <p>
- * 轮播图控制器
- **/
+ * 轮播图接口
+ */
 @Tag(name = "轮播图接口")
 @RestController
 @RequestMapping("/api/admin/carousel")
 public class AdminCarouselController {
 
     @Autowired
-    private CarouselService carouselService;
+    private AdminCarouselService adminCarouselService;
 
     @Autowired
     private FileService fileService;
@@ -53,7 +55,7 @@ public class AdminCarouselController {
             entity.setImagePath(imagePath);
         }
 
-        int res = carouselService.upload(entity);
+        int res = adminCarouselService.upload(entity);
         return Response.success(BusinessStates.SUCCESS);
     }
 
@@ -63,7 +65,7 @@ public class AdminCarouselController {
     @Operation(summary = "获取轮播图数据")
     @GetMapping
     public Response<PageVo<CarouselEntity>> getCarousel(Long pageNumber, Long pageSize) {
-        PageVo<CarouselEntity> carouselPage = carouselService.getCarouselPage(pageNumber,pageSize);
+        PageVo<CarouselEntity> carouselPage = adminCarouselService.getCarouselPage(pageNumber,pageSize);
         return Response.success(BusinessStates.SUCCESS,carouselPage);
     }
 }
