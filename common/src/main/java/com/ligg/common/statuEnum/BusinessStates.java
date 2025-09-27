@@ -1,12 +1,14 @@
-package com.ligg.common.statuEnum;
-
-import lombok.Getter;
 /**
  * @Author Ligg
  * @Time 2025/9/22
- *
- * 业务状态码枚举
  **/
+package com.ligg.common.statuEnum;
+
+import lombok.Getter;
+
+/**
+ * 业务状态码枚举
+ */
 @Getter
 public enum BusinessStates {
     /**

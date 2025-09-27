@@ -4,6 +4,7 @@
  **/
 package com.ligg.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -12,11 +13,17 @@ import java.time.LocalDateTime;
 @Data
 @TableName("featured_products")
 public class FeaturedEntity {
-
+    @TableId
     private String id;
 
+    /**
+     * 名称
+     */
     private String name;
 
+    /**
+     * 图片路径
+     */
     private String imagePath;
 
     /**
@@ -37,7 +44,7 @@ public class FeaturedEntity {
     /**
      * 评分
      */
-    private Float rating;
+    private int rating;
 
     private LocalDateTime createdAt;
 }

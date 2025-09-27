@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 /**
  * 精选商品接口
@@ -42,9 +43,10 @@ public class AdminFeaturedController {
         if (imageFile.getSize() > 1024 * 1024 * 2) {
             return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
         }
-        String imagePath = fileService.uploadImage(imageFile, "Featured");
+        String imagePath = fileService.uploadImage(imageFile, "/Featured");
         FeaturedEntity featuredEntity = new FeaturedEntity();
         BeanUtils.copyProperties(featured, featuredEntity);
+        featuredEntity.setRating(new Random().nextInt(5,11));
         featuredEntity.setImagePath(imagePath);
         featuredEntity.setCreatedAt(LocalDateTime.now());
         featuredService.saveFeatured(featuredEntity);

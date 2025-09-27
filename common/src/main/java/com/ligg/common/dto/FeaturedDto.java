@@ -22,14 +22,4 @@ public class FeaturedDto {
      * 现价
      */
     private Double currentPrice;
-
-    /**
-     * 评价数
-     */
-    private Integer reviews;
-
-    /**
-     * 评分
-     */
-    private Float rating;
 }

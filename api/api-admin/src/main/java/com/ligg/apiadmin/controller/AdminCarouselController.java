@@ -43,7 +43,7 @@ public class AdminCarouselController {
     @PostMapping
     public Response<String> upload(@Validated CarouselDto carousel,
                                    MultipartFile imageFile) {
-        String imagePath = fileService.uploadImage(imageFile,"Carousel");
+        String imagePath = fileService.uploadImage(imageFile,"/Carousel");
         if (imageFile.getSize() > 1024 * 1024 * 2) {
             return Response.error(BusinessStates.BAD_REQUEST);
         }

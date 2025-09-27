@@ -44,8 +44,8 @@ public class FileServiceImpl implements FileService {
 
             //创建目录
             String datePath = java.time.LocalDate.now().toString();
-            String typePath = path == null ? "" : path;
-            Path directoryPath = Paths.get(IMAGE_PATH + '/' + typePath + '/' + datePath);
+            String typePath = path == null ? "" : path.contains("/") ? path : '/' + path;
+            Path directoryPath = Paths.get(IMAGE_PATH +  typePath + '/' + datePath);
             if (!Files.exists(directoryPath)) {
                 Files.createDirectories(directoryPath);
             }
