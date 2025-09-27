@@ -33,4 +33,10 @@ public interface FileService {
      * @return 图片输入流
      */
     StreamingResponseBody getImageInputStream(String path,String date, String imageName);
+
+    /**
+     * @param filePath
+     * 删除文件
+     */
+    void deleteFile(String filePath);
 }

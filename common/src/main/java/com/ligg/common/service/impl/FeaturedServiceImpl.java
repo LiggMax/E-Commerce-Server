@@ -41,11 +41,6 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
         featuredMapper.selectPage(page, new LambdaQueryWrapper<FeaturedEntity>()
                 .orderByAsc(FeaturedEntity::getRating));
 
-        //处理图片路径
-        page.getRecords().forEach(featured -> {
-            featured.setImagePath(BASEURL + featured.getImagePath());
-        });
-
         //封装PageVo
         PageVo<FeaturedEntity> pageVo = new PageVo<>();
         pageVo.setPages(page.getPages());

@@ -109,4 +109,22 @@ public class FileServiceImpl implements FileService {
             }
         };
     }
+
+    /**
+     * 删除文件
+     *
+     * @param filePath 文件路径
+     */
+    @Override
+    public void deleteFile(String filePath) {
+        Path imagePath = Paths.get(IMAGE_PATH, filePath);
+        //检查文件是否存在
+        if (Files.exists(imagePath)) {
+            try {
+                Files.delete(imagePath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 }

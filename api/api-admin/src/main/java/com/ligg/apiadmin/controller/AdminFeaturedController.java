@@ -9,15 +9,13 @@ import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.statuEnum.BusinessStates;
+import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.PageVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -31,6 +29,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/admin/featured")
 public class AdminFeaturedController {
 
+    @Autowired
+    private ImageUtil imageUtil;
 
     @Autowired
     private FileService fileService;
@@ -73,8 +73,24 @@ public class AdminFeaturedController {
         pageVo.setList(featuredList.getList().stream().map(featured -> {
             FeaturedVo featuredVo = new FeaturedVo();
             BeanUtils.copyProperties(featured, featuredVo);
+            featuredVo.setImages(imageUtil.getImagePath(featured.getImagePath()));
             return featuredVo;
         }).collect(Collectors.toList()));
         return Response.success(BusinessStates.SUCCESS, pageVo);
+    }
+
+    /**
+     * 删除精选商品
+     */
+    @DeleteMapping("/{id}")
+    public Response<String> deleteFeatured(@PathVariable Long id) {
+        FeaturedEntity featured = featuredService.getById(id);
+        if (featured == null){
+            return Response.error(BusinessStates.NOT_FOUND);
+        }
+        String imagePath = featured.getImagePath().replace("/api/image","");
+        fileService.deleteFile(imagePath);
+        featuredService.removeById(id);
+        return Response.success(BusinessStates.SUCCESS);
     }
 }
