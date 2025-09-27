@@ -32,7 +32,7 @@ public class imageController {
      * @param date
      * @return
      */
-    @GetMapping("/image/{date}/{path}/{imageName}")
+    @GetMapping("/image/{path}/{date}/{imageName}")
     public ResponseEntity<StreamingResponseBody> getImageStream(
             @PathVariable String date,
             @PathVariable String path,
