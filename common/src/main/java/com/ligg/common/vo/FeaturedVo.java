@@ -1,8 +1,6 @@
 package com.ligg.common.vo;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @Author Ligg
@@ -15,7 +13,7 @@ public class FeaturedVo {
     /**
      * 名称
      */
-    private String name;
+    private String title;
 
     /**
      * 图片路径
@@ -42,4 +40,8 @@ public class FeaturedVo {
      */
     private int rating;
 
+    /**
+     * 折扣
+     */
+    private Double discount;
 }

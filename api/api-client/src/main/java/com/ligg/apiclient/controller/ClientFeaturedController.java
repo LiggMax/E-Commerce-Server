@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -38,11 +40,21 @@ public class ClientFeaturedController {
     @GetMapping
     public Response<List<FeaturedVo>> list() {
         List<FeaturedEntity> featuredList = featuredService.list();
-        FeaturedVo featuredVo = new FeaturedVo();
         List<FeaturedVo> featuredVoList = featuredList.stream().map(featured -> {
+            FeaturedVo featuredVo = new FeaturedVo();
             BeanUtils.copyProperties(featured, featuredVo);
             ImagesVo imagePath = imageUtil.getImagePath(featured.getImagePath());
             featuredVo.setImages(imagePath);
+            Double originalPrice = featured.getOriginalPrice();
+            Double currentPrice = featured.getCurrentPrice();
+            // 使用BigDecimal进行精确计算
+            BigDecimal original = BigDecimal.valueOf(originalPrice);
+            BigDecimal current = BigDecimal.valueOf(currentPrice);
+            // 计算折扣百分比
+            BigDecimal discount = original.subtract(current)
+                    .divide(original, 2, RoundingMode.HALF_UP)
+                    .multiply(BigDecimal.valueOf(100));
+            featuredVo.setDiscount(discount.doubleValue());
             return featuredVo;
         }).toList();
         return Response.success(BusinessStates.SUCCESS, featuredVoList);
