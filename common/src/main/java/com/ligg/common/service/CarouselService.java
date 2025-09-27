@@ -14,11 +14,5 @@ public interface CarouselService {
 
 
 
-    /**
-     * 获取轮播图列表
-     * @return
-     */
-    List<CarouselVo> getCarouselList();
-
 
 }
