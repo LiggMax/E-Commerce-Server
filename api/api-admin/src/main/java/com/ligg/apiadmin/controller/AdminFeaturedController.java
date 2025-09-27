@@ -4,9 +4,9 @@
  **/
 package com.ligg.apiadmin.controller;
 
-import com.ligg.apiadmin.service.AdminFeaturedService;
 import com.ligg.common.dto.FeaturedDto;
 import com.ligg.common.entity.FeaturedEntity;
+import com.ligg.common.service.FeaturedService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.statuEnum.BusinessStates;
 import com.ligg.common.utils.Response;
@@ -27,11 +27,12 @@ import java.util.Random;
 @RequestMapping("/api/admin/featured")
 public class AdminFeaturedController {
 
-    @Autowired
-    private AdminFeaturedService featuredService;
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private FeaturedService featuredService;
 
     /**
      * 上传精选产品数据

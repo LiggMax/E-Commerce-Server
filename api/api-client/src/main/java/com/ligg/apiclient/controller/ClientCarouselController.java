@@ -4,7 +4,6 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.apiclient.service.ClientCarouselService;
 import com.ligg.common.service.CarouselService;
 import com.ligg.common.statuEnum.BusinessStates;
 import com.ligg.common.utils.Response;
@@ -25,7 +24,7 @@ import java.util.List;
 public class ClientCarouselController {
 
     @Autowired
-    private ClientCarouselService carouselService;
+    private CarouselService carouselService;
 
     /**
      * 获取轮播图数据列表

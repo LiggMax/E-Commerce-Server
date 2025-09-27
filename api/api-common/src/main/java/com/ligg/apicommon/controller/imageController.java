@@ -1,6 +1,6 @@
 package com.ligg.apicommon.controller;
 
-import com.ligg.common.service.ImageService;
+import com.ligg.common.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -23,14 +23,28 @@ public class imageController {
     private String IMAGE_PATH;
 
     @Autowired
-    private ImageService imageService;
+    private FileService fileService;
 
-    @GetMapping("/image/{date}/{imageName}")
-    public ResponseEntity<StreamingResponseBody> getImageStream(@PathVariable String imageName,
-                                                                @PathVariable String date) {
+    /**
+     * 获取图片资源
+     *
+     * @param imageName
+     * @param date
+     * @return
+     */
+    @GetMapping("/image/{date}/{path}/{imageName}")
+    public ResponseEntity<StreamingResponseBody> getImageStream(
+            @PathVariable String date,
+            @PathVariable String path,
+            @PathVariable String imageName
+    ) {
+        Path imagePath = Paths.get(IMAGE_PATH, path, date, imageName);
+        if (!Files.exists(imagePath)) {
+            return ResponseEntity.notFound().build();
+        }
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
-        return ResponseEntity.ok().headers(headers).body(imageService.getImageInputStream(date, imageName));
+        return ResponseEntity.ok().headers(headers).body(fileService.getImageInputStream(path, date, imageName));
     }
 
     /**
@@ -40,19 +54,20 @@ public class imageController {
      * @param imageName 图片名称
      * @return 图片内容
      */
-    @GetMapping("/image/{type}/{date}/{imageName}")
+    @GetMapping("/image/{type}/{path}/{date}/{imageName}")
     public ResponseEntity<StreamingResponseBody> getImageStream(
             @PathVariable String type,
+            @PathVariable String path,
             @PathVariable String date,
             @PathVariable String imageName
     ) {
 
-        Path imagePath = Paths.get(IMAGE_PATH, date, imageName);
+        Path imagePath = Paths.get(IMAGE_PATH, path, date, imageName);
         if (!Files.exists(imagePath)) {
             return ResponseEntity.notFound().build();
         }
 
-        StreamingResponseBody imageInputStream = imageService.getImageInputStream(type, date, imageName);
+        StreamingResponseBody imageInputStream = fileService.getImageInputStream(path, type, date, imageName);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
 

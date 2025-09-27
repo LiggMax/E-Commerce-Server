@@ -49,7 +49,7 @@ public class CarouselVo {
     /**
      * 图片地址
      */
-    private Images images;
+    private ImagesVo images;
 
     /**
      * 跳转链接
@@ -61,21 +61,6 @@ public class CarouselVo {
      */
     private String buttonText;
 
-    /**
-     * 图片s
-     */
-    @Setter
-    @Getter
-    public static class Images {
-        /**
-         * 大图片
-         */
-        private String largeImage;
 
-        /**
-         * 小图片
-         */
-        private String smallImage;
-    }
 }
 

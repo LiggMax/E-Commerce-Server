@@ -5,9 +5,9 @@
  **/
 package com.ligg.apiadmin.controller;
 
-import com.ligg.apiadmin.service.AdminCarouselService;
 import com.ligg.common.dto.CarouselDto;
 import com.ligg.common.entity.CarouselEntity;
+import com.ligg.common.service.CarouselService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.statuEnum.BusinessStates;
 import com.ligg.common.utils.Response;
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 public class AdminCarouselController {
 
     @Autowired
-    private AdminCarouselService adminCarouselService;
+    private CarouselService carouselService;
 
     @Autowired
     private FileService fileService;
@@ -55,7 +55,7 @@ public class AdminCarouselController {
             entity.setImagePath(imagePath);
         }
 
-        int res = adminCarouselService.save(entity);
+        int res = carouselService.save(entity);
         return Response.success(BusinessStates.SUCCESS);
     }
 
@@ -65,7 +65,7 @@ public class AdminCarouselController {
     @Operation(summary = "获取轮播图数据")
     @GetMapping
     public Response<PageVo<CarouselEntity>> getCarousel(Long pageNumber, Long pageSize) {
-        PageVo<CarouselEntity> carouselPage = adminCarouselService.getCarouselPage(pageNumber,pageSize);
+        PageVo<CarouselEntity> carouselPage = carouselService.getCarouselPage(pageNumber,pageSize);
         return Response.success(BusinessStates.SUCCESS,carouselPage);
     }
 }

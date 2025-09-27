@@ -1,11 +1,15 @@
 package com.ligg.common.service.impl;
 
+import com.ligg.common.Imagenum.ImageType;
 import com.ligg.common.service.FileService;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,7 +49,7 @@ public class FileServiceImpl implements FileService {
             //创建目录
             String datePath = java.time.LocalDate.now().toString();
             String typePath = path == null ? "" : path.contains("/") ? path : '/' + path;
-            Path directoryPath = Paths.get(IMAGE_PATH +  typePath + '/' + datePath);
+            Path directoryPath = Paths.get(IMAGE_PATH + typePath + '/' + datePath);
             if (!Files.exists(directoryPath)) {
                 Files.createDirectories(directoryPath);
             }
@@ -55,9 +59,54 @@ public class FileServiceImpl implements FileService {
             // 保存文件
             imageFile.transferTo(filePath);
 
-            return IMAGE_RELATIVE_PATH + '/' + datePath + '/' + uniqueFileName;
+            return IMAGE_RELATIVE_PATH + typePath + '/' + datePath + '/' + uniqueFileName;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 获取多质量图片输入流
+     *
+     * @param type      图片类型
+     * @param date      图片日期
+     * @param imageName 图片名称
+     * @return 图片输入流
+     */
+    @Override
+    public StreamingResponseBody getImageInputStream(String path, String type, String date, String imageName) {
+
+        Path imagePath = Paths.get(IMAGE_PATH, path, date, imageName);
+        Files.exists(imagePath);
+        ImageType imageType = ImageType.valueOf(type.toLowerCase());
+
+        return outputStream -> {
+            try (InputStream inputStream = Files.newInputStream(imagePath)) {
+                Thumbnails.of(inputStream)
+                        .scale(imageType.getScale())
+                        .outputQuality(imageType.getQuality())
+                        .outputFormat("jpg")
+                        .toOutputStream(outputStream);
+            }
+        };
+    }
+
+    /**
+     * 获取图片输入流
+     *
+     * @param path
+     * @param date      图片日期
+     * @param imageName 图片名称
+     * @return 图片输入流
+     */
+    @Override
+    public StreamingResponseBody getImageInputStream(String path, String date, String imageName) {
+        Path imagePath = Paths.get(IMAGE_PATH, path, date, imageName);
+        Files.exists(imagePath);
+        return outputStream -> {
+            try (InputStream inputStream = Files.newInputStream(imagePath)) {
+                inputStream.transferTo(outputStream);
+            }
+        };
     }
 }
