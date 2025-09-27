@@ -11,7 +11,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("featured_products")
+@TableName("featured")
 public class FeaturedEntity {
     @TableId
     private String id;

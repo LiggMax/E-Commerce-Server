@@ -42,7 +42,7 @@ CREATE TABLE `carousel` (
 -- Table structure for table `featured_products`
 --
 
-DROP TABLE IF EXISTS `featured_products`;
+DROP TABLE IF EXISTS featured;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `featured_products` (
