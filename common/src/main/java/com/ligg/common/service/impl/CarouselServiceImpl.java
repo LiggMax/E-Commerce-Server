@@ -53,7 +53,6 @@ public class CarouselServiceImpl implements CarouselService {
         return entityList.stream().map(entity -> {
             CarouselVo carouselVo = new CarouselVo();
             BeanUtils.copyProperties(entity, carouselVo);
-            //TODO 处理图片路径
             ImagesVo imagePath = imageUtil.getImagePath(entity.getImagePath());
             carouselVo.setImages(imagePath);
             return carouselVo;
