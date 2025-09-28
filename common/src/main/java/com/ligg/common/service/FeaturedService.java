@@ -21,4 +21,10 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * @return 精选商品列表
      */
     PageVo<FeaturedEntity> Pagelist(Long pageNumber, Long pageSize);
+
+    /**
+     * 根据id更新精选商品信息
+     * @param featured 精选商品信息
+     */
+    void updateFeaturedById(FeaturedEntity featured);
 }

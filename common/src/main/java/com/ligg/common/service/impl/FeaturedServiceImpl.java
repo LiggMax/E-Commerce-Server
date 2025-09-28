@@ -8,7 +8,6 @@ import com.ligg.common.mapper.FeaturedMapper;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,9 +16,6 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEntity> implements FeaturedService {
-
-    @Value("${api.base-url}")
-    private String BASEURL;
 
     @Autowired
     private FeaturedMapper featuredMapper;
@@ -46,4 +42,12 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
         return pageVo;
     }
 
+    /**
+     * 根据id更新精选商品信息
+     * @param featured 精选商品信息
+     */
+    @Override
+    public void updateFeaturedById(FeaturedEntity featured) {
+        featuredMapper.updateById(featured);
+    }
 }

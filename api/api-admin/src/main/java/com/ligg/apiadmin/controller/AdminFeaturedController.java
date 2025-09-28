@@ -51,10 +51,38 @@ public class AdminFeaturedController {
         String imagePath = fileService.uploadImage(imageFile, "/Featured");
         FeaturedEntity featuredEntity = new FeaturedEntity();
         BeanUtils.copyProperties(featured, featuredEntity);
-        featuredEntity.setRating(new Random().nextInt(5,11));
+        featuredEntity.setRating(new Random().nextInt(5, 11));
         featuredEntity.setImagePath(imagePath);
         featuredEntity.setCreatedAt(LocalDateTime.now());
+        featuredEntity.setUpdatedAt(LocalDateTime.now());
         featuredService.saveFeatured(featuredEntity);
+        return Response.success(BusinessStates.SUCCESS);
+    }
+
+    /**
+     * 编辑精选产品数据
+     */
+    @PutMapping
+    public Response<String> updateFeatured(FeaturedDto featured,
+                                           MultipartFile imageFile) {
+        FeaturedEntity featuredEntity = new FeaturedEntity();
+        if (imageFile != null && !imageFile.isEmpty()) {
+            if (imageFile.getSize() > 1024 * 1024 * 2) {
+                return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
+            }
+            String imagePath = fileService.uploadImage(imageFile, "/Featured");
+
+            //删除封面成功后异步删除旧图片
+            if (imagePath != null) {
+                FeaturedEntity featuredData = featuredService.getById(featured.getId());
+                String dataImagePath = featuredData.getImagePath().replace("/api/image", "");
+                fileService.deleteImageFileAsync(dataImagePath);
+            }
+            featuredEntity.setImagePath(imagePath);
+        }
+        BeanUtils.copyProperties(featured, featuredEntity);
+        featuredEntity.setUpdatedAt(LocalDateTime.now());
+        featuredService.updateFeaturedById(featuredEntity);
         return Response.success(BusinessStates.SUCCESS);
     }
 
@@ -66,7 +94,7 @@ public class AdminFeaturedController {
             Long pageNumber,
             Long pageSize
     ) {
-        PageVo<FeaturedEntity> featuredList = featuredService.Pagelist(pageNumber,pageSize);
+        PageVo<FeaturedEntity> featuredList = featuredService.Pagelist(pageNumber, pageSize);
         PageVo<FeaturedVo> pageVo = new PageVo<>();
         pageVo.setPages(featuredList.getPages());
         pageVo.setTotal(featuredList.getTotal());
@@ -85,10 +113,10 @@ public class AdminFeaturedController {
     @DeleteMapping("/{id}")
     public Response<String> deleteFeatured(@PathVariable Long id) {
         FeaturedEntity featured = featuredService.getById(id);
-        if (featured == null){
+        if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);
         }
-        String imagePath = featured.getImagePath().replace("/api/image","");
+        String imagePath = featured.getImagePath().replace("/api/image", "");
         //异步删除
         fileService.deleteImageFileAsync(imagePath);
         featuredService.removeById(id);

@@ -19,8 +19,8 @@ public class ImageUtil {
     public ImagesVo getImagePath(String imagePath) {
         ImagesVo images = new ImagesVo();
 
-        String smallImagePath = imagePath.replace("/image/", "/image/" + ImageType.small.name() + '/');
-        String largeImagePath = imagePath.replace("/image/", "/image/" + ImageType.large.name() + '/');
+        String smallImagePath = imagePath.replace("/image", "/image/" + ImageType.small.name());
+        String largeImagePath = imagePath.replace("/image", "/image/" + ImageType.large.name());
         images.setSmallImage(BASEURL + smallImagePath);
         images.setLargeImage(BASEURL + largeImagePath);
         return images;

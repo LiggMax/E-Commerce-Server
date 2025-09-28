@@ -11,6 +11,9 @@ public class FeaturedDto {
 
     private String id;
 
+    /**
+     * 标题
+     */
     private String title;
 
     /**

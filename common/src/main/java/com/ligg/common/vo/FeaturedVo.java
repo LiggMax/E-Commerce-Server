@@ -2,6 +2,8 @@ package com.ligg.common.vo;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author Ligg
  * @Time 2025/9/27
@@ -44,4 +46,9 @@ public class FeaturedVo {
      * 折扣
      */
     private Double discount;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createdAt;
 }

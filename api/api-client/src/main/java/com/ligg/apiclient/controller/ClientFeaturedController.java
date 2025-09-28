@@ -46,7 +46,10 @@ public class ClientFeaturedController {
             ImagesVo imagePath = imageUtil.getImagePath(featured.getImagePath());
             featuredVo.setImages(imagePath);
 
-            // 计算折扣百分比
+            /*
+             计算折扣百分比
+             公式为：折扣率 = (原价-现价)/原价 × 100%
+             */
             BigDecimal original = BigDecimal.valueOf(featured.getOriginalPrice());
             BigDecimal current = BigDecimal.valueOf(featured.getCurrentPrice());
             BigDecimal discount = original.subtract(current)
