@@ -72,7 +72,7 @@ public class AdminFeaturedController {
             }
             String imagePath = fileService.uploadImage(imageFile, "/Featured");
 
-            //删除封面成功后异步删除旧图片
+            //上传封面成功后异步删除旧图片
             if (imagePath != null) {
                 FeaturedEntity featuredData = featuredService.getById(featured.getId());
                 String dataImagePath = featuredData.getImagePath().replace("/api/image", "");
