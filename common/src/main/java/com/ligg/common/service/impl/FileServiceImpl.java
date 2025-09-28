@@ -132,15 +132,14 @@ public class FileServiceImpl implements FileService {
     }
 
     /**
-     * 异步删除图片文件
-     *
+     * 异步删除文件
      * @param filePath 文件路径
      */
     @Async
     @Override
-    public void deleteImageFileAsync(String filePath) {
+    public void deleteFileAsync(String filePath) {
         try {
-            Path imagePath = Paths.get(IMAGE_PATH, filePath);
+            Path imagePath = Paths.get(filePath);
             if (Files.exists(imagePath)) {
                 Files.delete(imagePath);
                 log.info("异步删除文件成功:{}", filePath);

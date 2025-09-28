@@ -40,7 +40,7 @@ public interface FileService {
      * 删除文件
      *
      * @param filePath 文件路径
-     * @deprecated 请使用 {@link #deleteImageFileAsync(String)} 替代
+     * @deprecated 请使用 {@link #deleteFileAsync(String)} 替代
      */
     @Deprecated
     void deleteFile(String filePath);
@@ -51,5 +51,5 @@ public interface FileService {
      * @param filePath 文件路径
      */
     @Async
-    void deleteImageFileAsync(String filePath);
+    void deleteFileAsync(String filePath);
 }

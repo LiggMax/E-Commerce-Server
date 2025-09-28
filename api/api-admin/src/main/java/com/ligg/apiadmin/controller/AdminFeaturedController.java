@@ -15,6 +15,7 @@ import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.PageVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/admin/featured")
 public class AdminFeaturedController {
+
+    @Value("${file.image.base-path}")
+    private String IMAGE_PATH;
 
     @Autowired
     private ImageUtil imageUtil;
@@ -75,14 +79,15 @@ public class AdminFeaturedController {
             //上传封面成功后异步删除旧图片
             if (imagePath != null) {
                 FeaturedEntity featuredData = featuredService.getById(featured.getId());
-                String dataImagePath = featuredData.getImagePath().replace("/api/image", "");
-                fileService.deleteImageFileAsync(dataImagePath);
+                String dataImagePath = IMAGE_PATH + featuredData.getImagePath().replace("/api/image", "");
+                fileService.deleteFileAsync(dataImagePath);
             }
             featuredEntity.setImagePath(imagePath);
         }
         BeanUtils.copyProperties(featured, featuredEntity);
         featuredEntity.setUpdatedAt(LocalDateTime.now());
-        featuredService.updateFeaturedById(featuredEntity);
+        featuredService.updateById(featuredEntity);
+        //featuredService.updateFeaturedById(featuredEntity);
         return Response.success(BusinessStates.SUCCESS);
     }
 
@@ -116,9 +121,9 @@ public class AdminFeaturedController {
         if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);
         }
-        String imagePath = featured.getImagePath().replace("/api/image", "");
+        String imagePath = IMAGE_PATH + featured.getImagePath().replace("/api/image", "");
         //异步删除
-        fileService.deleteImageFileAsync(imagePath);
+        fileService.deleteFileAsync(imagePath);
         featuredService.removeById(id);
         return Response.success(BusinessStates.SUCCESS);
     }
