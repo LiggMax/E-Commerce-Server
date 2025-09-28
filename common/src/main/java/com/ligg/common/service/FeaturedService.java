@@ -2,10 +2,7 @@ package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.entity.FeaturedEntity;
-import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.PageVo;
-
-import java.util.List;
 
 /**
  * @Author Ligg

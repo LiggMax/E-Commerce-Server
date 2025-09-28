@@ -6,13 +6,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.mapper.FeaturedMapper;
 import com.ligg.common.service.FeaturedService;
-import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @Author Ligg

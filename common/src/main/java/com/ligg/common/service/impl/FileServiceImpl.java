@@ -97,7 +97,7 @@ public class FileServiceImpl implements FileService {
     /**
      * 获取图片输入流
      *
-     * @param path
+     * @param path       图片路径
      * @param date      图片日期
      * @param imageName 图片名称
      * @return 图片输入流

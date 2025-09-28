@@ -36,14 +36,16 @@ public interface FileService {
     StreamingResponseBody getImageInputStream(String path,String date, String imageName);
 
     /**
-     * @param filePath
      * 删除文件
+     * @param filePath 文件路径
+     * @deprecated 请使用 {@link #deleteImageFileAsync(String)} 替代
      */
+    @Deprecated
     void deleteFile(String filePath);
 
     /**
      * 异步删除文件
-     * @param filePath
+     * @param filePath 文件路径
      */
     @Async
     void deleteImageFileAsync(String filePath);
