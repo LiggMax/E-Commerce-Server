@@ -1,6 +1,7 @@
 package com.ligg.common.utils;
 
 import com.ligg.common.statuEnum.BusinessStates;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Response<T> {
+    /**
+     * 状态码
+     */
+    @Schema(description = "状态码")
     private Integer code;
+
+    /**
+     * 状态信息
+     */
+    @Schema(description = "状态信息")
     private String message;
+
+    /**
+     * 数据
+     */
+    @Schema(description = "数据")
     private T data;
 
     public static <T> Response<T> success(BusinessStates status, T data) {

@@ -65,9 +65,7 @@ public class CarouselServiceImpl extends ServiceImpl<CarouselMapper, CarouselEnt
                 .orderByAsc(CarouselEntity::getSort));
 
         //处理图片路径
-        page.getRecords().forEach(carousel -> {
-            carousel.setImagePath(BASEURL + carousel.getImagePath());
-        });
+        page.getRecords().forEach(carousel -> carousel.setImagePath(BASEURL + carousel.getImagePath()));
 
         //封装PageVo
         PageVo<CarouselEntity> pageVo = new PageVo<>();

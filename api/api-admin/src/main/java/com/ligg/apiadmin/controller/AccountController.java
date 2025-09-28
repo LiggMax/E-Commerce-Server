@@ -10,6 +10,7 @@ import com.ligg.common.service.UserService;
 import com.ligg.common.statuEnum.BusinessStates;
 import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.Response;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,8 @@ public class AccountController {
      * 注册账户
      */
     @PostMapping("/register")
-    public Response<String> register(@NotNull String account, @NotNull String password) {
+    public Response<String> register(@Schema(description = "账号") @NotNull String account,
+                                     @Schema(description = "密码") @NotNull String password) {
         if (account.length() < 6 || account.length() > 30 || password.length() < 6 || password.length() > 30) {
             return Response.error(BusinessStates.VALIDATION_FAILED);
         }
@@ -52,7 +54,8 @@ public class AccountController {
      * 登录
      */
     @PostMapping("/login")
-    public Response<String> login(@RequestParam @NotNull String account, @RequestParam @NotNull String password) {
+    public Response<String> login(@Schema(description = "账号") @RequestParam @NotNull String account,
+                                  @Schema(description = "密码") @RequestParam @NotNull String password) {
         UserEntity userInfo = userService.getUserInfoByAccount(account);
         if (userInfo == null) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
