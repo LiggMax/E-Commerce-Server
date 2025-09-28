@@ -27,10 +27,9 @@ public class imageController {
 
     /**
      * 获取图片资源
-     *
-     * @param imageName
-     * @param date
-     * @return
+     * @param imageName 图片名称
+     * @param date      图片日期
+     * @return 图片文件流
      */
     @GetMapping("/image/{path}/{date}/{imageName}")
     public ResponseEntity<StreamingResponseBody> getImageStream(
@@ -52,7 +51,7 @@ public class imageController {
      *
      * @param date      图片日期
      * @param imageName 图片名称
-     * @return 图片内容
+     * @return 图片文件流
      */
     @GetMapping("/image/{type}/{path}/{date}/{imageName}")
     public ResponseEntity<StreamingResponseBody> getImageStream(
