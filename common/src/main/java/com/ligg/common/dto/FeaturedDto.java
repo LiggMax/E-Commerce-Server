@@ -11,7 +11,7 @@ public class FeaturedDto {
 
     private String id;
 
-    private String name;
+    private String title;
 
     /**
      * 原价
