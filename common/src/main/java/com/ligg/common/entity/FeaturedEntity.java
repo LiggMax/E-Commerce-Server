@@ -54,5 +54,5 @@ public class FeaturedEntity {
     /**
      * 更新时间
      */
-    private LocalDateTime updatedAt;
+    private LocalDateTime updateAt;
 }

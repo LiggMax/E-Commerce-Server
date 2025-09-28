@@ -8,6 +8,8 @@ import com.ligg.common.service.CarouselService;
 import com.ligg.common.statuEnum.BusinessStates;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.CarouselVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import java.util.List;
 /**
  * 轮播图接口
  */
+@Tag(name = "客户端轮播图接口")
 @RestController
 @RequestMapping("/api/client/carousel")
 public class ClientCarouselController {
@@ -29,6 +32,7 @@ public class ClientCarouselController {
     /**
      * 获取轮播图数据列表
      */
+    @Operation(summary = "获取轮播图数据列表")
     @GetMapping
     public Response<List<CarouselVo> > getCarousel() {
         List<CarouselVo> carouselList = carouselService.getCarouselList();

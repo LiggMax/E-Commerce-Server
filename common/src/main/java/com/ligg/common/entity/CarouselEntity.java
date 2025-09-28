@@ -93,4 +93,10 @@ public class CarouselEntity {
      */
     @NotNull
     private LocalDateTime createdAt;
+
+    /**
+     * 更新时间
+     */
+    @NotNull
+    private LocalDateTime updateAt;
 }

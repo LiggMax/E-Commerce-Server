@@ -1,5 +1,6 @@
 package com.ligg.common.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.entity.CarouselEntity;
 import com.ligg.common.vo.CarouselVo;
 import com.ligg.common.vo.PageVo;
@@ -10,18 +11,13 @@ import java.util.List;
  * @Author Ligg
  * @Time 2025/9/23
  **/
-public interface CarouselService {
+public interface CarouselService extends IService<CarouselEntity> {
 
     /**
      * 获取轮播图列表
      * @return 轮播图列表
      */
     List<CarouselVo> getCarouselList();
-
-    /**
-     * 上传轮播图数据
-     */
-    int save(CarouselEntity carousel);
 
     /**
      * 分页获取轮播图数据

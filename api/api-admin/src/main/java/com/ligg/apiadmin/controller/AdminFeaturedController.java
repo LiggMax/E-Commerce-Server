@@ -13,6 +13,9 @@ import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.PageVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 /**
  * 精选商品接口
  */
+@Tag(name = "精选商品接口")
 @RestController
 @RequestMapping("/api/admin/featured")
 public class AdminFeaturedController {
@@ -46,8 +50,9 @@ public class AdminFeaturedController {
      * 上传精选产品数据
      */
     @PostMapping
+    @Operation(summary = "上传精选产品数据")
     public Response<String> uploadFeatured(FeaturedDto featured,
-                                           MultipartFile imageFile
+                                           @Schema(description = "图片文件") MultipartFile imageFile
     ) {
         if (imageFile.getSize() > 1024 * 1024 * 2) {
             return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
@@ -58,7 +63,7 @@ public class AdminFeaturedController {
         featuredEntity.setRating(new Random().nextInt(5, 11));
         featuredEntity.setImagePath(imagePath);
         featuredEntity.setCreatedAt(LocalDateTime.now());
-        featuredEntity.setUpdatedAt(LocalDateTime.now());
+        featuredEntity.setUpdateAt(LocalDateTime.now());
         featuredService.saveFeatured(featuredEntity);
         return Response.success(BusinessStates.SUCCESS);
     }
@@ -67,8 +72,9 @@ public class AdminFeaturedController {
      * 编辑精选产品数据
      */
     @PutMapping
+    @Operation(summary = "编辑精选产品数据")
     public Response<String> updateFeatured(FeaturedDto featured,
-                                           MultipartFile imageFile) {
+                                           @Schema(description = "图片文件") MultipartFile imageFile) {
         FeaturedEntity featuredEntity = new FeaturedEntity();
         if (imageFile != null && !imageFile.isEmpty()) {
             if (imageFile.getSize() > 1024 * 1024 * 2) {
@@ -85,7 +91,7 @@ public class AdminFeaturedController {
             featuredEntity.setImagePath(imagePath);
         }
         BeanUtils.copyProperties(featured, featuredEntity);
-        featuredEntity.setUpdatedAt(LocalDateTime.now());
+        featuredEntity.setUpdateAt(LocalDateTime.now());
         featuredService.updateById(featuredEntity);
         //featuredService.updateFeaturedById(featuredEntity);
         return Response.success(BusinessStates.SUCCESS);
@@ -94,10 +100,11 @@ public class AdminFeaturedController {
     /**
      * 获取精选商品列表
      */
+    @Operation(summary = "获取精选商品列表")
     @GetMapping
     public Response<PageVo<FeaturedVo>> getFeatured(
-            Long pageNumber,
-            Long pageSize
+            @Schema(description = "页码") Long pageNumber,
+            @Schema(description = "每页数量") Long pageSize
     ) {
         PageVo<FeaturedEntity> featuredList = featuredService.Pagelist(pageNumber, pageSize);
         PageVo<FeaturedVo> pageVo = new PageVo<>();
@@ -115,8 +122,9 @@ public class AdminFeaturedController {
     /**
      * 删除精选商品
      */
+    @Operation(summary = "删除精选商品")
     @DeleteMapping("/{id}")
-    public Response<String> deleteFeatured(@PathVariable Long id) {
+    public Response<String> deleteFeatured(@Schema(description = "商品id") @PathVariable Long id) {
         FeaturedEntity featured = featuredService.getById(id);
         if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);

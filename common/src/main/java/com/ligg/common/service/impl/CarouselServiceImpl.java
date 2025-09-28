@@ -2,6 +2,7 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.entity.CarouselEntity;
 import com.ligg.common.mapper.CarouselMapper;
 import com.ligg.common.service.CarouselService;
@@ -21,7 +22,7 @@ import java.util.List;
  * @Time 2025/9/23
  **/
 @Service
-public class CarouselServiceImpl implements CarouselService {
+public class CarouselServiceImpl extends ServiceImpl<CarouselMapper, CarouselEntity> implements CarouselService {
 
     @Value("${api.base-url}")
     private String BASEURL;
@@ -31,14 +32,6 @@ public class CarouselServiceImpl implements CarouselService {
 
     @Autowired
     private ImageUtil imageUtil;
-
-    /**
-     * 上传轮播图数据
-     */
-    @Override
-    public int save(CarouselEntity carousel) {
-        return carouselMapper.insert(carousel);
-    }
 
     /**
      * 获取轮播图列表

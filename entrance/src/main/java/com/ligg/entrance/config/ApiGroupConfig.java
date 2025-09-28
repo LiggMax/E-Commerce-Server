@@ -11,8 +11,8 @@
 //    public GroupedOpenApi fileApi() {
 //        return GroupedOpenApi.builder()
 //                .group("admin接口")
-//                .packagesToScan("com.example.knife4jdemo.controller")
-//                .pathsToMatch("/api/file/**")
+//                .packagesToScan("com.ligg.apiadmin.controller")
+//                .pathsToMatch("/api/admin/**")
 //                .build();
 //    }
 //
@@ -20,8 +20,8 @@
 //    public GroupedOpenApi userApi() {
 //        return GroupedOpenApi.builder()
 //                .group("client接口")
-//                .packagesToScan("com.example.knife4jdemo.controller")
-//                .pathsToMatch("/api/user/**")
+//                .packagesToScan("com.ligg.apiclient.controller")
+//                .pathsToMatch("/api/client/**")
 //                .build();
 //    }
 //}

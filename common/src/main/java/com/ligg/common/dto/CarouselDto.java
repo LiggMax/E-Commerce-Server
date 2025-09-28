@@ -11,6 +11,8 @@ import lombok.Setter;
 @Schema(description = "轮播图数据")
 public class CarouselDto {
 
+    private Integer id;
+
     /**
      * 标题
      */

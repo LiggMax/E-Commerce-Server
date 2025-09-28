@@ -1,7 +1,6 @@
 package com.ligg.common.utils;
 
 import com.ligg.common.Imagenum.ImageType;
-import com.ligg.common.vo.CarouselVo;
 import com.ligg.common.vo.ImagesVo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

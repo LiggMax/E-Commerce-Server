@@ -97,7 +97,7 @@ public class FileServiceImpl implements FileService {
     /**
      * 获取图片输入流
      *
-     * @param path       图片路径
+     * @param path      图片路径
      * @param date      图片日期
      * @param imageName 图片名称
      * @return 图片输入流
@@ -133,11 +133,16 @@ public class FileServiceImpl implements FileService {
 
     /**
      * 异步删除文件
+     *
      * @param filePath 文件路径
      */
     @Async
     @Override
     public void deleteFileAsync(String filePath) {
+        if (filePath == null) {
+            log.warn("文件路径为空");
+            return;
+        }
         try {
             Path imagePath = Paths.get(filePath);
             if (Files.exists(imagePath)) {

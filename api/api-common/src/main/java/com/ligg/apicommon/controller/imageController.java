@@ -1,6 +1,7 @@
 package com.ligg.apicommon.controller;
 
 import com.ligg.common.service.FileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Tag(name = "图片接口")
 @RestController
 @RequestMapping("/api")
 public class imageController {

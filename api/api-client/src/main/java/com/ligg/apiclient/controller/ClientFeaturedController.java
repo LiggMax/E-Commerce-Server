@@ -11,6 +11,8 @@ import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.ImagesVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import java.util.List;
 /**
  * 精选商品接口
  */
+@Tag(name = "客户端精选商品接口")
 @RestController
 @RequestMapping("/api/client/featured")
 public class ClientFeaturedController {
@@ -38,6 +41,7 @@ public class ClientFeaturedController {
      * 获取精选商品列表
      */
     @GetMapping
+    @Operation(summary = "获取精选商品列表")
     public Response<List<FeaturedVo>> list() {
         List<FeaturedEntity> featuredList = featuredService.list();
         List<FeaturedVo> featuredVoList = featuredList.stream().map(featured -> {

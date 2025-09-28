@@ -23,7 +23,6 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.ligg</groupId>
             <artifactId>api-client</artifactId>

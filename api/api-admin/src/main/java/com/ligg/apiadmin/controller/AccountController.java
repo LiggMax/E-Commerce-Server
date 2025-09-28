@@ -10,6 +10,7 @@ import com.ligg.common.service.UserService;
 import com.ligg.common.statuEnum.BusinessStates;
 import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.Response;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 账户接口
  */
+@Tag(name = "账户接口")
 @RestController
 @RequestMapping("/api/admin/account")
 public class AccountController {
