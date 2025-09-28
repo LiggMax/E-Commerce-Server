@@ -1,5 +1,6 @@
 package com.ligg.common.service;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -39,4 +40,11 @@ public interface FileService {
      * 删除文件
      */
     void deleteFile(String filePath);
+
+    /**
+     * 异步删除文件
+     * @param filePath
+     */
+    @Async
+    void deleteImageFileAsync(String filePath);
 }

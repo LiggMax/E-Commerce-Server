@@ -2,8 +2,10 @@ package com.ligg.common.service.impl;
 
 import com.ligg.common.Imagenum.ImageType;
 import com.ligg.common.service.FileService;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -16,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 
+@Slf4j
 @Service
 public class FileServiceImpl implements FileService {
 
@@ -125,6 +128,25 @@ public class FileServiceImpl implements FileService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    /**
+     * 异步删除图片文件
+     *
+     * @param filePath 文件路径
+     */
+    @Async
+    @Override
+    public void deleteImageFileAsync(String filePath) {
+        try {
+            Path imagePath = Paths.get(IMAGE_PATH, filePath);
+            if (Files.exists(imagePath)) {
+                Files.delete(imagePath);
+                log.info("异步删除文件成功:{}", filePath);
+            }
+        } catch (IOException e) {
+            log.error("文件删除失败: {}, 错误信息: {}", filePath, e.getMessage());
         }
     }
 }

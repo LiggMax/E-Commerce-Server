@@ -89,7 +89,7 @@ public class AdminFeaturedController {
             return Response.error(BusinessStates.NOT_FOUND);
         }
         String imagePath = featured.getImagePath().replace("/api/image","");
-        fileService.deleteFile(imagePath);
+        fileService.deleteImageFileAsync(imagePath);
         featuredService.removeById(id);
         return Response.success(BusinessStates.SUCCESS);
     }
