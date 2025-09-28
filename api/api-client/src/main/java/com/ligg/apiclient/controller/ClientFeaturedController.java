@@ -45,12 +45,10 @@ public class ClientFeaturedController {
             BeanUtils.copyProperties(featured, featuredVo);
             ImagesVo imagePath = imageUtil.getImagePath(featured.getImagePath());
             featuredVo.setImages(imagePath);
-            Double originalPrice = featured.getOriginalPrice();
-            Double currentPrice = featured.getCurrentPrice();
-            // 使用BigDecimal进行精确计算
-            BigDecimal original = BigDecimal.valueOf(originalPrice);
-            BigDecimal current = BigDecimal.valueOf(currentPrice);
+
             // 计算折扣百分比
+            BigDecimal original = BigDecimal.valueOf(featured.getOriginalPrice());
+            BigDecimal current = BigDecimal.valueOf(featured.getCurrentPrice());
             BigDecimal discount = original.subtract(current)
                     .divide(original, 2, RoundingMode.HALF_UP)
                     .multiply(BigDecimal.valueOf(100));
