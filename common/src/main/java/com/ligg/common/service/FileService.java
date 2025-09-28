@@ -9,11 +9,12 @@ public interface FileService {
 
     /**
      * 上传图片文件到指定路径
+     *
      * @param imageFile 图片文件
-     * @param path 指定的路径（可选）
+     * @param path      指定的路径（可选）
      * @return 图片访问路径
      */
-     String uploadImage(MultipartFile imageFile, String path);
+    String uploadImage(MultipartFile imageFile, String path);
 
     /**
      * 获取多种图片输入流
@@ -23,20 +24,21 @@ public interface FileService {
      * @param imageName 图片名称
      * @return 图片输入流
      */
-    StreamingResponseBody getImageInputStream(String path,String type, String date, String imageName);
+    StreamingResponseBody getImageInputStream(String path, String type, String date, String imageName);
 
     /**
      * 获取图片输入流
      *
-     * @param path
+     * @param path      图片路径
      * @param date      图片日期
      * @param imageName 图片名称
      * @return 图片输入流
      */
-    StreamingResponseBody getImageInputStream(String path,String date, String imageName);
+    StreamingResponseBody getImageInputStream(String path, String date, String imageName);
 
     /**
      * 删除文件
+     *
      * @param filePath 文件路径
      * @deprecated 请使用 {@link #deleteImageFileAsync(String)} 替代
      */
@@ -45,6 +47,7 @@ public interface FileService {
 
     /**
      * 异步删除文件
+     *
      * @param filePath 文件路径
      */
     @Async
