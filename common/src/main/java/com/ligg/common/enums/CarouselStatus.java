@@ -18,4 +18,8 @@ public enum CarouselStatus {
     private final Integer code;
     private final String description;
     private final boolean isEnabled;
+
+    public static CarouselStatus fromBoolean(boolean enabled) {
+        return enabled ? ENABLED : DISABLED;
+    }
 }
