@@ -130,9 +130,11 @@ public class AdminFeaturedController {
             return Response.error(BusinessStates.NOT_FOUND);
         }
         String imagePath = IMAGE_PATH + featured.getImagePath().replace("/api/image", "");
-        //异步删除
-        fileService.deleteFileAsync(imagePath);
-        featuredService.removeById(id);
-        return Response.success(BusinessStates.SUCCESS);
+        if (featuredService.removeById(id)) {
+            //异步删除
+            fileService.deleteFileAsync(imagePath);
+            return Response.success(BusinessStates.SUCCESS);
+        }
+        return Response.error(BusinessStates.INTERNAL_SERVER_ERROR);
     }
 }
