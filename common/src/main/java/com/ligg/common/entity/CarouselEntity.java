@@ -3,6 +3,7 @@ package com.ligg.common.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ligg.common.enums.CarouselStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -45,12 +46,11 @@ public class CarouselEntity {
     @Pattern(regexp = "^.{1,200}$", message = "描述长度不能超过200个字符")
     private String description;
 
-    //TODO 类型需要修改成枚举
     /**
      * 状态
      */
     @NotNull
-    private Integer status;
+    private CarouselStatus status;
 
     //TODO 类型需要修改成枚举
     /**

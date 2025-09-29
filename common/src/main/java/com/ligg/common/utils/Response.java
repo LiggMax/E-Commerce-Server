@@ -1,6 +1,6 @@
 package com.ligg.common.utils;
 
-import com.ligg.common.statuEnum.BusinessStates;
+import com.ligg.common.enums.BusinessStates;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

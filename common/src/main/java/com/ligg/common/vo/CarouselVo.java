@@ -38,7 +38,7 @@ public class CarouselVo {
      */
     @Schema(description = "状态")
     @NotNull
-    private Integer status;
+    private Boolean status;
 
     /**
      * 打开方式

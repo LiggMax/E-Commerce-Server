@@ -5,7 +5,7 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.service.CarouselService;
-import com.ligg.common.statuEnum.BusinessStates;
+import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.CarouselVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +34,7 @@ public class ClientCarouselController {
      */
     @Operation(summary = "获取轮播图数据列表")
     @GetMapping
-    public Response<List<CarouselVo> > getCarousel() {
+    public Response<List<CarouselVo>> getCarousel() {
         List<CarouselVo> carouselList = carouselService.getCarouselList();
         return Response.success(BusinessStates.SUCCESS,carouselList);
     }

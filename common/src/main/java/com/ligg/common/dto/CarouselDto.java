@@ -1,5 +1,6 @@
 package com.ligg.common.dto;
 
+import com.ligg.common.enums.CarouselStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -45,7 +46,7 @@ public class CarouselDto {
      */
     @NotNull
     @Schema(description = "状态")
-    private Integer status;
+    private CarouselStatus status;
 
     /**
      * 打开方式

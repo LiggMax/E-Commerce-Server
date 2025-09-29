@@ -9,8 +9,10 @@ import com.ligg.common.dto.CarouselDto;
 import com.ligg.common.entity.CarouselEntity;
 import com.ligg.common.service.CarouselService;
 import com.ligg.common.service.FileService;
-import com.ligg.common.statuEnum.BusinessStates;
+import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
+import com.ligg.common.vo.CarouselVo;
 import com.ligg.common.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,11 +20,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 轮播图接口
@@ -40,6 +44,9 @@ public class AdminCarouselController {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private ImageUtil imageUtil;
 
     /**
      * 上传轮播图数据
@@ -71,7 +78,7 @@ public class AdminCarouselController {
     @Operation(summary = "编辑轮播图")
     @PutMapping
     public Response<String> update(@Validated CarouselDto carousel,
-                                   @Schema(description = "图片文件") MultipartFile imageFile) {
+                                   @RequestParam(required = false) @Schema(description = "图片文件") MultipartFile imageFile) {
         CarouselEntity carouselEntity = new CarouselEntity();
         BeanUtils.copyProperties(carousel, carouselEntity);
         if (imageFile != null && !imageFile.isEmpty()) {
@@ -79,7 +86,7 @@ public class AdminCarouselController {
                 return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
             }
             String imagePath = fileService.uploadImage(imageFile, "/Carousel");
-            if (imagePath != null && !imagePath.isEmpty()) {
+            if (StringUtils.hasText(imagePath)) {
                 CarouselEntity entity = carouselService.getById(carouselEntity.getId());
                 String oldImagePath = IMAGE_PATH + entity.getImagePath().replace("/api/image", "");
                 fileService.deleteFileAsync(oldImagePath);
@@ -97,8 +104,22 @@ public class AdminCarouselController {
      */
     @Operation(summary = "获取轮播图数据")
     @GetMapping
-    public Response<PageVo<CarouselEntity>> getCarousel(Long pageNumber, Long pageSize) {
+    public Response<PageVo<CarouselVo>> getCarousel(Long pageNumber, Long pageSize) {
         PageVo<CarouselEntity> carouselPage = carouselService.getCarouselPage(pageNumber, pageSize);
-        return Response.success(BusinessStates.SUCCESS, carouselPage);
+
+        //VO转换
+        PageVo<CarouselVo> carouselVoPage = new PageVo<>();
+        carouselVoPage.setPages(carouselPage.getPages());
+        carouselVoPage.setTotal(carouselPage.getTotal());
+
+        List<CarouselVo> carouselList = carouselPage.getList().stream().map(entity -> {
+            CarouselVo carouselVo = new CarouselVo();
+            BeanUtils.copyProperties(entity, carouselVo);
+            carouselVo.setImages(imageUtil.getImagePath(entity.getImagePath()));
+            carouselVo.setStatus(entity.getStatus().isEnabled());
+            return carouselVo;
+        }).toList();
+        carouselVoPage.setList(carouselList);
+        return Response.success(BusinessStates.SUCCESS, carouselVoPage);
     }
 }

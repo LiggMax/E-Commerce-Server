@@ -2,7 +2,7 @@
  * @Author Ligg
  * @Time 2025/9/22
  **/
-package com.ligg.common.statuEnum;
+package com.ligg.common.enums;
 
 import lombok.Getter;
 

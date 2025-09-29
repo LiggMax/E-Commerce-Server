@@ -5,7 +5,7 @@ package com.ligg.entrance.exception;
  * @Time 2025/9/25
  **/
 
-import com.ligg.common.statuEnum.BusinessStates;
+import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -6,7 +6,7 @@ package com.ligg.apiclient.controller;
 
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.service.FeaturedService;
-import com.ligg.common.statuEnum.BusinessStates;
+import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.FeaturedVo;

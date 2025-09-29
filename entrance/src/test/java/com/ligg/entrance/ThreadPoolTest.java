@@ -1,5 +1,6 @@
 package com.ligg.entrance;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @Author Ligg
  * @Time 2025/9/28
  **/
+@Slf4j
 @SpringBootTest
 public class ThreadPoolTest {
 
@@ -50,7 +52,7 @@ public class ThreadPoolTest {
                 try {
                     // 模拟文件读写操作，耗时50-200ms不等
                     Thread.sleep(50 + (int) (Math.random() * 150));
-                    System.out.println("File task " + taskId + " completed by " + Thread.currentThread().getName());
+                    log.info("File task {} completed by {}", taskId, Thread.currentThread().getName());
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 } finally {
@@ -64,7 +66,7 @@ public class ThreadPoolTest {
         long endTime = System.currentTimeMillis();
 
         assertTrue(finished, "All file operation tasks should complete within 10 seconds");
-        System.out.println("Completed " + taskCount + " file tasks in " + (endTime - startTime) + " ms");
+        log.info("在 {} 毫秒内完成 {} 个文件任务", taskCount, endTime - startTime);
     }
 
     /**
@@ -84,8 +86,7 @@ public class ThreadPoolTest {
                 try {
                     // 模拟耗时的文件操作
                     Thread.sleep(300);
-                    System.out.println("Concurrent file task " + taskId + " executed by " +
-                        Thread.currentThread().getName());
+                    log.info("并发文件任务 {} 由 {} 执行", taskId, Thread.currentThread().getName());
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 } finally {
@@ -96,6 +97,6 @@ public class ThreadPoolTest {
 
         // 验证所有任务都能完成
         boolean finished = latch.await(15, TimeUnit.SECONDS);
-        assertTrue(finished, "All concurrent file tasks should complete within 15 seconds");
+        assertTrue(finished, "所有并发文件任务应在 15 秒内完成");
     }
 }
