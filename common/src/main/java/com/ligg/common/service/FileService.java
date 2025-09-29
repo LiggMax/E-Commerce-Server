@@ -50,6 +50,5 @@ public interface FileService {
      *
      * @param filePath 文件路径
      */
-    @Async
     void deleteFileAsync(String filePath);
 }

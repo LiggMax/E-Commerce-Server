@@ -119,6 +119,7 @@ public class FileServiceImpl implements FileService {
      * @param filePath 文件路径
      */
     @Override
+    @Deprecated
     public void deleteFile(String filePath) {
         Path imagePath = Paths.get(IMAGE_PATH, filePath);
         //检查文件是否存在
@@ -136,8 +137,8 @@ public class FileServiceImpl implements FileService {
      *
      * @param filePath 文件路径
      */
-    @Async
     @Override
+    @Async("fileTaskExecutor")
     public void deleteFileAsync(String filePath) {
         if (filePath == null) {
             log.warn("文件路径为空");

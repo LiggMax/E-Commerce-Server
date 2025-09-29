@@ -26,15 +26,6 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-  ##线程池配置
-  task:
-    execution:
-      pool:
-        core-size: 8        # 核心线程数(默认)
-        max-size: 20        # 最大线程数
-        queue-capacity: 50  # 队列大小
-        keep-alive: 60s     # 线程空闲时间(默认)
-      thread-name-prefix: task- # 线程名前缀
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

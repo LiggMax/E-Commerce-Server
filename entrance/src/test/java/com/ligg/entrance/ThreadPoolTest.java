@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -20,74 +19,83 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class ThreadPoolTest {
 
-    @Qualifier("applicationTaskExecutor")
+    @Qualifier("fileTaskExecutor")
     @Autowired
-    private TaskExecutor applicationTaskExecutor;
+    private TaskExecutor fileOperationExecutor;
 
     /**
-     * 测试线程池配置
+     * 测试文件操作线程池处理异步任务
      */
     @Test
-    public void testThreadPoolConfiguration() {
-        // 验证线程池是否正确配置并注入
-        assertNotNull(applicationTaskExecutor);
-        assertInstanceOf(ThreadPoolTaskExecutor.class, applicationTaskExecutor);
+    public void testFileOperationExecutorForAsyncFileTasks() throws InterruptedException {
+        assertNotNull(fileOperationExecutor);
+        assertInstanceOf(ThreadPoolTaskExecutor.class, fileOperationExecutor);
 
-        ThreadPoolTaskExecutor executor = (ThreadPoolTaskExecutor) applicationTaskExecutor;
-        assertEquals("task-", executor.getThreadNamePrefix());
-        assertEquals(8, executor.getCorePoolSize());
-        assertEquals(20, executor.getMaxPoolSize());
-        assertEquals(50, executor.getQueueCapacity());
-    }
+        ThreadPoolTaskExecutor executor = (ThreadPoolTaskExecutor) fileOperationExecutor;
+        // 验证文件操作线程池配置
+        assertEquals("file-io-task-", executor.getThreadNamePrefix());
+        assertEquals(Runtime.getRuntime().availableProcessors() * 2, executor.getCorePoolSize());
+        assertEquals(Runtime.getRuntime().availableProcessors() * 4, executor.getMaxPoolSize());
+        assertEquals(100, executor.getQueueCapacity());
 
-    /**
-     * 测试线程池执行任务
-     */
-    @Test
-    public void testThreadPoolExecution() throws InterruptedException {
-        ThreadPoolTaskExecutor executor = (ThreadPoolTaskExecutor) applicationTaskExecutor;
-
-        // 创建计数器，验证任务执行
-        int taskCount = 5;
+        // 模拟文件操作任务
+        int taskCount = 10;
         CountDownLatch latch = new CountDownLatch(taskCount);
+        long startTime = System.currentTimeMillis();
 
-        // 提交多个任务到线程池
+        // 提交多个模拟文件操作任务到线程池
         for (int i = 0; i < taskCount; i++) {
             final int taskId = i;
             executor.execute(() -> {
-                System.out.println("Task " + taskId + " executed by " + Thread.currentThread().getName());
                 try {
-                    // 模拟任务处理时间
-                    Thread.sleep(100);
+                    // 模拟文件读写操作，耗时50-200ms不等
+                    Thread.sleep(50 + (int) (Math.random() * 150));
+                    System.out.println("File task " + taskId + " completed by " + Thread.currentThread().getName());
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                } finally {
+                    latch.countDown();
                 }
-                latch.countDown();
             });
         }
 
-        // 等待所有任务完成
-        boolean finished = latch.await(5, TimeUnit.SECONDS);
-        assertTrue(finished, "All tasks should complete within 5 seconds");
+        // 等待所有任务完成，设置合理的超时时间
+        boolean finished = latch.await(10, TimeUnit.SECONDS);
+        long endTime = System.currentTimeMillis();
+
+        assertTrue(finished, "All file operation tasks should complete within 10 seconds");
+        System.out.println("Completed " + taskCount + " file tasks in " + (endTime - startTime) + " ms");
     }
 
     /**
-     * 测试使用CompletableFuture的异步方法
+     * 测试文件操作线程池在高并发情况下的表现
      */
     @Test
-    public void testAsyncMethodWithCompletableFuture() {
-        // 测试使用CompletableFuture的异步方法
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            return "Task completed in " + Thread.currentThread().getName();
-        }, applicationTaskExecutor);
+    public void testFileOperationExecutorUnderHighConcurrency() throws InterruptedException {
+        ThreadPoolTaskExecutor executor = (ThreadPoolTaskExecutor) fileOperationExecutor;
 
-        String result = future.join();
-        assertNotNull(result);
-        assertTrue(result.contains("task-"), "Thread name should contain the configured prefix");
+        // 提交超过核心线程数的任务，测试线程池扩容能力
+        int taskCount = executor.getCorePoolSize() + 5;
+        CountDownLatch latch = new CountDownLatch(taskCount);
+
+        for (int i = 0; i < taskCount; i++) {
+            final int taskId = i;
+            executor.execute(() -> {
+                try {
+                    // 模拟耗时的文件操作
+                    Thread.sleep(300);
+                    System.out.println("Concurrent file task " + taskId + " executed by " +
+                        Thread.currentThread().getName());
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+
+        // 验证所有任务都能完成
+        boolean finished = latch.await(15, TimeUnit.SECONDS);
+        assertTrue(finished, "All concurrent file tasks should complete within 15 seconds");
     }
 }
