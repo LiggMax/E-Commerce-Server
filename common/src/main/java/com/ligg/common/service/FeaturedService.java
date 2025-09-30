@@ -2,12 +2,8 @@ package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.entity.FeaturedEntity;
-import com.ligg.common.entity.ProductDetailEntity;
-import com.ligg.common.entity.ProductImageEntity;
-import com.ligg.common.vo.FeaturedDetailVo;
+import com.ligg.common.entity.FeaturedDetailEntity;
 import com.ligg.common.vo.PageVo;
-
-import java.util.List;
 
 /**
  * @Author Ligg
@@ -33,10 +29,10 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * @param productId 商品id
      * @return 精选商品详情
      */
-    ProductDetailEntity getProductDetailById(Long productId);
+    FeaturedDetailEntity getProductDetailById(Long productId);
 
     /**
      * 根据商品id查询商品图片列表
      */
-    List<FeaturedDetailVo.Images> selectProductImagesById(Long productId);
+//    List<FeaturedDetailVo.Images> selectProductImagesById(Long productId);
 }

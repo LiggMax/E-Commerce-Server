@@ -5,7 +5,9 @@
 package com.ligg.apiadmin.controller;
 
 import com.ligg.common.dto.FeaturedDto;
+import com.ligg.common.entity.FeaturedDetailEntity;
 import com.ligg.common.entity.FeaturedEntity;
+import com.ligg.common.service.FeaturedDetailService;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.enums.BusinessStates;
@@ -19,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,12 +49,15 @@ public class AdminFeaturedController {
     @Autowired
     private FeaturedService featuredService;
 
+    @Autowired
+    private FeaturedDetailService featuredDetailService;
+
     /**
      * 上传精选产品数据
      */
     @PostMapping
     @Operation(summary = "上传精选产品数据")
-    public Response<String> uploadFeatured(FeaturedDto featured,
+    public Response<String> uploadFeatured(@Validated FeaturedDto featured,
                                            @Schema(description = "图片文件") MultipartFile imageFile
     ) {
         if (imageFile.getSize() > 1024 * 1024 * 2) {
@@ -65,6 +71,12 @@ public class AdminFeaturedController {
         featuredEntity.setCreatedAt(LocalDateTime.now());
         featuredEntity.setUpdateAt(LocalDateTime.now());
         featuredService.saveFeatured(featuredEntity);
+
+        //保存详情数据
+        FeaturedDetailEntity detailEntity = new FeaturedDetailEntity();
+        detailEntity.setDescription(featured.getDescription());
+        detailEntity.setFeaturedId(featuredEntity.getId());
+        featuredDetailService.save(detailEntity);
         return Response.success(BusinessStates.SUCCESS);
     }
 

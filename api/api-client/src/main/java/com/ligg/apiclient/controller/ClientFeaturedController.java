@@ -5,7 +5,7 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.entity.FeaturedEntity;
-import com.ligg.common.entity.ProductDetailEntity;
+import com.ligg.common.entity.FeaturedDetailEntity;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.ImageUtil;
@@ -79,8 +79,8 @@ public class ClientFeaturedController {
         if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);
         }
-        ProductDetailEntity ProductDetail = featuredService.getProductDetailById(productId);
-        List<FeaturedDetailVo.Images> productImages = featuredService.selectProductImagesById(productId);
+        FeaturedDetailEntity ProductDetail = featuredService.getProductDetailById(productId);
+//        List<FeaturedDetailVo.Images> productImages = featuredService.selectProductImagesById(productId);
         FeaturedDetailVo featuredDetail = new FeaturedDetailVo();
         BeanUtils.copyProperties(featured, featuredDetail);
         featuredDetail.setDescription(ProductDetail.getDescription());

@@ -35,7 +35,7 @@ public class ClientCarouselController {
     @Operation(summary = "获取轮播图数据列表")
     @GetMapping
     public Response<List<CarouselVo>> getCarousel() {
-        List<CarouselVo> carouselList = carouselService.getCarouselList();
-        return Response.success(BusinessStates.SUCCESS,carouselList);
+        return Response.success(BusinessStates.SUCCESS,
+                carouselService.getCarouselList());
     }
 }

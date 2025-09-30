@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aspectj.weaver.Lint;
 
 import java.util.List;
 
@@ -18,12 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 public class FeaturedDetailVo extends FeaturedVo{
     private String description;
-    private List<Images> images;
+//    private List<Images> images;
 
-    @Getter
-    @Setter
-    public static class Images {
-        private Integer sort;
-        private String imageUrl;
-    }
+//    @Getter
+//    @Setter
+//    public static class Images {
+//        private Integer sort;
+//        private String imageUrl;
+//    }
 }
