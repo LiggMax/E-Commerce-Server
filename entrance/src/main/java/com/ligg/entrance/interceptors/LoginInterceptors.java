@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/22
+ **/
 package com.ligg.entrance.interceptors;
 
 import com.ligg.common.utils.JWTUtil;
@@ -12,12 +16,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Map;
 
+
 /**
- * @Author Ligg
- * @Time 2025/9/22
- * <p>
  * 登录拦截器
- **/
+ */
 @Slf4j
 @Component
 public class LoginInterceptors implements HandlerInterceptor {

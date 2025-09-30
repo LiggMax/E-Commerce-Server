@@ -1,9 +1,8 @@
-package com.ligg.entrance.exception;
-
 /**
  * @Author Ligg
  * @Time 2025/9/25
  **/
+package com.ligg.entrance.exception;
 
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.Response;

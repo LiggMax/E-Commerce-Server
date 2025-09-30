@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/22
+ **/
 package com.ligg.entrance.config;
 
 import com.ligg.entrance.interceptors.LoginInterceptors;
@@ -6,11 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * @Author Ligg
- * @Time 2025/9/22
- *
- **/
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 

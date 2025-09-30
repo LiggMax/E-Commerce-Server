@@ -4,11 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.entity.FeaturedEntity;
+import com.ligg.common.entity.ProductDetailEntity;
+import com.ligg.common.entity.ProductImageEntity;
 import com.ligg.common.mapper.FeaturedMapper;
 import com.ligg.common.service.FeaturedService;
+import com.ligg.common.vo.FeaturedDetailVo;
 import com.ligg.common.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author Ligg
@@ -43,11 +48,18 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
     }
 
     /**
-     * 根据id更新精选商品信息
-     * @param featured 精选商品信息
+     * 根据商品id查询商品详情
      */
     @Override
-    public void updateFeaturedById(FeaturedEntity featured) {
-        featuredMapper.updateById(featured);
+    public ProductDetailEntity getProductDetailById(Long productId) {
+        return featuredMapper.selectProductDetailById(productId);
+    }
+
+    /**
+     * 根据商品id查询商品图片列表
+     */
+    @Override
+    public List<FeaturedDetailVo.Images> selectProductImagesById(Long productId) {
+        return featuredMapper.selectProductImagesById(productId);
     }
 }

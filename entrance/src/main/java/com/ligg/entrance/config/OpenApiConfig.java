@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/23
+ **/
 package com.ligg.entrance.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -7,12 +11,13 @@ import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * OpenAPI 配置
+ */
 @Configuration
 public class OpenApiConfig {
 
-    /**
-     * OpenAPI 配置
-     */
+
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()

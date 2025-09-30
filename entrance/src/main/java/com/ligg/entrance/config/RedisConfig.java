@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/22
+ **/
 package com.ligg.entrance.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -13,12 +17,8 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * @Author Ligg
- * @Time 2025/9/22
- *
  * Redis配置类
- **/
-
+ */
 @Configuration
 public class RedisConfig {
 

@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/25
+ **/
 package com.ligg.entrance.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
@@ -8,9 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author Ligg
- * @Time 2025/9/25
- **/
+ * MyBatisPlus 配置类
+ */
 @Configuration
 public class MybatisPlusConfig {
     /*

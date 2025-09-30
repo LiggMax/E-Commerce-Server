@@ -5,13 +5,16 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.entity.FeaturedEntity;
+import com.ligg.common.entity.ProductDetailEntity;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
+import com.ligg.common.vo.FeaturedDetailVo;
 import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.ImagesVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +66,26 @@ public class ClientFeaturedController {
             return featuredVo;
         }).toList();
         return Response.success(BusinessStates.SUCCESS, featuredVoList);
+    }
+
+    /**
+     * 获取精选商品详情
+     */
+    //TODO 完善详情接口
+    @Operation(summary = "获取精选商品详情")
+    @GetMapping("/detail")
+    public Response<FeaturedDetailVo> getFeaturedDetail(@Schema(description = "商品id") Long productId) {
+        FeaturedEntity featured = featuredService.getById(productId);
+        if (featured == null) {
+            return Response.error(BusinessStates.NOT_FOUND);
+        }
+        ProductDetailEntity ProductDetail = featuredService.getProductDetailById(productId);
+        List<FeaturedDetailVo.Images> productImages = featuredService.selectProductImagesById(productId);
+        FeaturedDetailVo featuredDetail = new FeaturedDetailVo();
+        BeanUtils.copyProperties(featured, featuredDetail);
+        featuredDetail.setDescription(ProductDetail.getDescription());
+        featuredDetail.setImages(imageUtil.getImagePath(featured.getImagePath()));
+        return Response.success(BusinessStates.SUCCESS, featuredDetail);
     }
 }
 

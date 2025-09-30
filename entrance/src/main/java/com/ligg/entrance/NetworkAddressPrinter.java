@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/17
+ **/
 package com.ligg.entrance;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -8,10 +12,6 @@ import org.springframework.stereotype.Component;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-/**
- * @Author Ligg
- * @Time 2025/9/17
- **/
 @Component
 public class NetworkAddressPrinter implements ApplicationRunner {
 

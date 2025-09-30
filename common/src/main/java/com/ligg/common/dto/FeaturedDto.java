@@ -1,12 +1,12 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/26
+ **/
 package com.ligg.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-/**
- * @Author Ligg
- * @Time 2025/9/26
- **/
 @Data
 public class FeaturedDto {
 
