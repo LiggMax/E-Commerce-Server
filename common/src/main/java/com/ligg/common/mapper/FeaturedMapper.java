@@ -1,8 +1,11 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
+import com.ligg.common.vo.FeaturedDetailVo;
+import com.ligg.common.vo.search.FeaturedSearchVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -21,6 +24,8 @@ public interface FeaturedMapper extends BaseMapper<FeaturedEntity> {
     @Select("select * from featured_detail where featured_id = #{productId}")
     FeaturedDetailEntity selectProductDetailById(Long productId);
 
+
+    IPage<FeaturedSearchVo> selectProductDetailPage(IPage<FeaturedSearchVo> page);
     /**
      * 根据商品id查询商品图片列表
      */

@@ -13,8 +13,10 @@ import com.ligg.common.service.FileService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
+import com.ligg.common.vo.FeaturedDetailVo;
 import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.PageVo;
+import com.ligg.common.vo.search.FeaturedSearchVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -114,16 +116,16 @@ public class AdminFeaturedController {
      */
     @Operation(summary = "获取精选商品列表")
     @GetMapping
-    public Response<PageVo<FeaturedVo>> getFeatured(
+    public Response<PageVo<FeaturedDetailVo>> getFeatured(
             @Schema(description = "页码") Long pageNumber,
             @Schema(description = "每页数量") Long pageSize
     ) {
-        PageVo<FeaturedEntity> featuredList = featuredService.Pagelist(pageNumber, pageSize);
-        PageVo<FeaturedVo> pageVo = new PageVo<>();
+        PageVo<FeaturedSearchVo> featuredList = featuredService.Pagelist(pageNumber, pageSize);
+        PageVo<FeaturedDetailVo> pageVo = new PageVo<>();
         pageVo.setPages(featuredList.getPages());
         pageVo.setTotal(featuredList.getTotal());
         pageVo.setList(featuredList.getList().stream().map(featured -> {
-            FeaturedVo featuredVo = new FeaturedVo();
+            FeaturedDetailVo featuredVo = new FeaturedDetailVo();
             BeanUtils.copyProperties(featured, featuredVo);
             featuredVo.setImages(imageUtil.getImagePath(featured.getImagePath()));
             return featuredVo;

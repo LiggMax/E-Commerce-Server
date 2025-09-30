@@ -1,13 +1,15 @@
 package com.ligg.common.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
 import com.ligg.common.mapper.FeaturedMapper;
 import com.ligg.common.service.FeaturedService;
+import com.ligg.common.vo.FeaturedDetailVo;
 import com.ligg.common.vo.PageVo;
+import com.ligg.common.vo.search.FeaturedSearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,19 +29,17 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
     }
 
     @Override
-    public PageVo<FeaturedEntity> Pagelist(Long pageNumber, Long pageSize) {
+    public PageVo<FeaturedSearchVo> Pagelist(Long pageNumber, Long pageSize) {
         //创建分页对象
-        Page<FeaturedEntity> page = new Page<>(pageNumber, pageSize);
+        Page<FeaturedSearchVo> page = new Page<>(pageNumber, pageSize);
 
         // 分页查询
-        featuredMapper.selectPage(page, new LambdaQueryWrapper<FeaturedEntity>()
-                .orderByAsc(FeaturedEntity::getRating));
-
+        IPage<FeaturedSearchVo> result = featuredMapper.selectProductDetailPage(page);
         //封装PageVo
-        PageVo<FeaturedEntity> pageVo = new PageVo<>();
-        pageVo.setPages(page.getPages());
-        pageVo.setTotal(page.getTotal());
-        pageVo.setList(page.getRecords());
+        PageVo<FeaturedSearchVo> pageVo = new PageVo<>();
+        pageVo.setPages(result.getPages());
+        pageVo.setTotal(result.getTotal());
+        pageVo.setList(result.getRecords());
         return pageVo;
     }
 

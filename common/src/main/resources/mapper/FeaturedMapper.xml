@@ -2,4 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ligg.common.mapper.FeaturedMapper">
 
+    <!-- 精选商品详情查询 -->
+    <select id="selectProductDetailPage" resultType="com.ligg.common.vo.search.FeaturedSearchVo">
+        select f.id,
+               f.title,
+               f.image_path,
+               f.original_price,
+               f.current_price,
+               f.reviews,
+               f.rating,
+               f.created_at,
+               f.update_at,
+               fd.description
+        from featured f
+                 left join featured_detail fd on f.id = fd.featured_id
+        order by f.rating
+    </select>
 </mapper>

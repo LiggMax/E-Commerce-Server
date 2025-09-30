@@ -3,7 +3,9 @@ package com.ligg.common.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
+import com.ligg.common.vo.FeaturedDetailVo;
 import com.ligg.common.vo.PageVo;
+import com.ligg.common.vo.search.FeaturedSearchVo;
 
 /**
  * @Author Ligg
@@ -21,7 +23,7 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * 获取分页精选商品列表
      * @return 精选商品列表
      */
-    PageVo<FeaturedEntity> Pagelist(Long pageNumber, Long pageSize);
+    PageVo<FeaturedSearchVo> Pagelist(Long pageNumber, Long pageSize);
 
     /**
      * 根据id获取精选商品详情
