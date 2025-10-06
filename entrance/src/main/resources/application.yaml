@@ -13,9 +13,9 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
-      timeout: 10000ms
       username:
       password:
+      timeout: 10000ms
       lettuce:
         pool:
           max-active: 8
@@ -31,6 +31,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true # 开启自动驼峰命名
   mapper-locations: classpath*:/mapper/**/*.xml
+
 jwt:
   key: ligg #加密密钥
 
