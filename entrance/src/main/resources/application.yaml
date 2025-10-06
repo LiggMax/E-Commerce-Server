@@ -35,9 +35,6 @@ mybatis-plus:
 jwt:
   key: ligg #加密密钥
 
-token:
-  expire: 6 #过期时间
-
 ##文件配置
 file:
   image:

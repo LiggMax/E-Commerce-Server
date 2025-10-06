@@ -25,4 +25,9 @@ public class Constant {
      * Token
      */
     public static final String TOKEN = "Token";
+
+    /**
+     * 过期时间6小时
+     */
+    public static final long EXPIRE = 6 * 60 * 60;
 }

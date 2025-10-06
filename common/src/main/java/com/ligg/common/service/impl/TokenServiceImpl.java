@@ -6,11 +6,12 @@ import com.ligg.common.service.TokenService;
 import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.ligg.common.constants.Constant.EXPIRE;
 
 @Service
 public class TokenServiceImpl implements TokenService {
@@ -20,10 +21,6 @@ public class TokenServiceImpl implements TokenService {
 
     @Autowired
     private RedisUtil redisUtil;
-
-    @Value("${token.expire}")
-    private Long EXPIRE;
-
 
     /**
      * 生成token
@@ -36,7 +33,7 @@ public class TokenServiceImpl implements TokenService {
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put(Constant.USER_ID, userEntity.getUserId());
         userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
-        return jwtUtil.createToken(userInfo);
+        return jwtUtil.createToken(userInfo, EXPIRE);
     }
 
     /**
