@@ -29,7 +29,7 @@ public class AdminUserController {
     /**
      * 登出
      */
-    @PostMapping("/logout")
+    @PostMapping("/remove_token")
     public Response<String> logout() {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
         String userId = (String) userInfo.get(Constant.USER_ID);
