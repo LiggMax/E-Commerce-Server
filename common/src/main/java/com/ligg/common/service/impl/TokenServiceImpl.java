@@ -37,7 +37,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     /**
-     * 保存token
+     * 保存token到Redis
      *
      * @param token  token
      * @param userId 用户id

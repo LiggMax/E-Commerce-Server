@@ -8,6 +8,7 @@ import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.FeaturedDetailVo;
@@ -22,8 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -52,17 +51,9 @@ public class ClientFeaturedController {
             BeanUtils.copyProperties(featured, featuredVo);
             ImagesVo imagePath = imageUtil.getImagePath(featured.getImagePath());
             featuredVo.setImages(imagePath);
-
-            /*
-             计算折扣百分比
-             公式为：折扣率 = (原价-现价)/原价 × 100%
-             */
-            BigDecimal original = BigDecimal.valueOf(featured.getOriginalPrice());
-            BigDecimal current = BigDecimal.valueOf(featured.getCurrentPrice());
-            BigDecimal discount = original.subtract(current)
-                    .divide(original, 2, RoundingMode.HALF_UP)
-                    .multiply(BigDecimal.valueOf(100));
-            featuredVo.setDiscount(discount.doubleValue());
+            featuredVo.setDiscount(DiscountUtil.calculateDiscountPercentage(
+                    featured.getOriginalPrice(),
+                    featured.getCurrentPrice()).doubleValue());
             return featuredVo;
         }).toList();
         return Response.success(BusinessStates.SUCCESS, featuredVoList);
@@ -80,11 +71,14 @@ public class ClientFeaturedController {
             return Response.error(BusinessStates.NOT_FOUND);
         }
         FeaturedDetailEntity ProductDetail = featuredService.getProductDetailById(productId);
-//        List<FeaturedDetailVo.Images> productImages = featuredService.selectProductImagesById(productId);
         FeaturedDetailVo featuredDetail = new FeaturedDetailVo();
         BeanUtils.copyProperties(featured, featuredDetail);
         featuredDetail.setDescription(ProductDetail.getDescription());
         featuredDetail.setImages(imageUtil.getImagePath(featured.getImagePath()));
+        featuredDetail.setDiscount(DiscountUtil.calculateDiscountPercentage(
+                featured.getOriginalPrice(),
+                featured.getCurrentPrice()
+        ).doubleValue());
         return Response.success(BusinessStates.SUCCESS, featuredDetail);
     }
 }

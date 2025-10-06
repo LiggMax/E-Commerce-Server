@@ -30,4 +30,9 @@ public class Constant {
      * 过期时间6小时
      */
     public static final long EXPIRE = 6 * 60 * 60;
+
+    /**
+     * Token Key
+     */
+    public static final String TOKEN_KEY = "Ligg"; //临时秘钥
 }
