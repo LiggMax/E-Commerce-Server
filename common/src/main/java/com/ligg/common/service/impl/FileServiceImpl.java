@@ -140,7 +140,7 @@ public class FileServiceImpl implements FileService {
     @Override
     @Async("fileTaskExecutor")
     public void deleteFileAsync(String filePath) {
-        if (filePath == null) {
+        if (filePath == null || filePath.isEmpty()) {
             log.warn("文件路径为空");
             return;
         }
