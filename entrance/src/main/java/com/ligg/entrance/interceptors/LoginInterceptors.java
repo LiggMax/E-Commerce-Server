@@ -4,6 +4,7 @@
  **/
 package com.ligg.entrance.interceptors;
 
+import com.ligg.common.constants.Constant;
 import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.RedisUtil;
 import com.ligg.common.utils.ThreadLocalUtil;
@@ -32,26 +33,30 @@ public class LoginInterceptors implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String Token = request.getHeader("Authorization");
+        String Token = request.getHeader(Constant.AUTHORIZATION);
 
         try {
-            if (Token == null){
+            if (Token == null) {
                 throw new RuntimeException("缺少授权标头");
             }
             Map<String, Object> claims = jwtUtil.parseToken(Token);
-            String userId = (String) claims.get("userId");
+            String userId = (String) claims.get(Constant.USER_ID);
             //从Redis中获取用户信息
-            String redisUserToken = (String) redisUtil.get("Token:" + userId);
-            if (redisUserToken == null) {
+            String redisUserToken = (String) redisUtil.get(Constant.TOKEN + ":" + userId);
+            if (redisUserToken == null || redisUserToken.isEmpty()) {
                 throw new RuntimeException("未获得授权...");
             }
-            Map<String, Object> userInfo = jwtUtil.parseToken(redisUserToken);
-            ThreadLocalUtil.set(userInfo);
+            ThreadLocalUtil.set(claims);
             return true;
         } catch (Exception e) {
             log.error("令牌验证失败:", e);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        ThreadLocalUtil.remove();
     }
 }

@@ -13,4 +13,10 @@ public interface TokenService {
      * 储存 token
      */
     void saveToken(String token, String userId);
+
+    /**
+     * 删除Redis中的token
+     */
+    void deleteRedisToken(String userId);
+
 }
