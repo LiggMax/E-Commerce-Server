@@ -17,6 +17,7 @@ import com.ligg.common.service.FeaturedImageService;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.FeaturedDetailVo;
+import com.ligg.common.vo.FeaturedImageVo;
 import com.ligg.common.vo.PageVo;
 import com.ligg.common.vo.search.FeaturedSearchVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -151,18 +153,18 @@ public class AdminFeaturedController {
     }
 
     /**
-     * 上传多张图片
+     * 上传张图片
      */
     @Operation(summary = "上传详情页图片(可多张)")
-    @PostMapping("/upload/image")
-    public Response<String> uploadImages(@NotNull String id, @NotNull MultipartFile imageFile) {
+    @PostMapping("/image")
+    public Response<String> uploadImages(@NotNull String featuredId, @NotNull MultipartFile imageFile) {
         if (imageFile == null || imageFile.isEmpty() || imageFile.getSize() > Constant.FILE_SIZE) {
             return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
         }
         String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
         if (StringUtils.hasText(imagePath)) {
             FeaturedImageEntity featuredImage = new FeaturedImageEntity();
-            featuredImage.setFeaturedId(id);
+            featuredImage.setFeaturedId(featuredId);
             featuredImage.setImagePath(imagePath);
             //TODO 临时添加
             featuredImage.setSort(0);
@@ -171,5 +173,15 @@ public class AdminFeaturedController {
                     : Response.error(BusinessStates.INTERNAL_SERVER_ERROR);
         }
         return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
+    }
+
+    /**
+     * 获取上传的图片
+     */
+    @Operation(summary = "获取上传的图片")
+    @GetMapping("/image")
+    public Response<List<FeaturedImageVo>> getImages(@Schema(description = "精选商品id") @NotNull String featuredId) {
+        List<FeaturedImageVo> featuredImageList = featuredImageService.getList(featuredId);
+        return Response.success(BusinessStates.SUCCESS, featuredImageList);
     }
 }
