@@ -4,11 +4,12 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Map;
+
+import static com.ligg.common.constants.Constant.TOKEN_KEY;
 
 /**
  * @Author Ligg
@@ -18,21 +19,17 @@ import java.util.Map;
 @Component
 public class JWTUtil {
 
-    @Value("${jwt.key}")
-    private String KEY;
-    @Value("${token.expire}")
-    private Long EXPIRE;  //过期时间
 
     /**
      * 生成token
      *
      * @return token
      */
-    public String createToken(Map<String, Object> claims) {
+    public String createToken(Map<String, Object> claims,Long expire) {
         return JWT.create()
                 .withClaim("claims", claims)
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRE * 60 * 60 * 1000))
-                .sign(Algorithm.HMAC256(KEY));
+                .withExpiresAt(new Date(System.currentTimeMillis() + expire * 1000))
+                .sign(Algorithm.HMAC256(TOKEN_KEY));
     }
 
     /**
@@ -42,7 +39,7 @@ public class JWTUtil {
      */
     public Map<String, Object> parseToken(String token) {
         try {
-            return JWT.require(Algorithm.HMAC256(KEY))
+            return JWT.require(Algorithm.HMAC256(TOKEN_KEY))
                     .build()
                     .verify(token)
                     .getClaim("claims")

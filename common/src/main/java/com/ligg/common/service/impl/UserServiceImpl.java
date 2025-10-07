@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/22
+ **/
 package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -11,10 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-/**
- * @Author Ligg
- * @Time 2025/9/22
- **/
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 注册账号
-     * @param account
-     * @param password
+     * @param account 账号
+     * @param password 密码
      */
     @Override
     public void register(String account, String password) {
