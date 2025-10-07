@@ -35,4 +35,19 @@ public class Constant {
      * Token Key
      */
     public static final String TOKEN_KEY = "Ligg"; //临时秘钥
+
+    /**
+     * 文件大小
+     */
+    public static final long FILE_SIZE = 1024 * 1024 * 2;
+
+    /**
+     * 精选商品文件保持路径
+     */
+    public static final String FEATURED_FILE_PATH = "/Featured";
+
+    /**
+     * 轮播图保持路径
+     */
+    public static final String CAROUSEL_FILE_PATH = "/Carousel";
 }

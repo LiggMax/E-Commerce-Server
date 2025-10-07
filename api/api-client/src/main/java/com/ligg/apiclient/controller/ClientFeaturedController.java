@@ -19,9 +19,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -62,7 +65,6 @@ public class ClientFeaturedController {
     /**
      * 获取精选商品详情
      */
-    //TODO 完善详情接口
     @Operation(summary = "获取精选商品详情")
     @GetMapping("/detail")
     public Response<FeaturedDetailVo> getFeaturedDetail(@Schema(description = "商品id") Long productId) {
@@ -73,7 +75,10 @@ public class ClientFeaturedController {
         FeaturedDetailEntity ProductDetail = featuredService.getProductDetailById(productId);
         FeaturedDetailVo featuredDetail = new FeaturedDetailVo();
         BeanUtils.copyProperties(featured, featuredDetail);
-        featuredDetail.setDescription(ProductDetail.getDescription());
+        //临时校验
+        if (ProductDetail != null) {
+            featuredDetail.setDescription(ProductDetail.getDescription());
+        }
         featuredDetail.setImages(imageUtil.getImagePath(featured.getImagePath()));
         featuredDetail.setDiscount(DiscountUtil.calculateDiscountPercentage(
                 featured.getOriginalPrice(),
@@ -81,5 +86,7 @@ public class ClientFeaturedController {
         ).doubleValue());
         return Response.success(BusinessStates.SUCCESS, featuredDetail);
     }
+
+
 }
 

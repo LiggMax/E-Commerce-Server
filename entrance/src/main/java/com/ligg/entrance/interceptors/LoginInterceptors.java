@@ -17,6 +17,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Map;
 
+import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+
 
 /**
  * 登录拦截器
@@ -50,7 +52,7 @@ public class LoginInterceptors implements HandlerInterceptor {
             return true;
         } catch (Exception e) {
             log.error("令牌验证失败:", e);
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(SC_UNAUTHORIZED);
             return false;
         }
     }

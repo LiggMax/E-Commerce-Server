@@ -7,7 +7,6 @@ import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
 import com.ligg.common.mapper.FeaturedMapper;
 import com.ligg.common.service.FeaturedService;
-import com.ligg.common.vo.FeaturedDetailVo;
 import com.ligg.common.vo.PageVo;
 import com.ligg.common.vo.search.FeaturedSearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +48,14 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
     @Override
     public FeaturedDetailEntity getProductDetailById(Long productId) {
         return featuredMapper.selectProductDetailById(productId);
+    }
+
+    /**
+     * 根据id更新商品图片路径
+     */
+    @Override
+    public void updateImagePathById(String id, String imagePath) {
+
     }
 
     /**

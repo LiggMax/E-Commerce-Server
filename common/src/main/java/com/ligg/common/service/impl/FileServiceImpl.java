@@ -1,6 +1,7 @@
 package com.ligg.common.service.impl;
 
 import com.ligg.common.Imagenum.ImageType;
+import com.ligg.common.constants.Constant;
 import com.ligg.common.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -35,7 +36,9 @@ public class FileServiceImpl implements FileService {
         if (imageFile.isEmpty()) {
             throw new IllegalArgumentException("上传文件为空");
         }
-
+        if (imageFile.getSize() > Constant.FILE_SIZE) {
+            throw new RuntimeException("上传的文件不能大于2M");
+        }
         //验证文件类型
         String contentType = imageFile.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {

@@ -3,7 +3,6 @@ package com.ligg.common.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
-import com.ligg.common.vo.FeaturedDetailVo;
 import com.ligg.common.vo.PageVo;
 import com.ligg.common.vo.search.FeaturedSearchVo;
 
@@ -32,6 +31,11 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * @return 精选商品详情
      */
     FeaturedDetailEntity getProductDetailById(Long productId);
+
+    /**
+     * 根据id更新精选商品图片路径
+     */
+    void updateImagePathById(String id, String imagePath);
 
     /**
      * 根据商品id查询商品图片列表

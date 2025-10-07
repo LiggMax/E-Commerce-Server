@@ -5,6 +5,7 @@
  **/
 package com.ligg.apiadmin.controller;
 
+import com.ligg.common.constants.Constant;
 import com.ligg.common.dto.CarouselDto;
 import com.ligg.common.entity.CarouselEntity;
 import com.ligg.common.enums.CarouselStatus;
@@ -18,6 +19,7 @@ import com.ligg.common.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,7 +82,7 @@ public class AdminCarouselController {
     @Operation(summary = "上传轮播图数据")
     public Response<String> upload(@Validated CarouselDto carousel,
                                    @Schema(description = "图片文件") MultipartFile imageFile) {
-        String imagePath = fileService.uploadImage(imageFile, "/Carousel");
+        String imagePath = fileService.uploadImage(imageFile, Constant.CAROUSEL_FILE_PATH);
         if (imageFile.getSize() > 1024 * 1024 * 2) {
             return Response.error(BusinessStates.BAD_REQUEST);
         }
@@ -112,7 +114,7 @@ public class AdminCarouselController {
             if (imageFile.getSize() > 1024 * 1024 * 2) {
                 return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
             }
-            String imagePath = fileService.uploadImage(imageFile, "/Carousel");
+            String imagePath = fileService.uploadImage(imageFile, Constant.CAROUSEL_FILE_PATH);
             if (StringUtils.hasText(imagePath)) {
                 CarouselEntity entity = carouselService.getById(carouselEntity.getId());
                 String oldImagePath = IMAGE_PATH + entity.getImagePath().replace("/api/image", "");
@@ -131,10 +133,10 @@ public class AdminCarouselController {
      */
     @Operation(summary = "更新轮播图状态")
     @PatchMapping("/status")
-    public Response<String> updateStatus(@RequestBody CarouselDto carousel) {
+    public Response<String> updateStatus(@NotNull Integer id, @NotNull Boolean status) {
         CarouselEntity entity = new CarouselEntity();
-        entity.setId(carousel.getId());
-        entity.setStatus(CarouselStatus.fromBoolean(carousel.getStatus()));
+        entity.setId(id);
+        entity.setStatus(CarouselStatus.fromBoolean(status));
         entity.setUpdateAt(LocalDateTime.now());
         return carouselService.updateById(entity) ?
                 Response.success(BusinessStates.SUCCESS) :
