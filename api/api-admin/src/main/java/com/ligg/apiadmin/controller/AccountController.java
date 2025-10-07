@@ -57,10 +57,7 @@ public class AccountController {
     public Response<String> login(@Schema(description = "账号") @RequestParam @NotNull String account,
                                   @Schema(description = "密码") @RequestParam @NotNull String password) {
         UserEntity userInfo = userService.getUserInfoByAccount(account);
-        if (userInfo == null) {
-            return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
-        }
-        if (!BCryptUtil.verify(password, userInfo.getPassword())) {
+        if (userInfo == null || !BCryptUtil.verify(password, userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
         }
         String token = tokenService.generateToken(userInfo);
