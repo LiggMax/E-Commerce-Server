@@ -6,6 +6,7 @@ package com.ligg.apiclient.controller;
 
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
+import com.ligg.common.service.FeaturedImageService;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.DiscountUtil;
@@ -19,12 +20,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,6 +36,9 @@ public class ClientFeaturedController {
 
     @Autowired
     private FeaturedService featuredService;
+
+    @Autowired
+    private FeaturedImageService featuredImageService;
 
     @Autowired
     private ImageUtil imageUtil;
@@ -67,7 +68,7 @@ public class ClientFeaturedController {
      */
     @Operation(summary = "获取精选商品详情")
     @GetMapping("/detail")
-    public Response<FeaturedDetailVo> getFeaturedDetail(@Schema(description = "商品id") Long productId) {
+    public Response<FeaturedDetailVo> getFeaturedDetail(@Schema(description = "商品id") String productId) {
         FeaturedEntity featured = featuredService.getById(productId);
         if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);
@@ -84,9 +85,8 @@ public class ClientFeaturedController {
                 featured.getOriginalPrice(),
                 featured.getCurrentPrice()
         ).doubleValue());
+        featuredDetail.setDetailImages( featuredImageService.getImagesByFeaturedId(productId));
         return Response.success(BusinessStates.SUCCESS, featuredDetail);
     }
-
-
 }
 

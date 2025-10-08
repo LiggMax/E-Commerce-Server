@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class FeaturedDetailVo extends FeaturedVo{
     private String description;
+    private List<FeaturedImageVo> detailImages;
 //    private List<Images> images;
 
 //    @Getter

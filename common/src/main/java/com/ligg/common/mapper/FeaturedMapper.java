@@ -22,8 +22,7 @@ public interface FeaturedMapper extends BaseMapper<FeaturedEntity> {
      * @return 商品详情
      */
     @Select("select * from featured_detail where featured_id = #{productId}")
-    FeaturedDetailEntity selectProductDetailById(Long productId);
-
+    FeaturedDetailEntity selectProductDetailById(String productId);
 
     IPage<FeaturedSearchVo> selectProductDetailPage(IPage<FeaturedSearchVo> page);
     /**

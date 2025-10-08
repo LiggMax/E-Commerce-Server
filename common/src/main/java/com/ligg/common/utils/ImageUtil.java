@@ -14,6 +14,7 @@ public class ImageUtil {
 
     @Value("${api.base-url}")
     private String BASEURL;
+
     //TODO 需要修改不使用String直接拼接字符串，因为该方法可能会被循环遍历拼接字符串
     public ImagesVo getImagePath(String imagePath) {
         ImagesVo images = new ImagesVo();

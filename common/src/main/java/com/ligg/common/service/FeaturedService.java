@@ -30,7 +30,7 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * @param productId 商品id
      * @return 精选商品详情
      */
-    FeaturedDetailEntity getProductDetailById(Long productId);
+    FeaturedDetailEntity getProductDetailById(String productId);
 
     /**
      * 根据id更新精选商品图片路径

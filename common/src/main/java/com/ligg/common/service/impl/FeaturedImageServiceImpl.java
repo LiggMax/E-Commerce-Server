@@ -16,21 +16,30 @@ import java.util.List;
  * @Time 2025/10/7
  **/
 @Service
-public class ProductImageServiceImpl extends ServiceImpl<FeaturedImageMapper, FeaturedImageEntity>
+public class FeaturedImageServiceImpl extends ServiceImpl<FeaturedImageMapper, FeaturedImageEntity>
         implements FeaturedImageService {
 
     @Autowired
     private FeaturedImageMapper featuredImageMapper;
+
 
     @Override
     public List<FeaturedImageVo> getList(String featuredId) {
         List<FeaturedImageEntity> featuredImageEntities = featuredImageMapper.selectList(new LambdaQueryWrapper<FeaturedImageEntity>()
                 .eq(FeaturedImageEntity::getFeaturedId, featuredId));
         if (featuredImageEntities != null && !featuredImageEntities.isEmpty()) {
-            return featuredImageEntities.stream().map(
-                            entity -> new FeaturedImageVo(entity.getId(), entity.getFeaturedId(), entity.getSort(), entity.getImagePath()))
-                    .toList();
+            return List.of();
         }
         return List.of();
+    }
+
+    /**
+     * 根据商品id获取图片列表
+     * @param featuredId 商品id
+     * @return 图片列表
+     */
+    @Override
+    public List<FeaturedImageVo> getImagesByFeaturedId(String featuredId) {
+        return featuredImageMapper.selectImageListById(featuredId);
     }
 }

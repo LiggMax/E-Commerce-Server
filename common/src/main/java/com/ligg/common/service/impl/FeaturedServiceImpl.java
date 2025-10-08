@@ -46,7 +46,7 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
      * 根据商品id查询商品详情
      */
     @Override
-    public FeaturedDetailEntity getProductDetailById(Long productId) {
+    public FeaturedDetailEntity getProductDetailById(String productId) {
         return featuredMapper.selectProductDetailById(productId);
     }
 
