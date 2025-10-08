@@ -12,6 +12,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -142,7 +143,7 @@ public class FileServiceImpl implements FileService {
     @Override
     @Async("fileTaskExecutor")
     public void deleteFileAsync(String filePath) {
-        if (filePath == null || filePath.isEmpty()) {
+        if (StringUtils.hasText(filePath)) {
             log.warn("文件路径为空");
             return;
         }

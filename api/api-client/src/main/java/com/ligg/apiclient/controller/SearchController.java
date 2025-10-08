@@ -8,6 +8,7 @@ import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.service.SearchService;
+import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.ImagesVo;
@@ -43,13 +44,17 @@ public class SearchController {
      */
     @GetMapping
     public Response<PageVo<SearchVo>> search(@Schema(description = "关键字") @NotNull String keyword,
-                                             @Schema(description = "页码") @NotNull Long pageNumber) {
+                                             @Schema(description = "页码") @NotNull Long pageNumber,
+                                             @Schema(description = "排序") @RequestParam(required = false) Integer sort) {
         //获取商品分页列表
-        PageVo<FeaturedEntity> searchData = searchService.searchCommodityPageList(keyword, pageNumber, 20L);
+        PageVo<FeaturedEntity> searchData = searchService.searchCommodityPageList(keyword, pageNumber, 20L,sort);
         List<SearchVo> searchResult = searchData.getList().stream().map(search -> {
             SearchVo searchVo = new SearchVo();
             BeanUtils.copyProperties(search, searchVo);
             searchVo.setUrl(ImageUtil.getImagePath(search.getImagePath()));
+            searchVo.setDiscount(DiscountUtil.calculateDiscountPercentage(
+                    search.getOriginalPrice(),
+                    search.getCurrentPrice()).doubleValue());
             return searchVo;
         }).toList();
 

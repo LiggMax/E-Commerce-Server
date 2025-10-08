@@ -1,6 +1,7 @@
 package com.ligg.common.vo.search;
 
 import com.ligg.common.vo.ImagesVo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,4 +46,11 @@ public class SearchVo {
      * 评价
      */
     private Integer reviews;
+
+    /**
+     * 折扣
+     */
+    @Schema(description = "折扣")
+    private Double discount;
+
 }

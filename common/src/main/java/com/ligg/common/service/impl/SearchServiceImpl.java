@@ -10,7 +10,6 @@ import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.mapper.SearchMapper;
 import com.ligg.common.service.SearchService;
 import com.ligg.common.vo.PageVo;
-import com.ligg.common.vo.search.SearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +25,14 @@ public class SearchServiceImpl implements SearchService {
      * @param keyword    关键字
      * @param pageNumber 页码
      * @param pageSize   每页数量
+     * @param sort       排序(1: 默认排序 2:价格 )
      * @return 商品列表
      */
     @Override
-    public PageVo<FeaturedEntity> searchCommodityPageList(String keyword, Long pageNumber, long pageSize) {
-        Page<FeaturedEntity> page = new Page<>(pageNumber,pageSize);
-        IPage<FeaturedEntity > result = searchMapper.selectCommodity(page, keyword);
-        PageVo<FeaturedEntity > pageVo = new PageVo<>();
+    public PageVo<FeaturedEntity> searchCommodityPageList(String keyword, Long pageNumber, long pageSize, Integer sort) {
+        Page<FeaturedEntity> page = new Page<>(pageNumber, pageSize);
+        IPage<FeaturedEntity> result = searchMapper.selectCommodity(page, keyword,sort);
+        PageVo<FeaturedEntity> pageVo = new PageVo<>();
         pageVo.setPages(result.getPages());
         pageVo.setTotal(result.getTotal());
         pageVo.setList(result.getRecords());

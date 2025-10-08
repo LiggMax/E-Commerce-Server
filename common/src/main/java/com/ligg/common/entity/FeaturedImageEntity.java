@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/30
+ **/
 package com.ligg.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -7,10 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @Author Ligg
- * @Time 2025/9/30
- **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -5,9 +5,7 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ligg.common.entity.FeaturedEntity;
-import com.ligg.common.vo.search.SearchVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,9 +14,13 @@ public interface SearchMapper {
 
     /**
      * 分页搜索商品
-     * @param page 分页参数
+     *
+     * @param page    分页参数
      * @param keyword 关键字
+     * @param sort
      * @return 商品列表
      */
-    IPage<FeaturedEntity> selectCommodity(@Param("page") IPage<FeaturedEntity > page, @Param("keyword") String keyword);
+    IPage<FeaturedEntity> selectCommodity(@Param("page") IPage<FeaturedEntity > page,
+                                          @Param("keyword") String keyword,
+                                          @Param("sort") Integer sort);
 }
