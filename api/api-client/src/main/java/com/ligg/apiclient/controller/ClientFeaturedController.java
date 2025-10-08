@@ -73,27 +73,28 @@ public class ClientFeaturedController {
             return Response.error(BusinessStates.NOT_FOUND);
         }
         FeaturedDetailEntity featuredDetailEntity = featuredService.getFeaturedDetailById(productId);
-        FeaturedDetailVo featuredDetail = new FeaturedDetailVo();
-        BeanUtils.copyProperties(featured, featuredDetail);
+
+        FeaturedDetailVo featuredDetailVo = new FeaturedDetailVo();
+        BeanUtils.copyProperties(featured, featuredDetailVo);
         //临时校验
         if (featuredDetailEntity != null) {
-            featuredDetail.setDescription(featuredDetailEntity.getDescription());
+            featuredDetailVo.setDescription(featuredDetailEntity.getDescription());
         }
-        featuredDetail.setImages(ImageUtil.getImagePath(featured.getImagePath()));
-        featuredDetail.setDiscount(DiscountUtil.calculateDiscountPercentage(
+        featuredDetailVo.setImages(ImageUtil.getImagePath(featured.getImagePath()));
+        featuredDetailVo.setDiscount(DiscountUtil.calculateDiscountPercentage(
                 featured.getOriginalPrice(),
                 featured.getCurrentPrice()
         ).doubleValue());
 
         List<FeaturedImageEntity> imagesList = featuredImageService.getImagesByFeaturedId(productId);
-        List<FeaturedImageVo> iamgeVoList = imagesList.stream().map(image -> {
+        List<FeaturedImageVo> iamgeVoList = imagesList.stream().map(images -> {
             FeaturedImageVo featuredImageVo = new FeaturedImageVo();
-            BeanUtils.copyProperties(image, featuredImageVo);
-            featuredImageVo.setUrl(image.getImagePath());
+            BeanUtils.copyProperties(images, featuredImageVo);
+            featuredImageVo.setUrl(images.getImagePath());
             return featuredImageVo;
         }).toList();
-        featuredDetail.setDetailImages(iamgeVoList);
-        return Response.success(BusinessStates.SUCCESS, featuredDetail);
+        featuredDetailVo.setDetailImages(iamgeVoList);
+        return Response.success(BusinessStates.SUCCESS, featuredDetailVo);
     }
 }
 

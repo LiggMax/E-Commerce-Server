@@ -36,7 +36,8 @@ public class AccountController {
     /**
      * 注册账户
      */
-    @PostMapping("/register")
+    //暂时不提供该接口
+    //@PostMapping("/register")
     public Response<String> register(@Schema(description = "账号") @NotNull String account,
                                      @Schema(description = "密码") @NotNull String password) {
         if (account.length() < 6 || account.length() > 30 || password.length() < 6 || password.length() > 30) {
