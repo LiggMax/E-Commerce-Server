@@ -1,5 +1,6 @@
 package com.ligg.common.utils;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,10 +15,17 @@ import java.util.concurrent.TimeUnit;
  * @Author Ligg
  * @Time 2025/9/22
  */
+@Getter
 @Component
 @Slf4j
 public class RedisUtil {
 
+    /**
+     * -- GETTER --
+     *  获取RedisTemplate实例
+     *
+     * @return RedisTemplate实例
+     */
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -569,11 +577,4 @@ public class RedisUtil {
         }
     }
 
-    /**
-     * 获取RedisTemplate实例
-     * @return RedisTemplate实例
-     */
-    public RedisTemplate<String, Object> getRedisTemplate() {
-        return redisTemplate;
-    }
 }

@@ -50,4 +50,9 @@ public class Constant {
      * 轮播图保持路径
      */
     public static final String CAROUSEL_FILE_PATH = "/Carousel";
+
+    /**
+     * 图片前缀
+     */
+    public static final String IMAGE_RELATIVE_PATH = "/api/image";
 }

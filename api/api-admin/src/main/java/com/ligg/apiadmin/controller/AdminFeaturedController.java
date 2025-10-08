@@ -49,9 +49,6 @@ public class AdminFeaturedController {
     private String IMAGE_PATH;
 
     @Autowired
-    private ImageUtil imageUtil;
-
-    @Autowired
     private FileService fileService;
 
     @Autowired
@@ -110,7 +107,6 @@ public class AdminFeaturedController {
         BeanUtils.copyProperties(featured, featuredEntity);
         featuredEntity.setUpdateAt(LocalDateTime.now());
         featuredService.updateById(featuredEntity);
-        //featuredService.updateFeaturedById(featuredEntity);
         return Response.success(BusinessStates.SUCCESS);
     }
 
@@ -127,7 +123,7 @@ public class AdminFeaturedController {
         pageVo.setList(featuredList.getList().stream().map(featured -> {
             FeaturedDetailVo featuredVo = new FeaturedDetailVo();
             BeanUtils.copyProperties(featured, featuredVo);
-            featuredVo.setImages(imageUtil.getImagePath(featured.getImagePath()));
+            featuredVo.setImages(ImageUtil.getImagePath(featured.getImagePath()));
             return featuredVo;
         }).collect(Collectors.toList()));
         return Response.success(BusinessStates.SUCCESS, pageVo);
@@ -157,7 +153,8 @@ public class AdminFeaturedController {
      */
     @Operation(summary = "上传详情页图片(可多张)")
     @PostMapping("/image")
-    public Response<String> uploadImages(@NotNull String featuredId, @NotNull MultipartFile imageFile) {
+    public Response<String> uploadImages(@Schema(description = "精选商品id") @NotNull String featuredId,
+                                         @Schema(description = "图片文件") @NotNull MultipartFile imageFile) {
         if (imageFile == null || imageFile.isEmpty() || imageFile.getSize() > Constant.FILE_SIZE) {
             return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
         }

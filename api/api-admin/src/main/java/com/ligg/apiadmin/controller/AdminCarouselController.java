@@ -48,9 +48,6 @@ public class AdminCarouselController {
     @Autowired
     private FileService fileService;
 
-    @Autowired
-    private ImageUtil imageUtil;
-
     /**
      * 获取轮播图数据
      */
@@ -67,7 +64,7 @@ public class AdminCarouselController {
         List<CarouselVo> carouselList = carouselPage.getList().stream().map(entity -> {
             CarouselVo carouselVo = new CarouselVo();
             BeanUtils.copyProperties(entity, carouselVo);
-            carouselVo.setImages(imageUtil.getImagePath(entity.getImagePath()));
+            carouselVo.setImages(ImageUtil.getImagePath(entity.getImagePath()));
             carouselVo.setStatus(entity.getStatus().isEnabled());
             return carouselVo;
         }).toList();

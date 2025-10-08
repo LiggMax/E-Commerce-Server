@@ -42,9 +42,6 @@ public class ClientFeaturedController {
     @Autowired
     private FeaturedImageService featuredImageService;
 
-    @Autowired
-    private ImageUtil imageUtil;
-
     /**
      * 获取精选商品列表
      */
@@ -55,7 +52,7 @@ public class ClientFeaturedController {
         List<FeaturedVo> featuredVoList = featuredList.stream().map(featured -> {
             FeaturedVo featuredVo = new FeaturedVo();
             BeanUtils.copyProperties(featured, featuredVo);
-            ImagesVo imagePath = imageUtil.getImagePath(featured.getImagePath());
+            ImagesVo imagePath = ImageUtil.getImagePath(featured.getImagePath());
             featuredVo.setImages(imagePath);
             featuredVo.setDiscount(DiscountUtil.calculateDiscountPercentage(
                     featured.getOriginalPrice(),
@@ -82,7 +79,7 @@ public class ClientFeaturedController {
         if (featuredDetailEntity != null) {
             featuredDetail.setDescription(featuredDetailEntity.getDescription());
         }
-        featuredDetail.setImages(imageUtil.getImagePath(featured.getImagePath()));
+        featuredDetail.setImages(ImageUtil.getImagePath(featured.getImagePath()));
         featuredDetail.setDiscount(DiscountUtil.calculateDiscountPercentage(
                 featured.getOriginalPrice(),
                 featured.getCurrentPrice()

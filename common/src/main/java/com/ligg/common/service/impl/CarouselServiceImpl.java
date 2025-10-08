@@ -13,7 +13,6 @@ import com.ligg.common.vo.ImagesVo;
 import com.ligg.common.vo.PageVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,14 +24,8 @@ import java.util.List;
 @Service
 public class CarouselServiceImpl extends ServiceImpl<CarouselMapper, CarouselEntity> implements CarouselService {
 
-    @Value("${api.base-url}")
-    private String BASEURL;
-
     @Autowired
     private CarouselMapper carouselMapper;
-
-    @Autowired
-    private ImageUtil imageUtil;
 
     /**
      * 获取轮播图列表
@@ -48,7 +41,7 @@ public class CarouselServiceImpl extends ServiceImpl<CarouselMapper, CarouselEnt
         return entityList.stream().map(entity -> {
             CarouselVo carouselVo = new CarouselVo();
             BeanUtils.copyProperties(entity, carouselVo);
-            ImagesVo imagePath = imageUtil.getImagePath(entity.getImagePath());
+            ImagesVo imagePath = ImageUtil.getImagePath(entity.getImagePath());
             carouselVo.setImages(imagePath);
             return carouselVo;
         }).toList();

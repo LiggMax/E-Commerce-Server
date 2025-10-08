@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/23
+ **/
 package com.ligg.common.service.impl;
 
 import com.ligg.common.Imagenum.ImageType;
@@ -18,7 +22,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-
 @Slf4j
 @Service
 public class FileServiceImpl implements FileService {
@@ -26,10 +29,6 @@ public class FileServiceImpl implements FileService {
     // 图片存储根路径
     @Value("${file.image.base-path}")
     private String IMAGE_PATH;
-    // 图片访问的相对路径前缀
-    @Value("${file.image.relative-path}")
-    private String IMAGE_RELATIVE_PATH;
-
 
     @Override
     public String uploadImage(MultipartFile imageFile, String path) {
@@ -65,7 +64,7 @@ public class FileServiceImpl implements FileService {
             // 保存文件
             imageFile.transferTo(filePath);
 
-            return IMAGE_RELATIVE_PATH + typePath + '/' + datePath + '/' + uniqueFileName;
+            return Constant.IMAGE_RELATIVE_PATH + typePath + '/' + datePath + '/' + uniqueFileName;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
