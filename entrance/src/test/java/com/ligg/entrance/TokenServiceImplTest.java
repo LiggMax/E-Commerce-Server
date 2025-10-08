@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,9 +27,6 @@ import static org.mockito.Mockito.*;
 @Slf4j
 @SpringBootTest
 public class TokenServiceImplTest {
-
-    @Mock
-    private JWTUtil jwtUtil;
 
     @Mock
     private RedisUtil redisUtil;
@@ -60,18 +58,20 @@ public class TokenServiceImplTest {
 
         String expectedToken = "generatedToken123";
 
-        // 设置mock行为
-        when(jwtUtil.createToken(userInfo,EXPIRE)).thenReturn(expectedToken);
-        log.debug("设置JWTUtil mock行为，当调用createToken时返回: {}", expectedToken);
+        try (MockedStatic<JWTUtil> mockedJWTUtil = mockStatic(JWTUtil.class)) {
+            // 设置mock行为
+            mockedJWTUtil.when(() -> JWTUtil.createToken(userInfo, EXPIRE)).thenReturn(expectedToken);
+            log.debug("设置JWTUtil mock行为，当调用createToken时返回: {}", expectedToken);
 
-        // 执行测试
-        String actualToken = tokenService.generateToken(userEntity);
-        log.info("generateToken方法执行完成，返回token: {}", actualToken);
+            // 执行测试
+            String actualToken = tokenService.generateToken(userEntity);
+            log.info("generateToken方法执行完成，返回token: {}", actualToken);
 
-        // 验证结果
-        assertEquals(expectedToken, actualToken);
-        verify(jwtUtil, times(1)).createToken(userInfo,EXPIRE);
-        log.info("generateToken测试验证通过");
+            // 验证结果
+            assertEquals(expectedToken, actualToken);
+            mockedJWTUtil.verify(() -> JWTUtil.createToken(userInfo, EXPIRE), times(1));
+            log.info("generateToken测试验证通过");
+        }
     }
 
     @Test

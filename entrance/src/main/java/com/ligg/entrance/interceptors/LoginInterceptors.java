@@ -30,9 +30,6 @@ public class LoginInterceptors implements HandlerInterceptor {
     @Autowired
     private RedisUtil redisUtil;
 
-    @Autowired
-    private JWTUtil jwtUtil;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String Token = request.getHeader(Constant.AUTHORIZATION);
@@ -41,7 +38,7 @@ public class LoginInterceptors implements HandlerInterceptor {
             if (Token == null) {
                 throw new RuntimeException("缺少授权标头");
             }
-            Map<String, Object> claims = jwtUtil.parseToken(Token);
+            Map<String, Object> claims = JWTUtil.parseToken(Token);
             String userId = (String) claims.get(Constant.USER_ID);
             //从Redis中获取用户信息
             String redisUserToken = (String) redisUtil.get(Constant.TOKEN + ":" + userId);

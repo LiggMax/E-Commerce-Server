@@ -17,9 +17,6 @@ import static com.ligg.common.constants.Constant.EXPIRE;
 public class TokenServiceImpl implements TokenService {
 
     @Autowired
-    private JWTUtil jwtUtil;
-
-    @Autowired
     private RedisUtil redisUtil;
 
     /**
@@ -33,7 +30,7 @@ public class TokenServiceImpl implements TokenService {
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put(Constant.USER_ID, userEntity.getUserId());
         userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
-        return jwtUtil.createToken(userInfo, EXPIRE);
+        return JWTUtil.createToken(userInfo, EXPIRE);
     }
 
     /**

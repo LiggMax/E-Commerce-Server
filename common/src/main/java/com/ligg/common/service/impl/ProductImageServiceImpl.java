@@ -27,7 +27,9 @@ public class ProductImageServiceImpl extends ServiceImpl<FeaturedImageMapper, Fe
         List<FeaturedImageEntity> featuredImageEntities = featuredImageMapper.selectList(new LambdaQueryWrapper<FeaturedImageEntity>()
                 .eq(FeaturedImageEntity::getFeaturedId, featuredId));
         if (featuredImageEntities != null && !featuredImageEntities.isEmpty()) {
-            return featuredImageEntities.stream().map(entity -> new FeaturedImageVo(entity.getId(), entity.getFeaturedId(), entity.getSort(), entity.getImagePath())).toList();
+            return featuredImageEntities.stream().map(
+                            entity -> new FeaturedImageVo(entity.getId(), entity.getFeaturedId(), entity.getSort(), entity.getImagePath()))
+                    .toList();
         }
         return List.of();
     }
