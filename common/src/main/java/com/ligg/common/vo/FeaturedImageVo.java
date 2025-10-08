@@ -22,5 +22,5 @@ public class FeaturedImageVo {
     /**
      * 图片路径
      */
-    private String imagePath;
+    private String url;
 }

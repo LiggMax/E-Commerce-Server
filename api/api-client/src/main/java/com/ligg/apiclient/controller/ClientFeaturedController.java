@@ -6,6 +6,7 @@ package com.ligg.apiclient.controller;
 
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
+import com.ligg.common.entity.FeaturedImageEntity;
 import com.ligg.common.service.FeaturedImageService;
 import com.ligg.common.service.FeaturedService;
 import com.ligg.common.enums.BusinessStates;
@@ -13,6 +14,7 @@ import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.vo.FeaturedDetailVo;
+import com.ligg.common.vo.FeaturedImageVo;
 import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.ImagesVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,19 +75,27 @@ public class ClientFeaturedController {
         if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);
         }
-        FeaturedDetailEntity ProductDetail = featuredService.getProductDetailById(productId);
+        FeaturedDetailEntity featuredDetailEntity = featuredService.getFeaturedDetailById(productId);
         FeaturedDetailVo featuredDetail = new FeaturedDetailVo();
         BeanUtils.copyProperties(featured, featuredDetail);
         //临时校验
-        if (ProductDetail != null) {
-            featuredDetail.setDescription(ProductDetail.getDescription());
+        if (featuredDetailEntity != null) {
+            featuredDetail.setDescription(featuredDetailEntity.getDescription());
         }
         featuredDetail.setImages(imageUtil.getImagePath(featured.getImagePath()));
         featuredDetail.setDiscount(DiscountUtil.calculateDiscountPercentage(
                 featured.getOriginalPrice(),
                 featured.getCurrentPrice()
         ).doubleValue());
-        featuredDetail.setDetailImages( featuredImageService.getImagesByFeaturedId(productId));
+
+        List<FeaturedImageEntity> imagesList = featuredImageService.getImagesByFeaturedId(productId);
+        List<FeaturedImageVo> iamgeVoList = imagesList.stream().map(image -> {
+            FeaturedImageVo featuredImageVo = new FeaturedImageVo();
+            BeanUtils.copyProperties(image, featuredImageVo);
+            featuredImageVo.setUrl(image.getImagePath());
+            return featuredImageVo;
+        }).toList();
+        featuredDetail.setDetailImages(iamgeVoList);
         return Response.success(BusinessStates.SUCCESS, featuredDetail);
     }
 }

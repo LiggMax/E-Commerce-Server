@@ -19,5 +19,5 @@ public interface FeaturedImageMapper extends BaseMapper<FeaturedImageEntity> {
      * 根据商品id获取图片列表
      */
     @Select("select id,sort,image_path from featured_image where featured_id = #{featuredId}")
-    List<FeaturedImageVo> selectImageListById(String featuredId);
+    List<FeaturedImageEntity> selectImageListById(String featuredId);
 }

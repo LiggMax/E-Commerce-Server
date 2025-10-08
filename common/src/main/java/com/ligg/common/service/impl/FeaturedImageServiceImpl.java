@@ -39,7 +39,7 @@ public class FeaturedImageServiceImpl extends ServiceImpl<FeaturedImageMapper, F
      * @return 图片列表
      */
     @Override
-    public List<FeaturedImageVo> getImagesByFeaturedId(String featuredId) {
+    public List<FeaturedImageEntity> getImagesByFeaturedId(String featuredId) {
         return featuredImageMapper.selectImageListById(featuredId);
     }
 }
