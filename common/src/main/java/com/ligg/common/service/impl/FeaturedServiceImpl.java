@@ -46,6 +46,13 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
         return pageVo;
     }
 
+    /**
+     * 获取精选商品详情分页列表
+     * 自定义搜索条件
+     * @param pageNumber 页码
+     * @param pageSize   每页数量
+     * @return 精选商品详情分页列表
+     */
     @Override
     public PageVo<FeaturedSearchVo> getProductDetailPagelist(Long pageNumber, Long pageSize) {
         //创建分页对象
