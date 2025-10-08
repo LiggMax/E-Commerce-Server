@@ -2,7 +2,6 @@ package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ligg.common.entity.FeaturedImageEntity;
-import com.ligg.common.vo.FeaturedImageVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
