@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("product_image")
-public class ProductImageEntity {
+@TableName("featured_image")
+public class FeaturedImageEntity {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
      * 商品id
      */
-    private String productId;
+    private String featuredId;
 
     /**
      * 排序值

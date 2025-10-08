@@ -1,3 +1,9 @@
+/**
+ * @Author Ligg
+ * @Time 2025/9/22
+ * <p>
+ * 统一响应结果类
+ **/
 package com.ligg.common.utils;
 
 import com.ligg.common.enums.BusinessStates;
@@ -6,12 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @Author Ligg
- * @Time 2025/9/22
- * <p>
- * 统一响应结果类
- **/
 
 @Data
 @AllArgsConstructor

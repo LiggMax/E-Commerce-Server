@@ -8,4 +8,6 @@ import com.ligg.common.entity.FeaturedDetailEntity;
  * @Time 2025/9/30
  **/
 public interface FeaturedDetailService extends IService<FeaturedDetailEntity> {
+
+
 }

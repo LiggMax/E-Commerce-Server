@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Map;
@@ -16,7 +15,6 @@ import static com.ligg.common.constants.Constant.TOKEN_KEY;
  * @Time 2025/9/22
  **/
 
-@Component
 public class JWTUtil {
 
 
@@ -25,7 +23,7 @@ public class JWTUtil {
      *
      * @return token
      */
-    public String createToken(Map<String, Object> claims,Long expire) {
+    public static String createToken(Map<String, Object> claims,Long expire) {
         return JWT.create()
                 .withClaim("claims", claims)
                 .withExpiresAt(new Date(System.currentTimeMillis() + expire * 1000))
@@ -37,7 +35,7 @@ public class JWTUtil {
      *
      * @return token解析获取到的数据
      */
-    public Map<String, Object> parseToken(String token) {
+    public static Map<String, Object> parseToken(String token) {
         try {
             return JWT.require(Algorithm.HMAC256(TOKEN_KEY))
                     .build()

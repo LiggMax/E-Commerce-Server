@@ -12,4 +12,6 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class FeaturedDetailServiceImpl extends ServiceImpl<FeaturedDetailMapper, FeaturedDetailEntity> implements FeaturedDetailService {
+
+
 }
