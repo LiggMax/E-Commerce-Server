@@ -116,7 +116,7 @@ public class AdminFeaturedController {
     @Operation(summary = "获取精选商品列表")
     @GetMapping
     public Response<PageVo<FeaturedDetailVo>> getFeatured(@Schema(description = "页码") Long pageNumber, @Schema(description = "每页数量") Long pageSize) {
-        PageVo<FeaturedSearchVo> featuredList = featuredService.Pagelist(pageNumber, pageSize);
+        PageVo<FeaturedSearchVo> featuredList = featuredService.getProductDetailPagelist(pageNumber, pageSize);
         PageVo<FeaturedDetailVo> pageVo = new PageVo<>();
         pageVo.setPages(featuredList.getPages());
         pageVo.setTotal(featuredList.getTotal());

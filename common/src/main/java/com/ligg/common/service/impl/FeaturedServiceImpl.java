@@ -27,8 +27,27 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
         featuredMapper.insert(featuredEntity);
     }
 
+    /**
+     * 获取精选商品分页列表
+     *
+     * @param pageNumber 页码
+     * @param pageSize   每页数量
+     * @return 精选商品分页列表
+     */
     @Override
-    public PageVo<FeaturedSearchVo> Pagelist(Long pageNumber, Long pageSize) {
+    public PageVo<FeaturedEntity> getFeaturedPageList(Long pageNumber, Long pageSize) {
+        Page<FeaturedEntity> page = new Page<>(pageNumber, pageSize);
+        featuredMapper.selectPage(page, null);
+
+        PageVo<FeaturedEntity> pageVo = new PageVo<>();
+        pageVo.setPages(page.getPages());
+        pageVo.setTotal(page.getTotal());
+        pageVo.setList(page.getRecords());
+        return pageVo;
+    }
+
+    @Override
+    public PageVo<FeaturedSearchVo> getProductDetailPagelist(Long pageNumber, Long pageSize) {
         //创建分页对象
         Page<FeaturedSearchVo> page = new Page<>(pageNumber, pageSize);
 
@@ -57,6 +76,7 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
     public void updateImagePathById(String id, String imagePath) {
 
     }
+
 
     /**
      * 根据商品id查询商品图片列表

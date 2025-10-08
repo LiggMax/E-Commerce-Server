@@ -3,6 +3,7 @@ package com.ligg.common.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.entity.FeaturedEntity;
 import com.ligg.common.entity.FeaturedDetailEntity;
+import com.ligg.common.vo.FeaturedVo;
 import com.ligg.common.vo.PageVo;
 import com.ligg.common.vo.search.FeaturedSearchVo;
 
@@ -22,7 +23,7 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * 获取分页精选商品列表
      * @return 精选商品列表
      */
-    PageVo<FeaturedSearchVo> Pagelist(Long pageNumber, Long pageSize);
+    PageVo<FeaturedSearchVo> getProductDetailPagelist(Long pageNumber, Long pageSize);
 
     /**
      * 根据id获取精选商品详情
@@ -36,6 +37,14 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * 根据id更新精选商品图片路径
      */
     void updateImagePathById(String id, String imagePath);
+
+    /**
+     * 获取精选商品分页列表
+     * @param pageNumber 页码
+     * @param pageSize 每页数量
+     * @return 精选商品分页列表
+     */
+    PageVo<FeaturedEntity> getFeaturedPageList(Long pageNumber, Long pageSize);
 
     /**
      * 根据商品id查询商品图片列表
