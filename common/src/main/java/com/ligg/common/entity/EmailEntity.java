@@ -36,6 +36,4 @@ public class EmailEntity {
      * 更新时间
      */
     private LocalDateTime updateAt;
-
-
 }

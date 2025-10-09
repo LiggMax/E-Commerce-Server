@@ -15,12 +15,11 @@
         left join featured_detail fd on f.id = fd.featured_id
         where f.title like concat('%', #{keyword}, '%')
         or fd.description like concat('%', #{keyword}, '%')
-
         <if test="sort == 2">
-            order by f.current_price desc
+            order by f.current_price
         </if>
         <if test="sort == 3">
-            order by f.current_price asc
+            order by f.current_price desc
         </if>
     </select>
 </mapper>

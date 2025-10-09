@@ -8,7 +8,6 @@ import com.ligg.common.entity.EmailEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.EmailService;
 import com.ligg.common.utils.Response;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +42,7 @@ public class EmailController {
         EmailEntity entity = new EmailEntity();
         entity.setEmail(email);
         entity.setCreatedAt(LocalDateTime.now());
+        entity.setUpdateAt(LocalDateTime.now());
         emailService.save(entity);
         return Response.success(BusinessStates.SUCCESS);
     }
