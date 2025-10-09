@@ -4,15 +4,10 @@
  **/
 package com.ligg.common.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -27,14 +22,28 @@ public class SpecDto {
     private String productId;
 
     /**
-     * 规格名称
+     * 规格
      */
-    @NotNull
-    private String name;
+    private List<Specs> specs;
 
-    /**
-     * 排序
-     */
-    @NotNull
-    private Integer sort;
+    @Getter
+    @Setter
+    public static class Specs {
+        /**
+         * 规格名称
+         */
+        @NotNull
+        private String name;
+
+        /**
+         * 排序
+         */
+        @NotNull
+        private Integer sort;
+
+        /**
+         * 规格内容
+         */
+        private List<SpecValueDto> specValues;
+    }
 }

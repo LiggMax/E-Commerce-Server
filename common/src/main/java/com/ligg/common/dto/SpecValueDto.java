@@ -17,10 +17,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SpecValueDto {
 
-    /**
-     * 规格id
-     */
-    private Integer specId;
 
     /**
      * 值(规则内容)

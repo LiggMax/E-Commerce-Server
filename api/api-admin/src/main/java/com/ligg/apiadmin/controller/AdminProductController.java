@@ -5,7 +5,7 @@
 package com.ligg.apiadmin.controller;
 
 import com.ligg.common.constants.Constant;
-import com.ligg.common.dto.FeaturedDto;
+import com.ligg.common.dto.ProductDto;
 import com.ligg.common.entity.ProductDetailEntity;
 import com.ligg.common.entity.ProductEntity;
 import com.ligg.common.entity.ProductImageEntity;
@@ -66,7 +66,7 @@ public class AdminProductController {
      */
     @PostMapping
     @Operation(summary = "上传精选产品数据")
-    public Response<String> uploadFeatured(@Validated FeaturedDto featured, @Schema(description = "图片文件") @NotNull(message = "图片文件不能为空") MultipartFile imageFile) {
+    public Response<String> uploadFeatured(@Validated ProductDto featured, @Schema(description = "图片文件") @NotNull(message = "图片文件不能为空") MultipartFile imageFile) {
         String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
         ProductEntity featuredEntity = new ProductEntity();
         BeanUtils.copyProperties(featured, featuredEntity);
@@ -89,7 +89,7 @@ public class AdminProductController {
      */
     @PutMapping
     @Operation(summary = "编辑商品数据")
-    public Response<String> updateFeatured(FeaturedDto featured, @Schema(description = "图片文件") MultipartFile imageFile) {
+    public Response<String> updateFeatured(ProductDto featured, @Schema(description = "图片文件") MultipartFile imageFile) {
         ProductEntity featuredEntity = new ProductEntity();
         if (imageFile != null && !imageFile.isEmpty()) {
             if (imageFile.getSize() > 1024 * 1024 * 2) {

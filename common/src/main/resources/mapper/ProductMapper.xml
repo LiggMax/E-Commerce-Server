@@ -16,6 +16,6 @@
                pd.description
         from product p
                  left join product_detail pd on p.id = pd.product_id
-        order by f.rating
+        order by p.rating
     </select>
 </mapper>

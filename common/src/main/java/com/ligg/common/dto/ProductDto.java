@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class FeaturedDto {
+public class ProductDto {
 
     @Schema(description = "商品id")
     private String id;
