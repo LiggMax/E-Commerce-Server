@@ -23,18 +23,21 @@ public class FeaturedImageServiceImpl extends ServiceImpl<FeaturedImageMapper, F
     private FeaturedImageMapper featuredImageMapper;
 
 
+    /**
+     * 获取图片列表
+     *
+     * @param featuredId 商品id
+     * @return List<FeaturedImageVo>
+     */
     @Override
-    public List<FeaturedImageVo> getList(String featuredId) {
-        List<FeaturedImageEntity> featuredImageEntities = featuredImageMapper.selectList(new LambdaQueryWrapper<FeaturedImageEntity>()
+    public List<FeaturedImageEntity> getList(String featuredId) {
+        return featuredImageMapper.selectList(new LambdaQueryWrapper<FeaturedImageEntity>()
                 .eq(FeaturedImageEntity::getFeaturedId, featuredId));
-        if (featuredImageEntities != null && !featuredImageEntities.isEmpty()) {
-            return List.of();
-        }
-        return List.of();
     }
 
     /**
      * 根据商品id获取图片列表
+     *
      * @param featuredId 商品id
      * @return 图片列表
      */

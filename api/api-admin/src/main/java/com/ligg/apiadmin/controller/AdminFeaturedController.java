@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 /**
  * 精选商品接口
  */
+@Validated
 @Tag(name = "精选商品接口")
 @RestController
 @RequestMapping("/api/admin/featured")
@@ -158,12 +159,16 @@ public class AdminFeaturedController {
         if (imageFile == null || imageFile.isEmpty() || imageFile.getSize() > Constant.FILE_SIZE) {
             return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
         }
+        List<FeaturedImageEntity> imageList = featuredImageService.getList(featuredId);
+        if (imageList.size() >= 6) {
+            return Response.error(BusinessStates.BAD_REQUEST, "图片文件超出");
+        }
         String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
         if (StringUtils.hasText(imagePath)) {
             FeaturedImageEntity featuredImage = new FeaturedImageEntity();
             featuredImage.setFeaturedId(featuredId);
             featuredImage.setImagePath(imagePath);
-            //TODO 临时添加
+            // 临时添加
             featuredImage.setSort(0);
             return featuredImageService.save(featuredImage)
                     ? Response.success(BusinessStates.SUCCESS, "上传成功")
@@ -178,7 +183,13 @@ public class AdminFeaturedController {
     @Operation(summary = "获取上传的图片")
     @GetMapping("/image")
     public Response<List<FeaturedImageVo>> getImages(@Schema(description = "精选商品id") @NotNull String featuredId) {
-        List<FeaturedImageVo> featuredImageList = featuredImageService.getList(featuredId);
-        return Response.success(BusinessStates.SUCCESS, featuredImageList);
+        List<FeaturedImageEntity> featuredImageList = featuredImageService.getList(featuredId);
+        return Response.success(BusinessStates.SUCCESS, featuredImageList.stream().map(featuredImage -> {
+            FeaturedImageVo imageVo = new FeaturedImageVo();
+            imageVo.setId(featuredImage.getId());
+            imageVo.setSort(featuredImage.getSort());
+            imageVo.setUrl(featuredImage.getImagePath());
+            return imageVo;
+        }).toList());
     }
 }

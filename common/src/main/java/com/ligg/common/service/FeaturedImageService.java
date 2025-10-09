@@ -18,7 +18,7 @@ public interface FeaturedImageService extends IService<FeaturedImageEntity> {
      * @param featuredId 商品id
      * @return List<FeaturedImageVo>
      */
-    List<FeaturedImageVo> getList(@NotNull String featuredId);
+    List<FeaturedImageEntity> getList(@NotNull String featuredId);
 
     /**
      * 根据商品id获取图片列表
