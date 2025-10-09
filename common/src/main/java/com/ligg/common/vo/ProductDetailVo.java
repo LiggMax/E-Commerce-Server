@@ -15,9 +15,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeaturedDetailVo extends FeaturedVo{
+public class ProductDetailVo extends FeaturedVo{
     private String description;
-    private List<FeaturedImageVo> detailImages;
+    private List<ProductImageVo> detailImages;
+    private List<SpecVo> specs;
 //    private List<Images> images;
 
 //    @Getter

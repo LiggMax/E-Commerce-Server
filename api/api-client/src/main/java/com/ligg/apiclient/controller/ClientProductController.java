@@ -10,6 +10,7 @@ import com.ligg.common.entity.ProductImageEntity;
 import com.ligg.common.service.ProductImageService;
 import com.ligg.common.service.ProductService;
 import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.service.SpecService;
 import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
@@ -32,7 +33,7 @@ import java.util.List;
 @Tag(name = "客户端精选商品接口")
 @RestController
 @RequestMapping("/api/client/featured")
-public class ClientFeaturedController {
+public class ClientProductController {
 
     @Autowired
     private ProductService featuredService;
@@ -40,6 +41,8 @@ public class ClientFeaturedController {
     @Autowired
     private ProductImageService featuredImageService;
 
+    @Autowired
+    private SpecService specService;
     /**
      * 获取精选商品分页列表
      */
@@ -70,14 +73,15 @@ public class ClientFeaturedController {
      */
     @Operation(summary = "获取精选商品详情")
     @GetMapping("/detail")
-    public Response<FeaturedDetailVo> getFeaturedDetail(@Schema(description = "商品id") String productId) {
+    public Response<ProductDetailVo> getFeaturedDetail(@Schema(description = "商品id") String productId) {
         ProductEntity featured = featuredService.getById(productId);
         if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);
         }
-        ProductDetailEntity featuredDetailEntity = featuredService.getFeaturedDetailById(productId);
 
-        FeaturedDetailVo featuredDetailVo = new FeaturedDetailVo();
+        //获取基本详情信息
+        ProductDetailEntity featuredDetailEntity = featuredService.getFeaturedDetailById(productId);
+        ProductDetailVo featuredDetailVo = new ProductDetailVo();
         BeanUtils.copyProperties(featured, featuredDetailVo);
         //临时校验
         if (featuredDetailEntity != null) {
@@ -89,14 +93,19 @@ public class ClientFeaturedController {
                 featured.getCurrentPrice()
         ).doubleValue());
 
+        //获取详情图片
         List<ProductImageEntity> imagesList = featuredImageService.getImagesByFeaturedId(productId);
-        List<FeaturedImageVo> iamgeVoList = imagesList.stream().map(images -> {
-            FeaturedImageVo featuredImageVo = new FeaturedImageVo();
+        List<ProductImageVo> iamgeVoList = imagesList.stream().map(images -> {
+            ProductImageVo featuredImageVo = new ProductImageVo();
             BeanUtils.copyProperties(images, featuredImageVo);
             featuredImageVo.setUrl(images.getImagePath());
             return featuredImageVo;
         }).toList();
         featuredDetailVo.setDetailImages(iamgeVoList);
+
+        //获取规格信息
+        List<SpecVo> specVoList = specService.getSpecDetailByProductId(productId);
+        featuredDetailVo.setSpecs(specVoList);
         return Response.success(BusinessStates.SUCCESS, featuredDetailVo);
     }
 }

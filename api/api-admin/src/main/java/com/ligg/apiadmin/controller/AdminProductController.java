@@ -16,8 +16,8 @@ import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.ProductImageService;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
-import com.ligg.common.vo.FeaturedDetailVo;
-import com.ligg.common.vo.FeaturedImageVo;
+import com.ligg.common.vo.ProductDetailVo;
+import com.ligg.common.vo.ProductImageVo;
 import com.ligg.common.vo.PageVo;
 import com.ligg.common.vo.search.FeaturedSearchVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -116,13 +116,13 @@ public class AdminProductController {
      */
     @Operation(summary = "获取商品列表")
     @GetMapping
-    public Response<PageVo<FeaturedDetailVo>> getFeatured(@Schema(description = "页码") Long pageNumber, @Schema(description = "每页数量") Long pageSize) {
+    public Response<PageVo<ProductDetailVo>> getFeatured(@Schema(description = "页码") Long pageNumber, @Schema(description = "每页数量") Long pageSize) {
         PageVo<FeaturedSearchVo> featuredList = productService.getProductDetailPagelist(pageNumber, pageSize);
-        PageVo<FeaturedDetailVo> pageVo = new PageVo<>();
+        PageVo<ProductDetailVo> pageVo = new PageVo<>();
         pageVo.setPages(featuredList.getPages());
         pageVo.setTotal(featuredList.getTotal());
         pageVo.setList(featuredList.getList().stream().map(featured -> {
-            FeaturedDetailVo featuredVo = new FeaturedDetailVo();
+            ProductDetailVo featuredVo = new ProductDetailVo();
             BeanUtils.copyProperties(featured, featuredVo);
             featuredVo.setImages(ImageUtil.getImagePath(featured.getImagePath()));
             return featuredVo;
@@ -182,10 +182,10 @@ public class AdminProductController {
      */
     @Operation(summary = "获取上传的图片")
     @GetMapping("/image")
-    public Response<List<FeaturedImageVo>> getImages(@Schema(description = "精选商品id") @NotNull String featuredId) {
+    public Response<List<ProductImageVo>> getImages(@Schema(description = "精选商品id") @NotNull String featuredId) {
         List<ProductImageEntity> featuredImageList = productImageService.getList(featuredId);
         return Response.success(BusinessStates.SUCCESS, featuredImageList.stream().map(featuredImage -> {
-            FeaturedImageVo imageVo = new FeaturedImageVo();
+            ProductImageVo imageVo = new ProductImageVo();
             imageVo.setId(featuredImage.getId());
             imageVo.setSort(featuredImage.getSort());
             imageVo.setUrl(featuredImage.getImagePath());
