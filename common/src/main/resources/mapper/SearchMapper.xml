@@ -4,22 +4,23 @@
 
     <!-- 查询商品列表 -->
     <select id="selectCommodity" resultType="com.ligg.common.entity.ProductEntity">
-        select f.id,
-        f.title,
-        f.image_path,
-        f.original_price,
-        f.current_price,
-        f.reviews,
-        f.rating
-        from featured f
-        left join product_detail fd on f.id = fd.product_id
-        where f.title like concat('%', #{keyword}, '%')
-        or fd.description like concat('%', #{keyword}, '%')
+        select
+        p.id,
+        p.title,
+        p.image_path,
+        p.original_price,
+        p.current_price,
+        p.reviews,
+        p.rating
+        from product p
+        left join product_detail pd on p.id = pd.product_id
+        where p.title like concat('%', #{keyword}, '%')
+        or pd.description like concat('%', #{keyword}, '%')
         <if test="sort == 2">
-            order by f.current_price
+            order by p.current_price
         </if>
         <if test="sort == 3">
-            order by f.current_price desc
+            order by p.current_price desc
         </if>
     </select>
 </mapper>

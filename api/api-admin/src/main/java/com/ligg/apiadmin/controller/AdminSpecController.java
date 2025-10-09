@@ -79,27 +79,4 @@ public class AdminSpecController {
 
         return Response.success(BusinessStates.SUCCESS);
     }
-
-    /**
-     * 新增规格内容
-     */
-//    @PostMapping("/content")
-//    public Response<String> addSpecContent(@Validated @RequestBody SpecValueDto specValue) {
-//        if(specService.getSpecById(specValue.getSpecId()) == null) {
-//            return Response.error(BusinessStates.DATA_NOT_FOUND, "规格不存在");
-//        }
-//        List<SpecValueEntity> valueListBySpec = specService.getSpecValueListBySpecId(specValue.getSpecId());
-//        if (valueListBySpec.size() >= 20) {
-//            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "商品规格内容不能超过20个");
-//        }
-//        SpecValueEntity specValueEntity = new SpecValueEntity();
-//        specValueEntity.setSpecId(specValue.getSpecId());
-//        specValueEntity.setValue(specValue.getValue());
-//        specValueEntity.setSort(specValue.getSort());
-//        specValueEntity.setCreateTime(LocalDateTime.now());
-//        specValueEntity.setUpdateTime(LocalDateTime.now());
-//        return specService.addSpecValue(specValueEntity) > 0
-//                ? Response.success(BusinessStates.SUCCESS)
-//                : Response.error(BusinessStates.INTERNAL_SERVER_ERROR);
-//    }
 }
