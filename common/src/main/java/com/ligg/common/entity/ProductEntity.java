@@ -12,8 +12,8 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("featured")
-public class FeaturedEntity {
+@TableName("product")
+public class ProductEntity {
 
     @TableId(type = IdType.ASSIGN_ID)
     private String id;

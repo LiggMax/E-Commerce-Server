@@ -1,7 +1,7 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ligg.common.entity.FeaturedImageEntity;
+import com.ligg.common.entity.ProductImageEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -12,11 +12,11 @@ import java.util.List;
  * @Time 2025/10/7
  **/
 @Mapper
-public interface FeaturedImageMapper extends BaseMapper<FeaturedImageEntity> {
+public interface ProductImageMapper extends BaseMapper<ProductImageEntity> {
 
     /**
      * 根据商品id获取图片列表
      */
-    @Select("select id,sort,image_path from featured_image where featured_id = #{featuredId}")
-    List<FeaturedImageEntity> selectImageListById(String featuredId);
+    @Select("select id,sort,image_path from product_image where product_id = #{featuredId}")
+    List<ProductImageEntity> selectImageListById(String featuredId);
 }

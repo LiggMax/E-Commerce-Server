@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("featured_detail")
-public class FeaturedDetailEntity {
+@TableName("product_detail")
+public class ProductDetailEntity {
 
     /**
      * id
@@ -26,7 +26,7 @@ public class FeaturedDetailEntity {
     /**
      * 商品id
      */
-    private String featuredId;
+    private String productId;
 
     /**
      * 描述

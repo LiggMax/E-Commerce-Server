@@ -1,8 +1,8 @@
 package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ligg.common.entity.FeaturedEntity;
-import com.ligg.common.entity.FeaturedDetailEntity;
+import com.ligg.common.entity.ProductEntity;
+import com.ligg.common.entity.ProductDetailEntity;
 import com.ligg.common.vo.PageVo;
 import com.ligg.common.vo.search.FeaturedSearchVo;
 
@@ -10,13 +10,13 @@ import com.ligg.common.vo.search.FeaturedSearchVo;
  * @Author Ligg
  * @Time 2025/9/27
  **/
-public interface FeaturedService extends IService<FeaturedEntity> {
+public interface ProductService extends IService<ProductEntity> {
 
     /**
      * 保存精选商品
      * @param featuredEntity 精选商品信息
      */
-    void saveFeatured(FeaturedEntity featuredEntity);
+    void saveFeatured(ProductEntity featuredEntity);
 
     /**
      * 获取分页精选商品列表
@@ -30,7 +30,7 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * @param productId 商品id
      * @return 精选商品详情
      */
-    FeaturedDetailEntity getFeaturedDetailById(String productId);
+    ProductDetailEntity getFeaturedDetailById(String productId);
 
     /**
      * 根据id更新精选商品图片路径
@@ -43,7 +43,7 @@ public interface FeaturedService extends IService<FeaturedEntity> {
      * @param pageSize 每页数量
      * @return 精选商品分页列表
      */
-    PageVo<FeaturedEntity> getFeaturedPageList(Long pageNumber, Long pageSize);
+    PageVo<ProductEntity> getFeaturedPageList(Long pageNumber, Long pageSize);
 
     /**
      * 根据商品id查询商品图片列表

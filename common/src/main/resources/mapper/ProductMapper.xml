@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ligg.common.mapper.ProductMapper">
+
+    <!-- 精选商品详情查询 -->
+    <select id="selectProductDetailPage" resultType="com.ligg.common.vo.search.FeaturedSearchVo">
+        select p.id,
+               p.title,
+               p.image_path,
+               p.original_price,
+               p.current_price,
+               p.reviews,
+               p.rating,
+               p.created_at,
+               p.update_at,
+               pd.description
+        from product p
+                 left join product_detail pd on p.id = pd.product_id
+        order by f.rating
+    </select>
+</mapper>

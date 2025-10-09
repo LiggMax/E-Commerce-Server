@@ -4,11 +4,11 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.common.entity.FeaturedEntity;
-import com.ligg.common.entity.FeaturedDetailEntity;
-import com.ligg.common.entity.FeaturedImageEntity;
-import com.ligg.common.service.FeaturedImageService;
-import com.ligg.common.service.FeaturedService;
+import com.ligg.common.entity.ProductEntity;
+import com.ligg.common.entity.ProductDetailEntity;
+import com.ligg.common.entity.ProductImageEntity;
+import com.ligg.common.service.ProductImageService;
+import com.ligg.common.service.ProductService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
@@ -35,10 +35,10 @@ import java.util.List;
 public class ClientFeaturedController {
 
     @Autowired
-    private FeaturedService featuredService;
+    private ProductService featuredService;
 
     @Autowired
-    private FeaturedImageService featuredImageService;
+    private ProductImageService featuredImageService;
 
     /**
      * 获取精选商品分页列表
@@ -46,7 +46,7 @@ public class ClientFeaturedController {
     @GetMapping
     @Operation(summary = "获取精选商品列表")
     public Response<PageVo<FeaturedVo>> pagelist(@NotNull Long pageNumber) {
-        PageVo<FeaturedEntity> featuredPage = featuredService.getFeaturedPageList(pageNumber,10L);
+        PageVo<ProductEntity> featuredPage = featuredService.getFeaturedPageList(pageNumber,10L);
         List<FeaturedVo> featuredVoList = featuredPage.getList().stream().map(featured -> {
             FeaturedVo featuredVo = new FeaturedVo();
             BeanUtils.copyProperties(featured, featuredVo);
@@ -71,11 +71,11 @@ public class ClientFeaturedController {
     @Operation(summary = "获取精选商品详情")
     @GetMapping("/detail")
     public Response<FeaturedDetailVo> getFeaturedDetail(@Schema(description = "商品id") String productId) {
-        FeaturedEntity featured = featuredService.getById(productId);
+        ProductEntity featured = featuredService.getById(productId);
         if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);
         }
-        FeaturedDetailEntity featuredDetailEntity = featuredService.getFeaturedDetailById(productId);
+        ProductDetailEntity featuredDetailEntity = featuredService.getFeaturedDetailById(productId);
 
         FeaturedDetailVo featuredDetailVo = new FeaturedDetailVo();
         BeanUtils.copyProperties(featured, featuredDetailVo);
@@ -89,7 +89,7 @@ public class ClientFeaturedController {
                 featured.getCurrentPrice()
         ).doubleValue());
 
-        List<FeaturedImageEntity> imagesList = featuredImageService.getImagesByFeaturedId(productId);
+        List<ProductImageEntity> imagesList = featuredImageService.getImagesByFeaturedId(productId);
         List<FeaturedImageVo> iamgeVoList = imagesList.stream().map(images -> {
             FeaturedImageVo featuredImageVo = new FeaturedImageVo();
             BeanUtils.copyProperties(images, featuredImageVo);

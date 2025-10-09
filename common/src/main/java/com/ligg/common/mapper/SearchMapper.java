@@ -5,7 +5,7 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ligg.common.entity.FeaturedEntity;
+import com.ligg.common.entity.ProductEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +20,7 @@ public interface SearchMapper {
      * @param sort    排序(1: 默认排序 2:价格低到高 3:价格高到低 )
      * @return 商品列表
      */
-    IPage<FeaturedEntity> selectCommodity(@Param("page") IPage<FeaturedEntity> page,
-                                          @Param("keyword") String keyword,
-                                          @Param("sort") Integer sort);
+    IPage<ProductEntity> selectCommodity(@Param("page") IPage<ProductEntity> page,
+                                         @Param("keyword") String keyword,
+                                         @Param("sort") Integer sort);
 }

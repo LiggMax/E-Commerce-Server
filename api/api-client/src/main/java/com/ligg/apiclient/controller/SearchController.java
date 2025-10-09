@@ -4,7 +4,7 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.common.entity.FeaturedEntity;
+import com.ligg.common.entity.ProductEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.SearchService;
 import com.ligg.common.utils.DiscountUtil;
@@ -44,7 +44,7 @@ public class SearchController {
                                              @Schema(description = "页码") @NotNull Long pageNumber,
                                              @Schema(description = "排序") @RequestParam(required = false) Integer sort) {
         //获取商品分页列表
-        PageVo<FeaturedEntity> searchData = searchService.searchCommodityPageList(keyword, pageNumber, 20L,sort);
+        PageVo<ProductEntity> searchData = searchService.searchCommodityPageList(keyword, pageNumber, 20L,sort);
         List<SearchVo> searchResult = searchData.getList().stream().map(search -> {
             SearchVo searchVo = new SearchVo();
             BeanUtils.copyProperties(search, searchVo);

@@ -84,7 +84,7 @@ UNLOCK TABLES;
 -- Table structure for table `featured_detail`
 --
 
-DROP TABLE IF EXISTS `featured_detail`;
+DROP TABLE IF EXISTS product_detail;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `featured_detail` (
@@ -99,17 +99,17 @@ CREATE TABLE `featured_detail` (
 -- Dumping data for table `featured_detail`
 --
 
-LOCK TABLES `featured_detail` WRITE;
-/*!40000 ALTER TABLE `featured_detail` DISABLE KEYS */;
-INSERT INTO `featured_detail` VALUES (1,1972960556001492994,'daw'),(2,1972967206737379330,'描述');
-/*!40000 ALTER TABLE `featured_detail` ENABLE KEYS */;
+LOCK TABLES product_detail WRITE;
+/*!40000 ALTER TABLE product_detail DISABLE KEYS */;
+INSERT INTO product_detail VALUES (1,1972960556001492994,'daw'),(2,1972967206737379330,'描述');
+/*!40000 ALTER TABLE product_detail ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Table structure for table `product_image`
 --
 
-DROP TABLE IF EXISTS featured_image;
+DROP TABLE IF EXISTS product_image;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product_image` (
@@ -125,9 +125,9 @@ CREATE TABLE `product_image` (
 -- Dumping data for table `product_image`
 --
 
-LOCK TABLES featured_image WRITE;
-/*!40000 ALTER TABLE featured_image DISABLE KEYS */;
-/*!40000 ALTER TABLE featured_image ENABLE KEYS */;
+LOCK TABLES product_image WRITE;
+/*!40000 ALTER TABLE product_image DISABLE KEYS */;
+/*!40000 ALTER TABLE product_image ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

@@ -3,7 +3,7 @@
 <mapper namespace="com.ligg.common.mapper.SearchMapper">
 
     <!-- 查询商品列表 -->
-    <select id="selectCommodity" resultType="com.ligg.common.entity.FeaturedEntity">
+    <select id="selectCommodity" resultType="com.ligg.common.entity.ProductEntity">
         select f.id,
         f.title,
         f.image_path,
@@ -12,7 +12,7 @@
         f.reviews,
         f.rating
         from featured f
-        left join featured_detail fd on f.id = fd.featured_id
+        left join product_detail fd on f.id = fd.product_id
         where f.title like concat('%', #{keyword}, '%')
         or fd.description like concat('%', #{keyword}, '%')
         <if test="sort == 2">

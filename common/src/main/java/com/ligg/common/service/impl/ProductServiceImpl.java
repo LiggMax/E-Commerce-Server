@@ -3,10 +3,10 @@ package com.ligg.common.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ligg.common.entity.FeaturedEntity;
-import com.ligg.common.entity.FeaturedDetailEntity;
-import com.ligg.common.mapper.FeaturedMapper;
-import com.ligg.common.service.FeaturedService;
+import com.ligg.common.entity.ProductEntity;
+import com.ligg.common.entity.ProductDetailEntity;
+import com.ligg.common.mapper.ProductMapper;
+import com.ligg.common.service.ProductService;
 import com.ligg.common.vo.PageVo;
 import com.ligg.common.vo.search.FeaturedSearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
  * @Time 2025/9/27
  **/
 @Service
-public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEntity> implements FeaturedService {
+public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity> implements ProductService {
 
     @Autowired
-    private FeaturedMapper featuredMapper;
+    private ProductMapper productMapper;
 
     @Override
-    public void saveFeatured(FeaturedEntity featuredEntity) {
-        featuredMapper.insert(featuredEntity);
+    public void saveFeatured(ProductEntity featuredEntity) {
+        productMapper.insert(featuredEntity);
     }
 
     /**
@@ -35,11 +35,11 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
      * @return 精选商品分页列表
      */
     @Override
-    public PageVo<FeaturedEntity> getFeaturedPageList(Long pageNumber, Long pageSize) {
-        Page<FeaturedEntity> page = new Page<>(pageNumber, pageSize);
-        featuredMapper.selectPage(page, null);
+    public PageVo<ProductEntity> getFeaturedPageList(Long pageNumber, Long pageSize) {
+        Page<ProductEntity> page = new Page<>(pageNumber, pageSize);
+        productMapper.selectPage(page, null);
 
-        PageVo<FeaturedEntity> pageVo = new PageVo<>();
+        PageVo<ProductEntity> pageVo = new PageVo<>();
         pageVo.setPages(page.getPages());
         pageVo.setTotal(page.getTotal());
         pageVo.setList(page.getRecords());
@@ -59,7 +59,7 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
         Page<FeaturedSearchVo> page = new Page<>(pageNumber, pageSize);
 
         // 分页查询
-        IPage<FeaturedSearchVo> result = featuredMapper.selectProductDetailPage(page);
+        IPage<FeaturedSearchVo> result = productMapper.selectProductDetailPage(page);
         //封装PageVo
         PageVo<FeaturedSearchVo> pageVo = new PageVo<>();
         pageVo.setPages(result.getPages());
@@ -72,8 +72,8 @@ public class FeaturedServiceImpl extends ServiceImpl<FeaturedMapper, FeaturedEnt
      * 根据商品id查询商品详情
      */
     @Override
-    public FeaturedDetailEntity getFeaturedDetailById(String productId) {
-        return featuredMapper.selectProductDetailById(productId);
+    public ProductDetailEntity getFeaturedDetailById(String productId) {
+        return productMapper.selectProductDetailById(productId);
     }
 
     /**
