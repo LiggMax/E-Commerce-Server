@@ -5,7 +5,6 @@
 package com.ligg.apiadmin.controller;
 
 import com.ligg.common.dto.SpecDto;
-import com.ligg.common.dto.SpecValueDto;
 import com.ligg.common.entity.SpecEntity;
 import com.ligg.common.entity.SpecValueEntity;
 import com.ligg.common.enums.BusinessStates;
@@ -64,8 +63,8 @@ public class AdminSpecController {
             Integer specId = specEntity.getId();
 
             //保存规格内容
-            List<SpecValueDto> specValues = specItem.getSpecValues();
-            for (SpecValueDto specValue : specValues) {
+            List<SpecDto.SpecValue> specValues = specItem.getSpecValues();
+            for (SpecDto.SpecValue specValue : specValues) {
                 SpecValueEntity specValueEntity = new SpecValueEntity();
                 specValueEntity.setSpecId(specId);
                 specValueEntity.setValue(specValue.getValue());

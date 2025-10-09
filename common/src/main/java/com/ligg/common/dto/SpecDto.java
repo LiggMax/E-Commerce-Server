@@ -44,6 +44,29 @@ public class SpecDto {
         /**
          * 规格内容
          */
-        private List<SpecValueDto> specValues;
+        private List<SpecValue> specValues;
+
+
+    }
+
+    @Setter
+    @Getter
+    public static class SpecValue {
+
+
+        /**
+         * 值(规则内容)
+         */
+        private String value;
+
+        /**
+         * 排序
+         */
+        private Integer sort;
+
+        /**
+         * 规格价格
+         */
+        private Integer price;
     }
 }
