@@ -31,4 +31,9 @@ public class SpecValueDto {
      * 排序
      */
     private Integer sort;
+
+    /**
+     * 规格价格
+     */
+    private Integer price;
 }

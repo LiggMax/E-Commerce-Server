@@ -57,6 +57,11 @@ public class SpecVo {
         private Integer sort;
 
         /**
+         * 规格价格
+         */
+        private Integer price;
+
+        /**
          * 创建时间
          */
         private LocalDateTime createTime;
