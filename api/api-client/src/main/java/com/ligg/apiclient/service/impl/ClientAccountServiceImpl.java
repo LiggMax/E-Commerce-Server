@@ -30,7 +30,6 @@ public class ClientAccountServiceImpl implements ClientAccountService {
         userEntity.setNickName(nickName);
         userEntity.setRole(UserRole.USER);
         userEntity.setPassword(BCryptUtil.encrypt(userEntity.getPassword()));
-        userEntity.setCreateTime(LocalDateTime.now());
         return userMapper.insert(userEntity);
     }
 }

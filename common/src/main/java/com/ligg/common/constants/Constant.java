@@ -60,4 +60,9 @@ public class Constant {
      * 图片前缀
      */
     public static final String IMAGE_RELATIVE_PATH = "/api/image";
+
+    /**
+     * 验证码前缀
+     */
+    public static final String CAPTCHA_REDIS_KEY = "captcha:";
 }

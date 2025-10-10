@@ -8,9 +8,13 @@ import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.Response;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import java.util.stream.Collectors;
 
 /**
  * 全局异常处理
@@ -29,6 +33,15 @@ public class GlobalException {
     public Response<String> handleConstraintViolationException(ConstraintViolationException e) {
         log.error("参数验证失败:{}", e.getMessage());
         String message = e.getConstraintViolations().iterator().next().getMessage();
+        return Response.error(BusinessStates.VALIDATION_FAILED, message);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Response<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("参数验证失败:{}", e.getMessage());
+        String message = e.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining("; "));
         return Response.error(BusinessStates.VALIDATION_FAILED, message);
     }
 }

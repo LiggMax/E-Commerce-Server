@@ -19,14 +19,12 @@ public class AccountDto {
      * 必须大于六位，不能是123456
      */
     @NotNull
-    @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$", message = "账号必须大于六位，不能是123456")
     private String account;
 
     /**
-     * 密码必须大于6位，不能是123456
+     * 密码必须大于6位等于6，不能是123456
      */
     @NotNull
-    @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$", message = "密码必须大于6位，不能是123456")
     private String password;
 
     private String avatar;
@@ -41,6 +39,8 @@ public class AccountDto {
      */
     private String uuid;
 
+    String email;
     private Integer status;
+
     private LocalDateTime createTime;
 }
