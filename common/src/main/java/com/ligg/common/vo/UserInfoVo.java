@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class UserInfoVo {
 
     String nickName;
-    String password;
     String account;
     String avatar;
     UserRole role;

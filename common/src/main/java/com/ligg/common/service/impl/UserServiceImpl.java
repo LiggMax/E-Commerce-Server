@@ -5,22 +5,27 @@
 package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ligg.common.constants.Constant;
 import com.ligg.common.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.BCryptUtil;
+import com.ligg.common.utils.RedisUtil;
+import com.ligg.common.vo.UserInfoVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserMapper userMapper;
-
+    final UserMapper userMapper;
+    final RedisUtil redisUtil;
     /**
      * 注册账号
      * @param account 账号
@@ -54,7 +59,24 @@ public class UserServiceImpl implements UserService {
      * 根据用户id获取用户信息
      */
     @Override
-    public UserEntity getUserInfoById(String userId) {
-        return userMapper.selectById(userId);
+    public UserInfoVo getUserInfoById(String userId) {
+        UserEntity redisUserInfo = getRedisUserInfo(userId);
+        UserInfoVo userInfoVo = new UserInfoVo();
+
+        if (redisUserInfo == null) {
+            UserEntity userEntity = userMapper.selectById(userId);
+            if (userEntity != null) {
+                redisUtil.set(Constant.USER_INFO + ":" + userId, userEntity, 3);
+                BeanUtils.copyProperties(userEntity, userInfoVo);
+            }
+            return userInfoVo;
+        }
+
+        BeanUtils.copyProperties(redisUserInfo, userInfoVo);
+        return userInfoVo;
+    }
+
+    private UserEntity getRedisUserInfo(String userId) {
+        return (UserEntity) redisUtil.get(Constant.USER_INFO + ":" + userId);
     }
 }

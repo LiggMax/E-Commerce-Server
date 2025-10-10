@@ -4,17 +4,20 @@
  **/
 package com.ligg.entrance.config;
 
+import com.ligg.entrance.interceptors.ClientLoginInterceptors;
 import com.ligg.entrance.interceptors.LoginInterceptors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private LoginInterceptors loginInterceptors;
+
+    final LoginInterceptors loginInterceptors;
+    final ClientLoginInterceptors clientLoginInterceptors;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -24,5 +27,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/admin/**")
                 //放行路径
                 .excludePathPatterns("/api/admin/account/**");
+        registry.addInterceptor(clientLoginInterceptors)
+                //拦截路径
+                .addPathPatterns("/api/client/user/**")
+                //放行路径
+                .excludePathPatterns();
     }
 }

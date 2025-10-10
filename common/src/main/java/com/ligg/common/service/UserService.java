@@ -1,6 +1,7 @@
 package com.ligg.common.service;
 
 import com.ligg.common.entity.UserEntity;
+import com.ligg.common.vo.UserInfoVo;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -23,5 +24,5 @@ public interface UserService {
     /**
      * 根据用户id获取用户信息
      */
-    UserEntity getUserInfoById(String userId);
+    UserInfoVo getUserInfoById(String userId);
 }

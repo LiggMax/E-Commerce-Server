@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/10/10
+ **/
 package com.ligg.apiclient.controller;
 
 import com.ligg.apiclient.service.ClientAccountService;
@@ -19,9 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 /**
- * @Author Ligg
- * @Time 2025/10/10
- **/
+ * 账户接口
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/client/account")

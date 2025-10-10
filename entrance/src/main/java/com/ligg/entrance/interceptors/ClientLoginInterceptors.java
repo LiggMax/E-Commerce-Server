@@ -1,6 +1,6 @@
 /**
  * @Author Ligg
- * @Time 2025/9/22
+ * @Time 2025/10/10
  **/
 package com.ligg.entrance.interceptors;
 
@@ -10,8 +10,8 @@ import com.ligg.common.utils.RedisUtil;
 import com.ligg.common.utils.ThreadLocalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -19,20 +19,20 @@ import java.util.Map;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-
 /**
- * 登录拦截器
+ * 客户端登录拦截器
  */
 @Slf4j
 @Component
-public class LoginInterceptors implements HandlerInterceptor {
+@RequiredArgsConstructor
+public class ClientLoginInterceptors implements HandlerInterceptor {
 
-    @Autowired
-    private RedisUtil redisUtil;
+    final RedisUtil redisUtil;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = GetHeadTokenService.getToken(request, Constant.AUTHORIZATION);
+
         try {
             if (token == null) {
                 throw new RuntimeException("缺少授权标头");
@@ -54,7 +54,7 @@ public class LoginInterceptors implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         ThreadLocalUtil.remove();
     }
 }

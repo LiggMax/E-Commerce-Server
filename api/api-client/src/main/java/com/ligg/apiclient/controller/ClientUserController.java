@@ -1,3 +1,7 @@
+/**
+ * @Author Ligg
+ * @Time 2025/10/10
+ **/
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.constants.Constant;
@@ -16,9 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 /**
- * @Author Ligg
- * @Time 2025/10/10
- **/
+ * 用户接口
+ */
 @RestController
 @RequestMapping("/api/client/user")
 @RequiredArgsConstructor
@@ -33,9 +36,7 @@ public class ClientUserController {
     public Response<UserInfoVo> getUserInfo() {
         Map<String, Object> userObject = ThreadLocalUtil.get();
         String userId = (String) userObject.get(Constant.USER_ID);
-        UserEntity userInfo = userService.getUserInfoById(userId);
-        UserInfoVo userInfoVo = new UserInfoVo();
-        BeanUtils.copyProperties(userInfo, userInfoVo);
-        return Response.success(BusinessStates.SUCCESS, userInfoVo);
+        UserInfoVo userInfo = userService.getUserInfoById(userId);
+        return Response.success(BusinessStates.SUCCESS, userInfo);
     }
 }
