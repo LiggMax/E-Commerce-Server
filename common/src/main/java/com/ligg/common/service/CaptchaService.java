@@ -1,9 +1,9 @@
-package com.ligg.common.service;
-
 /**
  * @Author Ligg
  * @Time 2025/10/10
  **/
+package com.ligg.common.service;
+
 
 import com.ligg.common.dto.CaptchaDto;
 
