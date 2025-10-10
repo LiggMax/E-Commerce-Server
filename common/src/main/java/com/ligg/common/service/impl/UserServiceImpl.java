@@ -9,17 +9,17 @@ import com.ligg.common.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.BCryptUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     /**
      * 注册账号

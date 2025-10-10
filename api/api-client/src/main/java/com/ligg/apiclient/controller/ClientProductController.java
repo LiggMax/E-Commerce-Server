@@ -19,8 +19,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,16 +33,13 @@ import java.util.List;
 @Tag(name = "客户端精选商品接口")
 @RestController
 @RequestMapping("/api/client/featured")
+@RequiredArgsConstructor
 public class ClientProductController {
 
-    @Autowired
-    private ProductService featuredService;
+    private final ProductService featuredService;
+    private final ProductImageService productImageService;
+    private final SpecService specService;
 
-    @Autowired
-    private ProductImageService featuredImageService;
-
-    @Autowired
-    private SpecService specService;
     /**
      * 获取精选商品分页列表
      */
@@ -94,7 +91,7 @@ public class ClientProductController {
         ).doubleValue());
 
         //获取详情图片
-        List<ProductImageEntity> imagesList = featuredImageService.getImagesByFeaturedId(productId);
+        List<ProductImageEntity> imagesList = productImageService.getImagesByFeaturedId(productId);
         List<ProductImageVo> iamgeVoList = imagesList.stream().map(images -> {
             ProductImageVo featuredImageVo = new ProductImageVo();
             BeanUtils.copyProperties(images, featuredImageVo);

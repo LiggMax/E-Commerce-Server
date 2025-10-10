@@ -11,8 +11,8 @@ import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.vo.CarouselVo;
 import com.ligg.common.vo.ImagesVo;
 import com.ligg.common.vo.PageVo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +22,10 @@ import java.util.List;
  * @Time 2025/9/23
  **/
 @Service
+@RequiredArgsConstructor
 public class CarouselServiceImpl extends ServiceImpl<CarouselMapper, CarouselEntity> implements CarouselService {
 
-    @Autowired
-    private CarouselMapper carouselMapper;
+    private final CarouselMapper carouselMapper;
 
     /**
      * 获取轮播图列表

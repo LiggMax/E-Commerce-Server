@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.entity.EmailEntity;
 import com.ligg.common.mapper.EmailMapper;
 import com.ligg.common.service.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
  * @Time 2025/10/8
  */
 @Service
+@RequiredArgsConstructor
 public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> implements EmailService {
 
-    @Autowired
-    private EmailMapper emailMapper;
+    private final EmailMapper emailMapper;
 
     /**
      * 获取邮箱

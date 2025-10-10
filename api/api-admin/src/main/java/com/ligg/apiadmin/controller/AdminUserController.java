@@ -9,7 +9,7 @@ import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.TokenService;
 import com.ligg.common.utils.Response;
 import com.ligg.common.utils.ThreadLocalUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,10 +21,10 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/admin/user")
+@RequiredArgsConstructor
 public class AdminUserController {
 
-    @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
     /**
      * 登出

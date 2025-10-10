@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.entity.ProductImageEntity;
 import com.ligg.common.mapper.ProductImageMapper;
 import com.ligg.common.service.ProductImageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +15,11 @@ import java.util.List;
  * @Time 2025/10/7
  **/
 @Service
+@RequiredArgsConstructor
 public class ProductImageServiceImpl extends ServiceImpl<ProductImageMapper, ProductImageEntity>
         implements ProductImageService {
 
-    @Autowired
-    private ProductImageMapper productImageMapper;
+    private final ProductImageMapper productImageMapper;
 
 
     /**

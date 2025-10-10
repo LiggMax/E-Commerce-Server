@@ -10,14 +10,14 @@ import com.ligg.common.entity.ProductEntity;
 import com.ligg.common.mapper.SearchMapper;
 import com.ligg.common.service.SearchService;
 import com.ligg.common.vo.PageVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
 
-    @Autowired
-    private SearchMapper searchMapper;
+    private final SearchMapper searchMapper;
 
     /**
      * 搜索商品

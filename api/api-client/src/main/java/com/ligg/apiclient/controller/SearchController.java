@@ -15,8 +15,8 @@ import com.ligg.common.vo.search.SearchVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,11 +30,10 @@ import java.util.List;
 @Tag(name = "客户端搜索接口")
 @RestController
 @RequestMapping("/api/client/search")
+@RequiredArgsConstructor
 public class SearchController {
 
-    @Autowired
-    private SearchService searchService;
-
+    private final SearchService searchService;
 
     /**
      * 搜索

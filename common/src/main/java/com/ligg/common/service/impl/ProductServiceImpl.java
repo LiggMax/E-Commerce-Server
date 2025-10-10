@@ -9,7 +9,7 @@ import com.ligg.common.mapper.ProductMapper;
 import com.ligg.common.service.ProductService;
 import com.ligg.common.vo.PageVo;
 import com.ligg.common.vo.search.FeaturedSearchVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
  * @Time 2025/9/27
  **/
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity> implements ProductService {
 
-    @Autowired
-    private ProductMapper productMapper;
+    private final ProductMapper productMapper;
 
     @Override
     public void saveFeatured(ProductEntity featuredEntity) {
@@ -83,13 +83,4 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     public void updateImagePathById(String id, String imagePath) {
 
     }
-
-
-    /**
-     * 根据商品id查询商品图片列表
-     */
-//    @Override
-//    public List<FeaturedDetailVo.Images> selectProductImagesById(Long productId) {
-//        return featuredMapper.selectProductImagesById(productId);
-//    }
 }

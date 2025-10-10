@@ -20,8 +20,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -37,16 +37,14 @@ import java.util.List;
 @Tag(name = "轮播图接口")
 @RestController
 @RequestMapping("/api/admin/carousel")
+@RequiredArgsConstructor
 public class AdminCarouselController {
 
     @Value("${file.image.base-path}")
     private String IMAGE_PATH;
 
-    @Autowired
-    private CarouselService carouselService;
-
-    @Autowired
-    private FileService fileService;
+    private final CarouselService carouselService;
+    private final FileService fileService;
 
     /**
      * 获取轮播图数据

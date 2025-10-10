@@ -11,7 +11,7 @@ import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.ProductService;
 import com.ligg.common.service.SpecService;
 import com.ligg.common.utils.Response;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,13 +26,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/admin/spec")
+@RequiredArgsConstructor
 public class AdminSpecController {
 
-    @Autowired
-    private SpecService specService;
-
-    @Autowired
-    private ProductService productService;
+    private final SpecService specService;
+    private final ProductService productService;
 
     /**
      * 新增规格

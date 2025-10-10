@@ -13,7 +13,7 @@ import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,13 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "账户接口")
 @RestController
 @RequestMapping("/api/admin/account")
+@RequiredArgsConstructor
 public class AccountController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TokenService tokenService;
+    private final UserService userService;
+    private final TokenService tokenService;
 
     /**
      * 注册账户

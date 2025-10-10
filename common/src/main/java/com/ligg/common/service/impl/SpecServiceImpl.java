@@ -5,28 +5,24 @@
 package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ligg.common.entity.ProductEntity;
 import com.ligg.common.entity.SpecEntity;
 import com.ligg.common.entity.SpecValueEntity;
 import com.ligg.common.mapper.SpecMapper;
 import com.ligg.common.mapper.SpecValueMapper;
 import com.ligg.common.service.SpecService;
 import com.ligg.common.vo.SpecVo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SpecServiceImpl implements SpecService {
 
-    @Autowired
-    private SpecMapper specMapper;
-
-    @Autowired
-    private SpecValueMapper specValueMapper;
+    private final SpecMapper specMapper;
+    private final SpecValueMapper specValueMapper;
 
     /**
      * 根据id获取规格信息

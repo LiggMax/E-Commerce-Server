@@ -5,7 +5,7 @@ import com.ligg.common.entity.UserEntity;
 import com.ligg.common.service.TokenService;
 import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.RedisUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,10 +14,10 @@ import java.util.Map;
 import static com.ligg.common.constants.Constant.EXPIRE;
 
 @Service
+@RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
 
-    @Autowired
-    private RedisUtil redisUtil;
+    private final RedisUtil redisUtil;
 
     /**
      * 生成token

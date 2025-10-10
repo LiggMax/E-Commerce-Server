@@ -10,7 +10,7 @@ import com.ligg.common.utils.Response;
 import com.ligg.common.vo.CarouselVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +24,10 @@ import java.util.List;
 @Tag(name = "客户端轮播图接口")
 @RestController
 @RequestMapping("/api/client/carousel")
+@RequiredArgsConstructor
 public class ClientCarouselController {
 
-    @Autowired
-    private CarouselService carouselService;
+    private final CarouselService carouselService;
 
     /**
      * 获取轮播图数据列表
