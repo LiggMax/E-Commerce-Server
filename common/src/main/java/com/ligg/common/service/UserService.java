@@ -19,4 +19,9 @@ public interface UserService {
      * 根据账号获取用户信息
      */
     UserEntity getUserInfoByAccount(String account);
+
+    /**
+     * 根据用户id获取用户信息
+     */
+    UserEntity getUserInfoById(String userId);
 }

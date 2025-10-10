@@ -49,4 +49,12 @@ public class UserServiceImpl implements UserService {
     public UserEntity getUserInfoByAccount(String account) {
         return userMapper.selectOne(new LambdaQueryWrapper<UserEntity>().eq(UserEntity::getAccount, account));
     }
+
+    /**
+     * 根据用户id获取用户信息
+     */
+    @Override
+    public UserEntity getUserInfoById(String userId) {
+        return userMapper.selectById(userId);
+    }
 }
