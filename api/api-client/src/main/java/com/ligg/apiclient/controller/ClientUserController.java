@@ -5,14 +5,12 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.constants.Constant;
-import com.ligg.common.entity.UserEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.Response;
 import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.common.vo.UserInfoVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
