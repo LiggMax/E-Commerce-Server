@@ -16,7 +16,7 @@ public final class BCryptUtil {
     }
 
     /**
-     * 加密密码（使用默认计算强度）
+     * 密码加密
      * @param plainPassword 明文密码
      * @return 加密后的哈希密码
      */

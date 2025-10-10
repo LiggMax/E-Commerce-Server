@@ -31,6 +31,8 @@
         <mybatis-plus.version>3.5.12</mybatis-plus.version>
         <mybatis-plus-jsqlparser.version>3.5.12</mybatis-plus-jsqlparser.version>
         <springdoc-openapi.version>2.8.0</springdoc-openapi.version>
+        <thumbnailator.version>0.4.20</thumbnailator.version>
+        <hutool-captcha.version>5.8.26</hutool-captcha.version>
     </properties>
 
     <dependencies>
@@ -54,9 +56,15 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-captcha</artifactId>
+            <version>${hutool-captcha.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
-            <version>0.4.20</version>
+            <version>${thumbnailator.version}</version>
         </dependency>
 
         <!-- AOP依赖 -->

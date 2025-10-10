@@ -49,13 +49,9 @@ public class AdminProductController {
 
     @Value("${file.image.base-path}")
     private String IMAGE_PATH;
-
     private final FileService fileService;
-
     private final ProductService productService;
-
     private final ProductImageService productImageService;
-
     private final ProductDetailService productDetailService;
 
     /**
@@ -63,10 +59,12 @@ public class AdminProductController {
      */
     @PostMapping
     @Operation(summary = "上传精选产品数据")
-    public Response<String> uploadFeatured(@Validated ProductDto featured, @Schema(description = "图片文件") @NotNull(message = "图片文件不能为空") MultipartFile imageFile) {
+    public Response<String> uploadFeatured(@Validated ProductDto product,
+                                           @Schema(description = "图片文件") @NotNull(message = "图片文件不能为空") MultipartFile imageFile) {
+        //保存基本数据
         String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
         ProductEntity featuredEntity = new ProductEntity();
-        BeanUtils.copyProperties(featured, featuredEntity);
+        BeanUtils.copyProperties(product, featuredEntity);
         featuredEntity.setRating(new Random().nextInt(5, 11));
         featuredEntity.setImagePath(imagePath);
         featuredEntity.setCreatedAt(LocalDateTime.now());
@@ -75,7 +73,7 @@ public class AdminProductController {
 
         //保存详情数据
         ProductDetailEntity detailEntity = new ProductDetailEntity();
-        detailEntity.setDescription(featured.getDescription());
+        detailEntity.setDescription(product.getDescription());
         detailEntity.setProductId(featuredEntity.getId());
         productDetailService.save(detailEntity);
         return Response.success(BusinessStates.SUCCESS);

@@ -119,6 +119,27 @@ public class RedisUtil {
      * 普通缓存放入并设置时间
      * @param key 键
      * @param value 值
+     * @param time 自定义时间单位 time要大于0 如果time小于等于0 将设置无限期
+     * @return true成功 false 失败
+     */
+    public boolean set(String key, Object value, long time,TimeUnit unit) {
+        try {
+            if (time > 0) {
+                redisTemplate.opsForValue().set(key, value, time, unit);
+            } else {
+                set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+            log.error("RedisUtil.set error: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 普通缓存放入并设置时间
+     * @param key 键
+     * @param value 值
      * @param time 时间(小时) time要大于0 如果time小于等于0 将设置无限期
      * @return true成功 false 失败
      */

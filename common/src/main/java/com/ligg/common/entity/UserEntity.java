@@ -1,7 +1,9 @@
 package com.ligg.common.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ligg.common.enums.UserRole;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,13 +15,17 @@ import java.time.LocalDateTime;
 @Data
 @TableName("user")
 public class UserEntity {
-    @TableId
+
+    /**
+     * 用户id
+     */
+    @TableId(value = "user_id", type = IdType.ASSIGN_ID)
     private String userId;
     private String nickName;
     private String password;
     private String account;
     private String avatar;
-    private Integer role;
+    private UserRole role;
     private Integer status;
     private LocalDateTime createTime;
 }
