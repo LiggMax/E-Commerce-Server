@@ -10,7 +10,7 @@ import com.ligg.common.service.EmailService;
 import com.ligg.common.utils.Response;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +24,10 @@ import java.time.LocalDateTime;
 @Validated
 @RestController
 @RequestMapping("/api/email")
+@RequiredArgsConstructor
 public class EmailController {
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
 
     /**
      * 保存邮箱

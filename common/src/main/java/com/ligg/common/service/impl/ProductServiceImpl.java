@@ -38,7 +38,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     public PageVo<ProductEntity> getFeaturedPageList(Long pageNumber, Long pageSize) {
         Page<ProductEntity> page = new Page<>(pageNumber, pageSize);
         productMapper.selectPage(page, null);
-
         PageVo<ProductEntity> pageVo = new PageVo<>();
         pageVo.setPages(page.getPages());
         pageVo.setTotal(page.getTotal());

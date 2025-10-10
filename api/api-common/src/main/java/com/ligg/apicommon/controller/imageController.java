@@ -2,7 +2,7 @@ package com.ligg.apicommon.controller;
 
 import com.ligg.common.service.FileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +19,13 @@ import java.nio.file.Paths;
 @Tag(name = "图片接口")
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class imageController {
 
     @Value("${file.image.base-path}")
     private String IMAGE_PATH;
 
-    @Autowired
-    private FileService fileService;
+    private final FileService fileService;
 
     /**
      * 获取图片资源
