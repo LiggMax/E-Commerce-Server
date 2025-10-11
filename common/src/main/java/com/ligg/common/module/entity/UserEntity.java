@@ -19,7 +19,7 @@ public class UserEntity {
     /**
      * 用户id
      */
-    @TableId(value = "user_id", type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.ASSIGN_ID)
     String userId;
     String nickName;
     String password;

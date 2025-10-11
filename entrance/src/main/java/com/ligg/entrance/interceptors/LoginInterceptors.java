@@ -32,7 +32,7 @@ public class LoginInterceptors implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String token = GetHeadTokenService.getToken(request, Constant.AUTHORIZATION);
+        String token = request.getHeader(Constant.AUTHORIZATION);
         try {
             if (token == null) {
                 throw new RuntimeException("缺少授权标头");

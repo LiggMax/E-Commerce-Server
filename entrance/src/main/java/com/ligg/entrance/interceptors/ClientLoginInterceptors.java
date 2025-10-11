@@ -31,7 +31,7 @@ public class ClientLoginInterceptors implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = GetHeadTokenService.getToken(request, Constant.AUTHORIZATION);
+        String token = request.getHeader( Constant.AUTHORIZATION);
 
         try {
             if (token == null) {
