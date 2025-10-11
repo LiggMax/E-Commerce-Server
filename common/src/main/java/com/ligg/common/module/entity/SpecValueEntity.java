@@ -1,4 +1,4 @@
-package com.ligg.common.entity;
+package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -10,30 +10,45 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * @Author LiGG
- * @Time 2025/10/8
- */
-
+ * @Author Ligg
+ * @Time 2025/10/9
+ **/
 @Data
-@TableName("email")
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailEntity {
+@TableName("spec_value")
+public class SpecValueEntity {
+
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 邮箱地址
+     * 规格id
      */
-    private String email;
+    private Integer specId;
+
+    /**
+     * 值(规则内容)
+     */
+    private String value;
+
+    /**
+     * 排序
+     */
+    private Integer sort;
+
+    /**
+     * 规格价格
+     */
+    private Integer price;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createdAt;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateAt;
+    private LocalDateTime updateTime;
 }

@@ -2,7 +2,7 @@
  * @Author Ligg
  * @Time 2025/10/10
  **/
-package com.ligg.common.dto;
+package com.ligg.common.module.dto;
 
 import lombok.Data;
 

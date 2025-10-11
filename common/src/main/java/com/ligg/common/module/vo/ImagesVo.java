@@ -2,7 +2,7 @@
  * @Author Ligg
  * @Time 2025/9/27
  **/
-package com.ligg.common.vo;
+package com.ligg.common.module.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

@@ -2,7 +2,7 @@
  * @Author Ligg
  * @Time 2025/10/9
  **/
-package com.ligg.common.dto;
+package com.ligg.common.module.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

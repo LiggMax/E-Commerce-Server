@@ -1,7 +1,7 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ligg.common.entity.CarouselEntity;
+import com.ligg.common.module.entity.CarouselEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

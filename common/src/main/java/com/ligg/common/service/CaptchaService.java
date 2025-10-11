@@ -5,7 +5,7 @@
 package com.ligg.common.service;
 
 
-import com.ligg.common.dto.CaptchaDto;
+import com.ligg.common.module.dto.CaptchaDto;
 
 /**
  * 验证码

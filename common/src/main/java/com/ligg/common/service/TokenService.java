@@ -1,6 +1,6 @@
 package com.ligg.common.service;
 
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.entity.UserEntity;
 
 public interface TokenService {
 

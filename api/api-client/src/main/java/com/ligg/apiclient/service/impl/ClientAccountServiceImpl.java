@@ -1,7 +1,7 @@
 package com.ligg.apiclient.service.impl;
 
 import com.ligg.apiclient.service.ClientAccountService;
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.enums.UserRole;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.utils.BCryptUtil;

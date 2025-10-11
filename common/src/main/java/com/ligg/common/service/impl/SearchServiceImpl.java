@@ -6,10 +6,10 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ligg.common.entity.ProductEntity;
+import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.mapper.SearchMapper;
 import com.ligg.common.service.SearchService;
-import com.ligg.common.vo.PageVo;
+import com.ligg.common.module.vo.PageVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

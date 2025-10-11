@@ -5,12 +5,12 @@
 package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ligg.common.entity.SpecEntity;
-import com.ligg.common.entity.SpecValueEntity;
+import com.ligg.common.module.entity.SpecEntity;
+import com.ligg.common.module.entity.SpecValueEntity;
 import com.ligg.common.mapper.SpecMapper;
 import com.ligg.common.mapper.SpecValueMapper;
 import com.ligg.common.service.SpecService;
-import com.ligg.common.vo.SpecVo;
+import com.ligg.common.module.vo.SpecVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

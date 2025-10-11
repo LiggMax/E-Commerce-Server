@@ -1,9 +1,9 @@
 package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ligg.common.entity.CarouselEntity;
-import com.ligg.common.vo.CarouselVo;
-import com.ligg.common.vo.PageVo;
+import com.ligg.common.module.entity.CarouselEntity;
+import com.ligg.common.module.vo.CarouselVo;
+import com.ligg.common.module.vo.PageVo;
 
 import java.util.List;
 

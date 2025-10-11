@@ -2,7 +2,7 @@
  * @Author Ligg
  * @Time 2025/9/30
  **/
-package com.ligg.common.vo.search;
+package com.ligg.common.module.vo.search;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

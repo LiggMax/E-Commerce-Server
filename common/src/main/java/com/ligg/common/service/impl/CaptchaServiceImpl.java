@@ -3,7 +3,7 @@ package com.ligg.common.service.impl;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 import com.ligg.common.constants.Constant;
-import com.ligg.common.dto.CaptchaDto;
+import com.ligg.common.module.dto.CaptchaDto;
 import com.ligg.common.service.CaptchaService;
 import com.ligg.common.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;

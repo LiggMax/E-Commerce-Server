@@ -4,7 +4,7 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.common.dto.CaptchaDto;
+import com.ligg.common.module.dto.CaptchaDto;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.CaptchaService;
 import com.ligg.common.utils.Response;

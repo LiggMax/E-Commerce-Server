@@ -1,7 +1,7 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

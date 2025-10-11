@@ -1,8 +1,4 @@
-/**
- * @Author Ligg
- * @Time 2025/9/30
- **/
-package com.ligg.common.entity;
+package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -11,26 +7,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
+/**
+ * @Author LiGG
+ * @Time 2025/10/8
+ */
+
 @Data
+@TableName("email")
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("product_image")
-public class ProductImageEntity {
+public class EmailEntity {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 商品id
+     * 邮箱地址
      */
-    private String productId;
+    private String email;
 
     /**
-     * 排序值
+     * 创建时间
      */
-    private Integer sort;
+    private LocalDateTime createdAt;
 
     /**
-     * 图片路径
+     * 更新时间
      */
-    private String imagePath;
+    private LocalDateTime updateAt;
 }

@@ -4,14 +4,14 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.common.entity.ProductEntity;
+import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.SearchService;
 import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
-import com.ligg.common.vo.PageVo;
-import com.ligg.common.vo.search.SearchVo;
+import com.ligg.common.module.vo.PageVo;
+import com.ligg.common.module.vo.search.SearchVo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;

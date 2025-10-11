@@ -1,7 +1,7 @@
 package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ligg.common.entity.ProductDetailEntity;
+import com.ligg.common.module.entity.ProductDetailEntity;
 
 /**
  * @Author Ligg

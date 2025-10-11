@@ -1,8 +1,9 @@
-package com.ligg.common.entity;
+package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,31 +17,29 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("spec_value")
-public class SpecValueEntity {
+@TableName("spec")
+public class SpecEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 规格id
+     * 商品id
      */
-    private Integer specId;
+    @NotNull
+    private String productId;
 
     /**
-     * 值(规则内容)
+     * 规格名称
      */
-    private String value;
+    @NotNull
+    private String name;
 
     /**
      * 排序
      */
+    @NotNull
     private Integer sort;
-
-    /**
-     * 规格价格
-     */
-    private Integer price;
 
     /**
      * 创建时间

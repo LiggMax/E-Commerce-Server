@@ -4,7 +4,7 @@
  **/
 package com.ligg.apiadmin.controller;
 
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.service.TokenService;
 import com.ligg.common.service.UserService;
 import com.ligg.common.enums.BusinessStates;

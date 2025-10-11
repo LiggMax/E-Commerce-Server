@@ -1,6 +1,6 @@
 package com.ligg.apiclient.service;
 
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.entity.UserEntity;
 
 /**
  * @Author Ligg

@@ -2,7 +2,7 @@
  * @Author Ligg
  * @Time 2025/9/26
  **/
-package com.ligg.common.entity;
+package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

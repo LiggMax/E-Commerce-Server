@@ -5,7 +5,7 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ligg.common.entity.ProductEntity;
+import com.ligg.common.module.entity.ProductEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,7 +1,7 @@
 package com.ligg.common.utils;
 
 import com.ligg.common.Imagenum.ImageType;
-import com.ligg.common.vo.ImagesVo;
+import com.ligg.common.module.vo.ImagesVo;
 
 /**
  * @Author Ligg

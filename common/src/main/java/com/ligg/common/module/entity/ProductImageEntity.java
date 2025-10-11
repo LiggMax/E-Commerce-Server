@@ -1,4 +1,8 @@
-package com.ligg.common.entity;
+/**
+ * @Author Ligg
+ * @Time 2025/9/30
+ **/
+package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,20 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @Author Ligg
- * @Time 2025/9/30
- **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("product_detail")
-public class ProductDetailEntity {
-
-    /**
-     * id
-     */
-    @TableId(value = "id", type = IdType.AUTO)
+@TableName("product_image")
+public class ProductImageEntity {
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -29,7 +25,12 @@ public class ProductDetailEntity {
     private String productId;
 
     /**
-     * 描述
+     * 排序值
      */
-    private String description;
+    private Integer sort;
+
+    /**
+     * 图片路径
+     */
+    private String imagePath;
 }

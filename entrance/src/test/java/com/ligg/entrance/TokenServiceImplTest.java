@@ -1,6 +1,6 @@
 package com.ligg.entrance;
 
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.service.impl.TokenServiceImpl;
 import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.RedisUtil;

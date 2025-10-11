@@ -3,7 +3,7 @@
 <mapper namespace="com.ligg.common.mapper.ProductMapper">
 
     <!-- 精选商品详情查询 -->
-    <select id="selectProductDetailPage" resultType="com.ligg.common.vo.search.FeaturedSearchVo">
+    <select id="selectProductDetailPage" resultType="com.ligg.common.module.vo.search.FeaturedSearchVo">
         select p.id,
                p.title,
                p.image_path,

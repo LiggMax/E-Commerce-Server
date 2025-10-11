@@ -4,9 +4,9 @@
  **/
 package com.ligg.apiadmin.controller;
 
-import com.ligg.common.dto.SpecDto;
-import com.ligg.common.entity.SpecEntity;
-import com.ligg.common.entity.SpecValueEntity;
+import com.ligg.common.module.dto.SpecDto;
+import com.ligg.common.module.entity.SpecEntity;
+import com.ligg.common.module.entity.SpecValueEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.ProductService;
 import com.ligg.common.service.SpecService;

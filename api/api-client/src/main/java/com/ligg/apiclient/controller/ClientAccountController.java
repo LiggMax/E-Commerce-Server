@@ -5,8 +5,8 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.apiclient.service.ClientAccountService;
-import com.ligg.common.dto.AccountDto;
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.dto.AccountDto;
+import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.CaptchaService;
 import com.ligg.common.service.TokenService;

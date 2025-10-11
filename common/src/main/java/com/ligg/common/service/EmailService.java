@@ -1,7 +1,7 @@
 package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ligg.common.entity.EmailEntity;
+import com.ligg.common.module.entity.EmailEntity;
 import jakarta.validation.constraints.NotNull;
 
 /**

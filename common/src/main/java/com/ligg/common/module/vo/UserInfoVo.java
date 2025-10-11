@@ -1,4 +1,4 @@
-package com.ligg.common.vo;
+package com.ligg.common.module.vo;
 
 import com.ligg.common.enums.UserRole;
 import lombok.AllArgsConstructor;

@@ -3,7 +3,7 @@
 <mapper namespace="com.ligg.common.mapper.SearchMapper">
 
     <!-- 查询商品列表 -->
-    <select id="selectCommodity" resultType="com.ligg.common.entity.ProductEntity">
+    <select id="selectCommodity" resultType="com.ligg.common.module.entity.ProductEntity">
         select
         p.id,
         p.title,

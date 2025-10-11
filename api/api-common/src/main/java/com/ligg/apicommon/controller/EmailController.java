@@ -4,7 +4,7 @@
  */
 package com.ligg.apicommon.controller;
 
-import com.ligg.common.entity.EmailEntity;
+import com.ligg.common.module.entity.EmailEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.EmailService;
 import com.ligg.common.utils.Response;

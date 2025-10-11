@@ -2,9 +2,9 @@ package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ligg.common.entity.ProductEntity;
-import com.ligg.common.entity.ProductDetailEntity;
-import com.ligg.common.vo.search.FeaturedSearchVo;
+import com.ligg.common.module.entity.ProductEntity;
+import com.ligg.common.module.entity.ProductDetailEntity;
+import com.ligg.common.module.vo.search.FeaturedSearchVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

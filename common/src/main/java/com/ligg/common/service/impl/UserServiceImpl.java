@@ -6,12 +6,12 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ligg.common.constants.Constant;
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.RedisUtil;
-import com.ligg.common.vo.UserInfoVo;
+import com.ligg.common.module.vo.UserInfoVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;

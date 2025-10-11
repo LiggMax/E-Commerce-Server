@@ -4,9 +4,10 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.common.entity.ProductEntity;
-import com.ligg.common.entity.ProductDetailEntity;
-import com.ligg.common.entity.ProductImageEntity;
+import com.ligg.common.module.entity.ProductEntity;
+import com.ligg.common.module.entity.ProductDetailEntity;
+import com.ligg.common.module.entity.ProductImageEntity;
+import com.ligg.common.module.vo.*;
 import com.ligg.common.service.ProductImageService;
 import com.ligg.common.service.ProductService;
 import com.ligg.common.enums.BusinessStates;
@@ -14,7 +15,6 @@ import com.ligg.common.service.SpecService;
 import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
-import com.ligg.common.vo.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,7 +1,7 @@
 package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ligg.common.entity.ProductImageEntity;
+import com.ligg.common.module.entity.ProductImageEntity;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;

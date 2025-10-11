@@ -1,7 +1,7 @@
 package com.ligg.common.service.impl;
 
 import com.ligg.common.constants.Constant;
-import com.ligg.common.entity.UserEntity;
+import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.service.TokenService;
 import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.RedisUtil;

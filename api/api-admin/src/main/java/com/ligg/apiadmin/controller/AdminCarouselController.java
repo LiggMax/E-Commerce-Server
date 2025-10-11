@@ -6,16 +6,16 @@
 package com.ligg.apiadmin.controller;
 
 import com.ligg.common.constants.Constant;
-import com.ligg.common.dto.CarouselDto;
-import com.ligg.common.entity.CarouselEntity;
+import com.ligg.common.module.dto.CarouselDto;
+import com.ligg.common.module.entity.CarouselEntity;
 import com.ligg.common.enums.CarouselStatus;
 import com.ligg.common.service.CarouselService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
-import com.ligg.common.vo.CarouselVo;
-import com.ligg.common.vo.PageVo;
+import com.ligg.common.module.vo.CarouselVo;
+import com.ligg.common.module.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,4 +1,4 @@
-package com.ligg.common.vo;
+package com.ligg.common.module.vo;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

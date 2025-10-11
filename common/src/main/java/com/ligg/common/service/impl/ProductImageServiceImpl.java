@@ -2,7 +2,7 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ligg.common.entity.ProductImageEntity;
+import com.ligg.common.module.entity.ProductImageEntity;
 import com.ligg.common.mapper.ProductImageMapper;
 import com.ligg.common.service.ProductImageService;
 import lombok.RequiredArgsConstructor;

@@ -7,7 +7,7 @@ package com.ligg.apiclient.controller;
 import com.ligg.common.service.CarouselService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.Response;
-import com.ligg.common.vo.CarouselVo;
+import com.ligg.common.module.vo.CarouselVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

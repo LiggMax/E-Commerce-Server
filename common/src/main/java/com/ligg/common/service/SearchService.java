@@ -1,7 +1,7 @@
 package com.ligg.common.service;
 
-import com.ligg.common.entity.ProductEntity;
-import com.ligg.common.vo.PageVo;
+import com.ligg.common.module.entity.ProductEntity;
+import com.ligg.common.module.vo.PageVo;
 import jakarta.validation.constraints.NotNull;
 
 /**

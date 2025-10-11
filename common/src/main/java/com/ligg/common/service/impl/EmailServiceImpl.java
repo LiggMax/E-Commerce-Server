@@ -2,7 +2,7 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ligg.common.entity.EmailEntity;
+import com.ligg.common.module.entity.EmailEntity;
 import com.ligg.common.mapper.EmailMapper;
 import com.ligg.common.service.EmailService;
 import lombok.RequiredArgsConstructor;

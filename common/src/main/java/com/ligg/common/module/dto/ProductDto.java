@@ -2,7 +2,7 @@
  * @Author Ligg
  * @Time 2025/9/26
  **/
-package com.ligg.common.dto;
+package com.ligg.common.module.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
