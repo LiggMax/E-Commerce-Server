@@ -39,9 +39,10 @@ public class CaptchaServiceImpl implements CaptchaService {
         boolean equals = redisCode.equalsIgnoreCase(code);
         if (!equals) {
             deleteCaptcha(uuid);
+            return false;
         }
         deleteCaptcha(uuid);
-        return equals;
+        return true;
     }
 
     /**
