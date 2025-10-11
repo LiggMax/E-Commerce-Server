@@ -42,7 +42,7 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public void saveToken(String token, String userId) {
-        redisUtil.set(Constant.TOKEN + ':' + userId, token, EXPIRE, TimeUnit.MINUTES);
+        redisUtil.set(Constant.TOKEN + ':' + userId, token, EXPIRE, TimeUnit.SECONDS);
     }
 
     /**
