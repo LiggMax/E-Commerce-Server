@@ -36,9 +36,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientProductController {
 
+    private final SpecService specService;
     private final ProductService featuredService;
     private final ProductImageService productImageService;
-    private final SpecService specService;
 
     /**
      * 获取精选商品分页列表

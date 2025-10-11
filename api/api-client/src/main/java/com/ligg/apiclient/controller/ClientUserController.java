@@ -30,7 +30,7 @@ public class ClientUserController {
     /**
      * 获取用户信息
      */
-    @GetMapping("/user_info")
+    @GetMapping("/info")
     public Response<UserInfoVo> getUserInfo() {
         Map<String, Object> userObject = ThreadLocalUtil.get();
         String userId = (String) userObject.get(Constant.USER_ID);

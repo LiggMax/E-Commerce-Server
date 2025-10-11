@@ -30,10 +30,10 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/client/account")
 public class ClientAccountController {
 
-    final ClientAccountService clientAccountService;
-    final CaptchaService captchaService;
     final UserService userService;
     final TokenService tokenService;
+    final CaptchaService captchaService;
+    final ClientAccountService clientAccountService;
 
     /**
      * 注册

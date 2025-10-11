@@ -43,8 +43,8 @@ public class AdminCarouselController {
     @Value("${file.image.base-path}")
     private String IMAGE_PATH;
 
-    private final CarouselService carouselService;
     private final FileService fileService;
+    private final CarouselService carouselService;
 
     /**
      * 获取轮播图数据

@@ -24,8 +24,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    final UserMapper userMapper;
     final RedisUtil redisUtil;
+    final UserMapper userMapper;
     /**
      * 注册账号
      * @param account 账号
