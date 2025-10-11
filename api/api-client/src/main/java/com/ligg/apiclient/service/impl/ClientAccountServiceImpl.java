@@ -25,10 +25,6 @@ public class ClientAccountServiceImpl implements ClientAccountService {
      */
     @Override
     public int register(UserEntity userEntity) {
-        String nickName = "user_" + UUID.randomUUID().toString().substring(0, 6);
-        userEntity.setNickName(nickName);
-        userEntity.setRole(UserRole.USER);
-        userEntity.setPassword(BCryptUtil.encrypt(userEntity.getPassword()));
         return userMapper.insert(userEntity);
     }
 }

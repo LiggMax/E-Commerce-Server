@@ -38,7 +38,7 @@ public class AccountDto {
      */
     private String uuid;
 
-    String email;
+    private String email;
     private Integer status;
 
     private LocalDateTime createTime;

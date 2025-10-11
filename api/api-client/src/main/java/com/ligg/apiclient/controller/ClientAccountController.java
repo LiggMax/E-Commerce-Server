@@ -5,6 +5,7 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.apiclient.service.ClientAccountService;
+import com.ligg.common.enums.UserRole;
 import com.ligg.common.module.dto.AccountDto;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.enums.BusinessStates;
@@ -16,11 +17,13 @@ import com.ligg.common.utils.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * 账户接口
@@ -30,36 +33,39 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/client/account")
 public class ClientAccountController {
 
-    final UserService userService;
-    final TokenService tokenService;
-    final CaptchaService captchaService;
-    final ClientAccountService clientAccountService;
+    private final UserService userService;
+    private final TokenService tokenService;
+    private final CaptchaService captchaService;
+    private final ClientAccountService clientAccountService;
 
     /**
      * 注册
      */
-    @RequestMapping("/register")
+    @PostMapping("/register")
     public Response<String> register(@Validated @RequestBody AccountDto account) {
         if (account.getAccount().length() < 6 || account.getAccount().length() > 20 ||
                 account.getPassword().length() < 6 || account.getPassword().length() > 20) {
             return Response.error(BusinessStates.VALIDATION_FAILED);
         }
-        if (!StringUtils.hasText(account.getCode()) || account.getCode().length() < 6) {
-            return Response.error(BusinessStates.BAD_REQUEST);
+        if (!StringUtils.hasText(account.getCode()) || account.getCode().length() != 6) {
+            return Response.error(BusinessStates.VALIDATION_FAILED);
         }
         boolean isTrue = captchaService.verifyCaptcha(account.getCode(), account.getUuid());
         if (!isTrue) {
             return Response.error(BusinessStates.VALIDATION_FAILED, "验证码错误");
         }
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setAccount(account.getAccount());
-        userEntity.setPassword(account.getPassword());
-        userEntity.setEmail(account.getEmail());
-        userEntity.setCreateTime(LocalDateTime.now());
         if (userService.getUserInfoByAccount(account.getAccount()) != null) {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "该账号已被注册");
         }
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setAccount(account.getAccount());
+        userEntity.setPassword(BCryptUtil.encrypt(account.getPassword()));
+        userEntity.setEmail(account.getEmail());
+        userEntity.setRole(UserRole.USER);
+        userEntity.setNickName("user_" + UUID.randomUUID().toString().substring(0, 6));
+        userEntity.setCreateTime(LocalDateTime.now());
         return clientAccountService.register(userEntity) < 1
                 ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
                 : Response.success(BusinessStates.SUCCESS);
