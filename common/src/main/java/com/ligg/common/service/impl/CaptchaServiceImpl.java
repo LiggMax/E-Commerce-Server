@@ -24,7 +24,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     final RedisUtil redisUtil;
 
     /**
-     * 校验验证码
+     * 验证码校验
      *
      * @param code 验证码
      * @param uuid uuid
@@ -48,7 +48,10 @@ public class CaptchaServiceImpl implements CaptchaService {
      * 生成验证码,并保存到redis
      */
     @Override
-    public CaptchaDto createCaptcha() {
+    public CaptchaDto createCaptcha(String lastTimeUid) {
+        if (StringUtils.hasText(lastTimeUid)) {
+            deleteCaptcha(lastTimeUid);
+        }
         CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(150, 48, 6, 20);
         String uuid = UUID.randomUUID().toString();
 

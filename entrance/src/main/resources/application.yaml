@@ -27,11 +27,6 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
-logging:
-  level:
-    org.springframework.validation: DEBUG
-    com.ligg.**: debug
-
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -44,9 +44,4 @@ public interface ProductService extends IService<ProductEntity> {
      * @return 精选商品分页列表
      */
     PageVo<ProductEntity> getFeaturedPageList(Long pageNumber, Long pageSize);
-
-    /**
-     * 根据商品id查询商品图片列表
-     */
-//    List<FeaturedDetailVo.Images> selectProductImagesById(Long productId);
-}
+   }

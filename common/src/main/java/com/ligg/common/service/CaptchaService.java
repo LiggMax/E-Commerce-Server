@@ -20,5 +20,5 @@ public interface CaptchaService {
     /**
      * 创建验证码
      */
-    CaptchaDto createCaptcha();
+    CaptchaDto createCaptcha(String lastTimeUid);
 }

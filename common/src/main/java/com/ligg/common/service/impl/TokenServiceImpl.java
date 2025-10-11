@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static com.ligg.common.constants.Constant.EXPIRE;
 
@@ -41,7 +42,7 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public void saveToken(String token, String userId) {
-        redisUtil.set(Constant.TOKEN + ':' + userId, token, EXPIRE);
+        redisUtil.set(Constant.TOKEN + ':' + userId, token, EXPIRE, TimeUnit.MINUTES);
     }
 
     /**
