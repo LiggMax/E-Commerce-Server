@@ -20,15 +20,15 @@ public class UserEntity {
      * 用户id
      */
     @TableId(type = IdType.ASSIGN_ID)
-    String userId;
-    String nickName;
-    String password;
-    String account;
-    String avatar;
-    UserRole role;
-    Integer status;
-    LocalDateTime createTime;
-    String email;
+    private String userId;
+    private String nickName;
+    private String password;
+    private String account;
+    private String avatar;
+    private UserRole role;
+    private Integer status;
+    private LocalDateTime createTime;
+    private String email;
 
     /**
      * 最后登录时间

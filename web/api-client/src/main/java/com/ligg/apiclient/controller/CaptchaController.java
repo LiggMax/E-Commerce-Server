@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CaptchaController {
 
-    final CaptchaService captchaService;
+    private final CaptchaService captchaService;
 
     /**
      * 获取验证码

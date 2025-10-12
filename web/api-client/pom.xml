@@ -3,30 +3,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>api-admin</artifactId>
+    <artifactId>api-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>api-admin</name>
-    <description>api-admin</description>
+    <name>api-client</name>
+    <description>api-client</description>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>com.ligg</groupId>
-        <artifactId>api</artifactId>
+        <artifactId>web</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>com.github.xiaoymin</groupId>-->
-<!--            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>-->
-<!--            <version>4.4.0</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>com.ligg</groupId>
             <artifactId>common</artifactId>

@@ -16,17 +16,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserInfoVo {
 
-    String nickName;
-    String account;
-    String avatar;
-    UserRole role;
-    Integer status;
-    String email;
+    private String nickName;
+    private String account;
+    private String avatar;
+    private UserRole role;
+    private Integer status;
+    private String email;
+    private LocalDateTime createTime;
 
-    LocalDateTime createTime;
     /**
      * 最后登录时间
      */
-    LocalDateTime lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
 }

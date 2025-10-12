@@ -25,7 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ClientUserController {
 
-    final UserService userService;
+    private final UserService userService;
 
     /**
      * 获取用户信息
