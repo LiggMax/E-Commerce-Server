@@ -15,18 +15,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-
-    final AdminLoginInterceptors loginInterceptors;
-    final ClientLoginInterceptors clientLoginInterceptors;
+    private final AdminLoginInterceptors adminLoginInterceptors;
+    private final ClientLoginInterceptors clientLoginInterceptors;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //登录拦截器
-        registry.addInterceptor(loginInterceptors)
+        //管理端拦截器
+        registry.addInterceptor(adminLoginInterceptors)
                 //拦截路径
                 .addPathPatterns("/api/admin/**")
                 //放行路径
                 .excludePathPatterns("/api/admin/account/**");
+        //客户端拦截器
         registry.addInterceptor(clientLoginInterceptors)
                 //拦截路径
                 .addPathPatterns("/api/client/user/**")
