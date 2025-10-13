@@ -5,6 +5,7 @@
 package com.ligg.apiadmin.controller;
 
 import com.ligg.common.constants.Constant;
+import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.TokenService;
 import com.ligg.common.utils.Response;
@@ -32,7 +33,7 @@ public class AdminUserController {
     @PostMapping("/remove_token")
     public Response<String> logout() {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
-        String userId = (String) userInfo.get(Constant.USER_ID);
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
         if (userId == null || userId.isEmpty()) {
             return Response.error(BusinessStates.SUCCESS);
         }

@@ -4,6 +4,7 @@
  **/
 package com.ligg.entrance;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+@Slf4j
 @Component
 public class NetworkAddressPrinter implements ApplicationRunner {
 
@@ -29,7 +31,7 @@ public class NetworkAddressPrinter implements ApplicationRunner {
             System.out.println("在线文档地址: http://localhost:" + this.port + "/doc.html");
             System.out.println("===============================================");
         } catch (UnknownHostException e) {
-            System.out.println("无法获取本机IP地址");
+            log.error("无法获取本机IP地址", e);
         }
     }
 }

@@ -6,6 +6,7 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ligg.common.constants.Constant;
+import com.ligg.common.constants.UserConstant;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.service.UserService;
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
         if (redisUserInfo == null) {
             UserEntity userEntity = userMapper.selectById(userId);
             if (userEntity != null) {
-                redisUtil.set(Constant.USER_INFO + ":" + userId, userEntity, 3);
+                redisUtil.set(UserConstant.USER_INFO + ":" + userId, userEntity, 3);
                 BeanUtils.copyProperties(userEntity, userInfoVo);
             }
             return userInfoVo;
@@ -77,6 +78,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserEntity getRedisUserInfo(String userId) {
-        return (UserEntity) redisUtil.get(Constant.USER_INFO + ":" + userId);
+        return (UserEntity) redisUtil.get(UserConstant.USER_INFO + ":" + userId);
     }
 }

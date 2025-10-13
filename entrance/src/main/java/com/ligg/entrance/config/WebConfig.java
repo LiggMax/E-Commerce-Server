@@ -5,7 +5,7 @@
 package com.ligg.entrance.config;
 
 import com.ligg.entrance.interceptors.ClientLoginInterceptors;
-import com.ligg.entrance.interceptors.LoginInterceptors;
+import com.ligg.entrance.interceptors.AdminLoginInterceptors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
 
-    final LoginInterceptors loginInterceptors;
+    final AdminLoginInterceptors loginInterceptors;
     final ClientLoginInterceptors clientLoginInterceptors;
 
     @Override

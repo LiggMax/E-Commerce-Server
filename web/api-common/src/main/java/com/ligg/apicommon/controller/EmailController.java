@@ -23,8 +23,8 @@ import java.time.LocalDateTime;
  */
 @Validated
 @RestController
-@RequestMapping("/api/email")
 @RequiredArgsConstructor
+@RequestMapping("/api/email")
 public class EmailController {
 
     private final EmailService emailService;

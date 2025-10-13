@@ -11,12 +11,6 @@ public class Constant {
      */
     public static final String AUTHORIZATION = "Authorization";
 
-    /**
-     * 用户id
-     */
-    public static final String USER_ID = "userId";
-
-    public static final String USER_INFO = "userInfo";
 
     /**
      * 账号
@@ -26,7 +20,7 @@ public class Constant {
     /**
      * Token
      */
-    public static final String TOKEN = "Token";
+    public static final String TOKEN = "Token:";
 
     /**
      * 过期时间6小时

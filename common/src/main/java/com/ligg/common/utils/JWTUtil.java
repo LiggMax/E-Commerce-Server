@@ -4,11 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.ligg.common.constants.Constant;
 
 import java.util.Date;
 import java.util.Map;
 
-import static com.ligg.common.constants.Constant.TOKEN_KEY;
 
 /**
  * @Author Ligg
@@ -27,7 +27,7 @@ public class JWTUtil {
         return JWT.create()
                 .withClaim("claims", claims)
                 .withExpiresAt(new Date(System.currentTimeMillis() + expire * 1000))
-                .sign(Algorithm.HMAC256(TOKEN_KEY));
+                .sign(Algorithm.HMAC256(Constant.TOKEN_KEY));
     }
 
     /**
@@ -37,7 +37,7 @@ public class JWTUtil {
      */
     public static Map<String, Object> parseToken(String token) {
         try {
-            return JWT.require(Algorithm.HMAC256(TOKEN_KEY))
+            return JWT.require(Algorithm.HMAC256(Constant.TOKEN_KEY))
                     .build()
                     .verify(token)
                     .getClaim("claims")

@@ -5,6 +5,7 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.constants.Constant;
+import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.Response;
@@ -33,7 +34,7 @@ public class ClientUserController {
     @GetMapping("/info")
     public Response<UserInfoVo> getUserInfo() {
         Map<String, Object> userObject = ThreadLocalUtil.get();
-        String userId = (String) userObject.get(Constant.USER_ID);
+        String userId = (String) userObject.get(UserConstant.USER_ID);
         UserInfoVo userInfo = userService.getUserInfoById(userId);
         return Response.success(BusinessStates.SUCCESS, userInfo);
     }

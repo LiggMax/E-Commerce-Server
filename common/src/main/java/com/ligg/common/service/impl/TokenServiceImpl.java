@@ -1,6 +1,7 @@
 package com.ligg.common.service.impl;
 
 import com.ligg.common.constants.Constant;
+import com.ligg.common.constants.UserConstant;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.service.TokenService;
 import com.ligg.common.utils.JWTUtil;
@@ -29,8 +30,9 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String generateToken(UserEntity userEntity) {
         Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put(Constant.USER_ID, userEntity.getUserId());
+        userInfo.put(UserConstant.USER_ID, userEntity.getUserId());
         userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
+        userInfo.put(UserConstant.USER_ROLE, userEntity.getRole().toString());
         return JWTUtil.createToken(userInfo, EXPIRE);
     }
 
@@ -42,7 +44,7 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public void saveToken(String token, String userId) {
-        redisUtil.set(Constant.TOKEN + ':' + userId, token, EXPIRE, TimeUnit.SECONDS);
+        redisUtil.set(Constant.TOKEN + userId, token, EXPIRE, TimeUnit.SECONDS);
     }
 
     /**
@@ -52,6 +54,6 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public void deleteRedisToken(String userId) {
-        redisUtil.del(Constant.TOKEN + ':' + userId);
+        redisUtil.del(Constant.TOKEN + userId);
     }
 }
