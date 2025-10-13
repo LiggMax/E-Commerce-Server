@@ -17,10 +17,11 @@ public interface ProductMapper extends BaseMapper<ProductEntity> {
 
     /**
      * 根据商品id查询商品详情
+     *
      * @param productId 商品id
      * @return 商品详情
      */
-    @Select("select * from product_detail where product_id = #{productId}")
+    @Select("select id,product_id,description from product_detail where product_id = #{productId}")
     ProductDetailEntity selectProductDetailById(String productId);
 
     IPage<FeaturedSearchVo> selectProductDetailPage(IPage<FeaturedSearchVo> page);

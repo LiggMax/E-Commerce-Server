@@ -14,7 +14,7 @@ public enum BusinessStates {
     /**
      * 操作成功
      */
-    SUCCESS(200, "Success"),
+    SUCCESS(200, "success"),
 
     /**
      * 请求参数错误
