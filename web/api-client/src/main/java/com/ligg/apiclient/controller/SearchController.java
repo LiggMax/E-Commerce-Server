@@ -35,29 +35,5 @@ public class SearchController {
 
     private final SearchService searchService;
 
-    /**
-     * 搜索
-     */
-    @GetMapping
-    public Response<PageVo<SearchVo>> search(@Schema(description = "关键字") @NotNull String keyword,
-                                             @Schema(description = "页码") @NotNull Long pageNumber,
-                                             @Schema(description = "排序") @RequestParam(required = false) Integer sort) {
-        //获取商品分页列表
-        PageVo<ProductEntity> searchData = searchService.searchCommodityPageList(keyword, pageNumber, 20L,sort);
-        List<SearchVo> searchResult = searchData.getList().stream().map(search -> {
-            SearchVo searchVo = new SearchVo();
-            BeanUtils.copyProperties(search, searchVo);
-            searchVo.setUrl(ImageUtil.getImagePath(search.getImagePath()));
-            searchVo.setDiscount(DiscountUtil.calculateDiscountPercentage(
-                    search.getOriginalPrice(),
-                    search.getCurrentPrice()).doubleValue());
-            return searchVo;
-        }).toList();
 
-        PageVo<SearchVo> pageVo = new PageVo<>();
-        pageVo.setPages(searchData.getPages());
-        pageVo.setTotal(searchData.getTotal());
-        pageVo.setList(searchResult);
-        return Response.success(BusinessStates.SUCCESS, pageVo);
-    }
 }

@@ -4,13 +4,16 @@
  **/
 package com.ligg.apiclient.controller;
 
+import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.entity.ProductImageEntity;
 import com.ligg.common.module.vo.*;
+import com.ligg.common.module.vo.search.SearchVo;
 import com.ligg.common.service.ProductImageService;
 import com.ligg.common.service.ProductService;
 import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.service.SearchService;
 import com.ligg.common.service.SpecService;
 import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
@@ -21,9 +24,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ import java.util.List;
 public class ClientProductController {
 
     private final SpecService specService;
+    private final SearchService searchService;
     private final ProductService featuredService;
     private final ProductImageService productImageService;
 
@@ -46,7 +49,7 @@ public class ClientProductController {
     @GetMapping
     @Operation(summary = "获取精选商品列表")
     public Response<PageVo<FeaturedVo>> pagelist(@NotNull Long pageNumber) {
-        PageVo<ProductEntity> featuredPage = featuredService.getFeaturedPageList(pageNumber,10L);
+        PageVo<ProductEntity> featuredPage = featuredService.getFeaturedPageList(pageNumber, 10L);
         List<FeaturedVo> featuredVoList = featuredPage.getList().stream().map(featured -> {
             FeaturedVo featuredVo = new FeaturedVo();
             BeanUtils.copyProperties(featured, featuredVo);
@@ -104,6 +107,43 @@ public class ClientProductController {
         List<SpecVo> specVoList = specService.getSpecDetailByProductId(productId);
         featuredDetailVo.setSpecs(specVoList);
         return Response.success(BusinessStates.SUCCESS, featuredDetailVo);
+    }
+
+    /**
+     * 商品搜索
+     */
+    @GetMapping("/search")
+    @Operation(summary = "商品搜索")
+    public Response<PageVo<SearchVo>> search(@Schema(description = "关键字") @NotNull String keyword,
+                                             @Schema(description = "页码") @NotNull Long pageNumber,
+                                             @Schema(description = "排序") @RequestParam(required = false) Integer sort) {
+        //获取商品分页列表
+        PageVo<ProductEntity> searchData = searchService.searchCommodityPageList(keyword, pageNumber, 20L, sort);
+        List<SearchVo> searchResult = searchData.getList().stream().map(search -> {
+            SearchVo searchVo = new SearchVo();
+            BeanUtils.copyProperties(search, searchVo);
+            searchVo.setUrl(ImageUtil.getImagePath(search.getImagePath()));
+            searchVo.setDiscount(DiscountUtil.calculateDiscountPercentage(
+                    search.getOriginalPrice(),
+                    search.getCurrentPrice()).doubleValue());
+            return searchVo;
+        }).toList();
+
+        PageVo<SearchVo> pageVo = new PageVo<>();
+        pageVo.setPages(searchData.getPages());
+        pageVo.setTotal(searchData.getTotal());
+        pageVo.setList(searchResult);
+        return Response.success(BusinessStates.SUCCESS, pageVo);
+    }
+
+    /**
+     * 创建商品订单
+     */
+    @PostMapping("/order")
+    @Operation(summary = "创建商品订单")
+    public Response<String> createOrder(@Validated @RequestBody OrderDto orderDto) {
+
+        return Response.success(BusinessStates.SUCCESS);
     }
 }
 

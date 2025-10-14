@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
         if (redisUserInfo == null) {
             UserEntity userEntity = userMapper.selectById(userId);
             if (userEntity != null) {
-                redisUtil.set(UserConstant.USER_INFO + ":" + userId, userEntity, 3);
+                redisUtil.set(UserConstant.USER_INFO + ":" + userId, userEntity, 1);
                 BeanUtils.copyProperties(userEntity, userInfoVo);
             }
             return userInfoVo;

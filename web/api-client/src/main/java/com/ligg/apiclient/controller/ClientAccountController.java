@@ -14,6 +14,8 @@ import com.ligg.common.service.TokenService;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +30,7 @@ import java.util.UUID;
 /**
  * 账户接口
  */
+@Tag(name = "账户接口")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/client/account")
@@ -41,6 +44,7 @@ public class ClientAccountController {
     /**
      * 注册
      */
+    @Operation(summary = "注册")
     @PostMapping("/register")
     public Response<String> register(@Validated @RequestBody AccountDto account) {
         if (account.getAccount().length() < 6 || account.getAccount().length() > 20 ||

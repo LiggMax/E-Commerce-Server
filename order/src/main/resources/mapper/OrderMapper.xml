@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ligg.order.mapper.OrderMapper">
+
+    <!-- 获取所有商品库存 -->
+    <select id="getAllProductStock" resultType="com.ligg.common.module.dto.ProductStockDto">
+        select id as productId,
+               stock as stock
+        from product
+    </select>
+</mapper>

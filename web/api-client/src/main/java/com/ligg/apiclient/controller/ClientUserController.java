@@ -4,7 +4,6 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.UserService;

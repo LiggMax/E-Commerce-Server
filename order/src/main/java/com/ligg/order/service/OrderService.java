@@ -4,5 +4,12 @@
  **/
 package com.ligg.order.service;
 
+import com.ligg.common.module.dto.OrderDto;
+
 public interface OrderService {
+
+    /**
+     * 创建订单
+     */
+    boolean createOrder(OrderDto orderDto);
 }
