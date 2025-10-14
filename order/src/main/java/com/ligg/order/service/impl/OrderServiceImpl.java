@@ -114,6 +114,8 @@ public class OrderServiceImpl implements OrderService {
                 order.setRemark(orderDto.getRemark());
                 order.setCreateTime(LocalDateTime.now());
                 order.setPayTime(LocalDateTime.now());
+
+                //TODO 总价还需要 + 每个规格内容的加价
                 order.setTotalAmount(totalAmount * orderDto.getQuantity());
 
                 //保存订单
