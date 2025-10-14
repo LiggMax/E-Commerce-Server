@@ -67,12 +67,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ligg</groupId>
-            <artifactId>order</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>

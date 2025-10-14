@@ -5,9 +5,9 @@
 package com.ligg.common.module.dto;
 
 import com.ligg.common.enums.PayType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import lombok.*;
 
 import java.util.List;
 
@@ -39,6 +39,8 @@ public class OrderDto {
     /**
      * 购买数量
      */
+    @Min(value = 1, message = "商品数量不能小于1")
+    @Max(value = 100, message = "商品数量不能大于100")
     private Integer quantity;
 
     /**
@@ -49,6 +51,8 @@ public class OrderDto {
     /**
      * 规格
      */
+    @Getter
+    @Setter
     public static class SpecDto {
         private Integer id;
         private SpecValueDto specValue;
@@ -57,6 +61,8 @@ public class OrderDto {
     /**
      * 规格值
      */
+    @Getter
+    @Setter
     public static class SpecValueDto {
         private Integer id;
     }

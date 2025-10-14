@@ -6,6 +6,7 @@ package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.enums.PayType;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("order")
 public class OrderEntity {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;

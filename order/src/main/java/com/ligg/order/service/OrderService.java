@@ -11,5 +11,5 @@ public interface OrderService {
     /**
      * 创建订单
      */
-    boolean createOrder(OrderDto orderDto);
+    String createOrder(OrderDto orderDto);
 }

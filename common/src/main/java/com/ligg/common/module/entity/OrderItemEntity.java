@@ -6,6 +6,7 @@ package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("order_item")
 public class OrderItemEntity {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
@@ -23,7 +25,7 @@ public class OrderItemEntity {
     /**
      * 订单id
      */
-    private String orderId;
+    private Long orderId;
 
     /**
      * 商品id

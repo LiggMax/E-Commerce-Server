@@ -144,7 +144,7 @@ CREATE TABLE `product_image`  (
 -- ----------------------------
 -- Table structure for spec
 -- ----------------------------
-DROP TABLE IF EXISTS `spec`;
+DROP TABLE IF EXISTS product_spec;
 CREATE TABLE `spec`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `product_id` bigint NOT NULL COMMENT '商品id',

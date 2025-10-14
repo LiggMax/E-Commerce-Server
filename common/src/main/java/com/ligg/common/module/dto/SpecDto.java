@@ -67,6 +67,6 @@ public class SpecDto {
         /**
          * 规格价格
          */
-        private Integer price;
+        private Double price;
     }
 }

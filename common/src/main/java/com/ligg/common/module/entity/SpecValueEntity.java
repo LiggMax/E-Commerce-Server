@@ -40,7 +40,7 @@ public class SpecValueEntity {
     /**
      * 规格价格
      */
-    private Integer price;
+    private Double price;
 
     /**
      * 创建时间
