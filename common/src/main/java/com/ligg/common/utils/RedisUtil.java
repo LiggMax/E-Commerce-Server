@@ -171,6 +171,39 @@ public class RedisUtil {
     }
 
     /**
+     * 当key不存在时才设置值（SETNX命令）
+     * @param key 键
+     * @param value 值
+     * @return true设置成功 false设置失败（key已存在）
+     */
+    public boolean setIfAbsent(String key, Object value) {
+        try {
+            return Boolean.TRUE.equals(redisTemplate.opsForValue().setIfAbsent(key, value));
+        } catch (Exception e) {
+            log.error("RedisUtil.setIfAbsent error: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 当key不存在时才设置值，并设置过期时间（SETNX命令）
+     * @param key 键
+     * @param value 值
+     * @param time 过期时间
+     * @param unit 时间单位
+     * @return true设置成功 false设置失败（key已存在）
+     */
+    public boolean setIfAbsent(String key, Object value, long time, TimeUnit unit) {
+        try {
+            return Boolean.TRUE.equals(redisTemplate.opsForValue().setIfAbsent(key, value, time, unit));
+        } catch (Exception e) {
+            log.error("RedisUtil.setIfAbsent error: {}", e.getMessage());
+            return false;
+        }
+    }
+
+
+    /**
      * 递减
      * @param key 键
      * @param delta 要减少几(小于0)
