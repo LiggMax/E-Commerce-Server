@@ -10,6 +10,7 @@ import com.ligg.common.constants.ProductConstant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.mapper.ProductMapper;
+import com.ligg.common.mapper.ProductSpecMapper;
 import com.ligg.common.mapper.SpecValueMapper;
 import com.ligg.common.mapper.order.OrderItemMapper;
 import com.ligg.common.mapper.order.OrderItemSpecMapper;
@@ -21,11 +22,14 @@ import com.ligg.order.service.OrderService;
 import com.ligg.order.service.exception.OrderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -39,11 +43,22 @@ public class OrderServiceImpl implements OrderService {
 
     private final ProductMapper productMapper;
 
+    private final ProductSpecMapper productSpecMapper;
+
     private final OrderMapper orderMapper;
 
     private final OrderItemMapper orderItemMapper;
 
     private final OrderItemSpecMapper orderItemSpecMapper;
+
+    // 使用 Lua 脚本原子校验并按数量扣减库存：
+    // 返回值约定：>=0 表示扣减后库存，-1 表示库存不足，-2 表示库存键不存在
+    private static final DefaultRedisScript<Long> DECR_STOCK_SCRIPT = new DefaultRedisScript<>();
+
+    static {
+        DECR_STOCK_SCRIPT.setLocation(new ClassPathResource("redis.lua"));
+        DECR_STOCK_SCRIPT.setResultType(Long.class);
+    }
 
     /**
      * 创建订单
@@ -59,48 +74,76 @@ public class OrderServiceImpl implements OrderService {
 
         try {
             String stockKey = ProductConstant.STOCK_KEY_PREFIX + orderDto.getProductId();
-            Long stock = redisTemplate.opsForValue().decrement(stockKey);
-
-            if (stock == null) {
-                throw new OrderException("库存信息不存在");
+            int quantity = orderDto.getQuantity() == null ? 1 : orderDto.getQuantity();
+            if (quantity <= 0) {
+                quantity = 1;
             }
 
-            if (stock < 0) {
-                // 回滚库存
-                redisTemplate.opsForValue().increment(stockKey);
-                throw new OrderException("库存不足,无法下单");
-            }
-            //创建订单实体
-            OrderEntity order = new OrderEntity();
-
-            //保存订单详情
-            OrderEntity orderEntity = buildOrder(orderDto);
-
-            //构建订单数据
-            order.setOrderNo(orderEntity.getOrderNo());
-            order.setUserId(orderEntity.getUserId());
-            order.setPayType(orderDto.getPayType());
-            order.setOrderStatus(OrderStatus.UNPAID);
-            order.setAddressId(orderDto.getAddressId());
-            order.setRemark(orderDto.getRemark());
-            order.setCreateTime(LocalDateTime.now());
-            order.setPayTime(LocalDateTime.now());
-
+            // 先做规格校验与金额计算，任何失败都不会触发库存变更
             Double totalAmount = 0.0;
-            List<OrderDto.SpecDto> specDto = new OrderDto().getSpec();
+            List<OrderDto.SpecDto> specDto = orderDto.getSpec();
             for (OrderDto.SpecDto dto : specDto) {
-                SpecValueEntity specValue = getSpecValue(dto.getId());
+                SpecValueEntity specValue = getSpecValue(dto.getSpecValue().getId(), orderDto.getProductId());
                 totalAmount += specValue.getPrice();
             }
-            order.setTotalAmount(totalAmount * orderDto.getQuantity());
 
-
-            //保存订单
-            if (orderMapper.insert(order) < 1) {
-                throw new OrderException("保存订单信息失败");
+            // 规格校验通过后，再原子扣减库存
+            long result = redisTemplate.execute(DECR_STOCK_SCRIPT, Collections.singletonList(stockKey), quantity);
+            if (result == -2L) {
+                throw new OrderException("库存信息不存在");
             }
-            //返回订单id
-            return orderEntity.getOrderNo();
+            if (result == -1L) {
+                throw new OrderException("库存不足,无法下单");
+            }
+
+            // 从这里开始，如果后续任意一步失败，需要回滚库存
+            try {
+                //创建订单实体
+                OrderEntity order = new OrderEntity();
+
+                String orderNo = UUID.randomUUID().toString();
+                Map<String, Object> userObject = ThreadLocalUtil.get();
+                String userId = (String) userObject.get(UserConstant.USER_ID);
+
+                //构建订单数据
+                order.setOrderNo(orderNo);
+                order.setUserId(userId);
+                order.setPayType(orderDto.getPayType());
+                order.setStatus(OrderStatus.UNPAID);
+                order.setAddressId(orderDto.getAddressId());
+                order.setRemark(orderDto.getRemark());
+                order.setCreateTime(LocalDateTime.now());
+                order.setPayTime(LocalDateTime.now());
+                order.setTotalAmount(totalAmount * orderDto.getQuantity());
+
+                //保存订单
+                if (orderMapper.insert(order) < 1) {
+                    throw new OrderException("保存订单信息失败");
+                }
+
+                //保存订单详情
+                OrderItemEntity orderItem = new OrderItemEntity();
+                orderItem.setOrderId(order.getId());
+                orderItem.setProductId(orderDto.getProductId());
+                orderItem.setQuantity(orderDto.getQuantity());
+                buildOrder(orderItem);
+
+                //保存订单规格详情
+                List<OrderDto.SpecDto> specs = orderDto.getSpec();
+                specs.forEach(spec -> {
+                    OrderItemSpecEntity orderItemSpec = new OrderItemSpecEntity();
+                    orderItemSpec.setOrderItemId(orderItem.getId());
+                    orderItemSpec.setSpecValueId(spec.getSpecValue().getId());
+                    saveOrderItemSpec(orderItemSpec);
+                });
+
+                //返回订单id
+                return orderNo;
+            } catch (RuntimeException ex) {
+                // 回滚库存
+                redisTemplate.opsForValue().increment(stockKey, quantity);
+                throw ex;
+            }
         } finally {
             redisTemplate.delete(orderLockKey);
         }
@@ -109,47 +152,30 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 保存订单详情
      */
-    private OrderEntity buildOrder(OrderDto orderDto) {
-        OrderEntity order = new OrderEntity();
+    private void buildOrder(OrderItemEntity orderItem) {
 
-        //构建订单号&用户id信息
-        String orderNo = UUID.randomUUID().toString();
-        Map<String, Object> userObject = ThreadLocalUtil.get();
-        String userId = (String) userObject.get(UserConstant.USER_ID);
-        order.setOrderNo(orderNo);
-        order.setUserId(userId);
-
-        ProductEntity productEntity = productMapper.selectById(orderDto.getProductId());
+        ProductEntity productEntity = productMapper.selectById(orderItem.getProductId());
 
         //保存商品详情
-        OrderItemEntity orderItem = new OrderItemEntity();
-        orderItem.setOrderId(order.getId());
-        orderItem.setProductId(orderDto.getProductId());
-        orderItem.setQuantity(orderDto.getQuantity());
+        orderItem.setOrderId(orderItem.getOrderId());
+        orderItem.setProductId(orderItem.getProductId());
+        orderItem.setQuantity(orderItem.getQuantity());
         //TODO 临时计算方案，这样计算不准确，因为价格没有+选择规格值的加价
         orderItem.setSubtotal(productEntity.getCurrentPrice());
         saveOrderItem(orderItem);
-
-        //保存订单规格详情
-        List<OrderDto.SpecDto> specs = orderDto.getSpec();
-
-        specs.forEach(spec -> {
-            OrderItemSpecEntity orderItemSpec = new OrderItemSpecEntity();
-            orderItemSpec.setOrderItemId(orderItem.getId());
-            orderItemSpec.setSpecValueId(spec.getSpecValue().getId());
-            saveOrderItemSpec(orderItemSpec);
-        });
-
-        return order;
     }
 
     /**
      * 查询规格内容金额
      */
-    public SpecValueEntity getSpecValue(Integer specId) {
-        SpecValueEntity specValueEntity = specValueMapper.selectOne(
-                new LambdaQueryWrapper<SpecValueEntity>().eq(SpecValueEntity::getSpecId, specId)
+    public SpecValueEntity getSpecValue(Integer specValueId, Long productId) {
+        List<ProductSpecEntity> productSpecEntities = productSpecMapper.selectList(
+                new LambdaQueryWrapper<ProductSpecEntity>().eq(ProductSpecEntity::getProductId, productId)
         );
+        if (productSpecEntities == null || productSpecEntities.isEmpty()) {
+            throw new OrderException("商品规格不存在");
+        }
+        SpecValueEntity specValueEntity = specValueMapper.selectById(specValueId);
         if (specValueEntity == null) {
             throw new OrderException("规格内容不存在");
         }

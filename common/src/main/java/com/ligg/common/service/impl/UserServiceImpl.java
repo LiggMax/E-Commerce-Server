@@ -5,7 +5,6 @@
 package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;

@@ -52,7 +52,7 @@ CREATE TABLE `email`  (
 -- ----------------------------
 -- Table structure for order
 -- ----------------------------
-DROP TABLE IF EXISTS `order`;
+DROP TABLE IF EXISTS orders;
 CREATE TABLE `order`  (
   `id` bigint NOT NULL,
   `order_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单号',

@@ -30,7 +30,7 @@ public class OrderItemEntity {
     /**
      * 商品id
      */
-    private String productId;
+    private Long productId;
 
     /**
      * 商品名称(冗余)

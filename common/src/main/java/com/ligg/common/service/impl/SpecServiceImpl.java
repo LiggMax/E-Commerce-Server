@@ -5,9 +5,9 @@
 package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ligg.common.module.entity.SpecEntity;
+import com.ligg.common.module.entity.ProductSpecEntity;
 import com.ligg.common.module.entity.SpecValueEntity;
-import com.ligg.common.mapper.SpecMapper;
+import com.ligg.common.mapper.ProductSpecMapper;
 import com.ligg.common.mapper.SpecValueMapper;
 import com.ligg.common.service.SpecService;
 import com.ligg.common.module.vo.SpecVo;
@@ -21,15 +21,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpecServiceImpl implements SpecService {
 
-    private final SpecMapper specMapper;
+    private final ProductSpecMapper productSpecMapper;
     private final SpecValueMapper specValueMapper;
 
     /**
      * 根据id获取规格信息
      */
     @Override
-    public SpecEntity getSpecById(Integer id) {
-        return specMapper.selectById(id);
+    public ProductSpecEntity getSpecById(Integer id) {
+        return productSpecMapper.selectById(id);
     }
 
     /**
@@ -39,9 +39,9 @@ public class SpecServiceImpl implements SpecService {
      * @return 商品规格列表
      */
     @Override
-    public List<SpecEntity> getSpecListByProductId(String productId) {
-        return specMapper.selectList(new LambdaQueryWrapper<SpecEntity>()
-                .eq(SpecEntity::getProductId, productId));
+    public List<ProductSpecEntity> getSpecListByProductId(String productId) {
+        return productSpecMapper.selectList(new LambdaQueryWrapper<ProductSpecEntity>()
+                .eq(ProductSpecEntity::getProductId, productId));
     }
 
     /**
@@ -62,8 +62,8 @@ public class SpecServiceImpl implements SpecService {
      * @return 添加结果
      */
     @Override
-    public int addSpec(SpecEntity spec) {
-        return specMapper.insert(spec);
+    public int addSpec(ProductSpecEntity spec) {
+        return productSpecMapper.insert(spec);
     }
 
     /**
@@ -85,7 +85,7 @@ public class SpecServiceImpl implements SpecService {
     @Override
     public List<SpecVo> getSpecDetailByProductId(String productId) {
 
-        List<SpecEntity> specList = getSpecListByProductId(productId);
+        List<ProductSpecEntity> specList = getSpecListByProductId(productId);
         return specList.stream().map(specEntity -> {
             SpecVo specVo = new SpecVo();
             BeanUtils.copyProperties(specEntity, specVo);

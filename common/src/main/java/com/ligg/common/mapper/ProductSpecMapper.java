@@ -1,7 +1,7 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ligg.common.module.entity.SpecEntity;
+import com.ligg.common.module.entity.ProductSpecEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @Time 2025/10/9
  **/
 @Mapper
-public interface SpecMapper extends BaseMapper<SpecEntity> {
+public interface ProductSpecMapper extends BaseMapper<ProductSpecEntity> {
 }

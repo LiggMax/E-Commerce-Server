@@ -5,7 +5,7 @@
 package com.ligg.apiadmin.controller;
 
 import com.ligg.common.module.dto.SpecDto;
-import com.ligg.common.module.entity.SpecEntity;
+import com.ligg.common.module.entity.ProductSpecEntity;
 import com.ligg.common.module.entity.SpecValueEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.ProductService;
@@ -40,7 +40,7 @@ public class AdminSpecController {
         if (productService.getById(spec.getProductId()) == null) {
             return Response.error(BusinessStates.DATA_NOT_FOUND, "商品不存在");
         }
-        List<SpecEntity> listByProduct = specService.getSpecListByProductId(spec.getProductId());
+        List<ProductSpecEntity> listByProduct = specService.getSpecListByProductId(spec.getProductId());
         if (listByProduct.size() >= 6) {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "商品规格不能超过6个");
         }
@@ -48,7 +48,7 @@ public class AdminSpecController {
         List<SpecDto.Specs> specs = spec.getSpecs();
         // 保存规格
         for (SpecDto.Specs specItem : specs) {
-            SpecEntity specEntity = new SpecEntity();
+            ProductSpecEntity specEntity = new ProductSpecEntity();
             specEntity.setProductId(spec.getProductId());
             specEntity.setProductId(spec.getProductId());
             specEntity.setName(specItem.getName());

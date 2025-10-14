@@ -19,7 +19,7 @@ public class OrderDto {
     /**
      * 商品id
      */
-    private String productId;
+    private Long productId;
 
     /**
      * 支付类型

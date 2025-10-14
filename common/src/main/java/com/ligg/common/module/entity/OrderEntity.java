@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("order")
+@TableName("orders")
 public class OrderEntity {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
@@ -46,7 +46,7 @@ public class OrderEntity {
     /**
      * 订单状态
      */
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     /**
      * 收货地址id
