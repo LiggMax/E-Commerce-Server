@@ -18,6 +18,7 @@ import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.entity.*;
 import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.order.service.OrderService;
+import com.ligg.order.service.exception.OrderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         Boolean lockSuccess = redisTemplate.opsForValue().setIfAbsent(orderLockKey, true, 10, TimeUnit.SECONDS);
 
         if (Boolean.FALSE.equals(lockSuccess)) {
-            throw new RuntimeException("请勿重复下单");
+            throw new OrderException("请勿重复下单");
         }
 
         try {
@@ -61,13 +62,13 @@ public class OrderServiceImpl implements OrderService {
             Long stock = redisTemplate.opsForValue().decrement(stockKey);
 
             if (stock == null) {
-                throw new RuntimeException("库存信息不存在");
+                throw new OrderException("库存信息不存在");
             }
 
             if (stock < 0) {
                 // 回滚库存
                 redisTemplate.opsForValue().increment(stockKey);
-                throw new RuntimeException("库存不足,无法下单");
+                throw new OrderException("库存不足,无法下单");
             }
             //创建订单实体
             OrderEntity order = new OrderEntity();
@@ -96,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
 
             //保存订单
             if (orderMapper.insert(order) < 1) {
-                throw new RuntimeException("保存订单信息失败");
+                throw new OrderException("保存订单信息失败");
             }
             //返回订单id
             return orderEntity.getOrderNo();
@@ -150,7 +151,7 @@ public class OrderServiceImpl implements OrderService {
                 new LambdaQueryWrapper<SpecValueEntity>().eq(SpecValueEntity::getSpecId, specId)
         );
         if (specValueEntity == null) {
-            throw new RuntimeException("规格内容不存在");
+            throw new OrderException("规格内容不存在");
         }
         return specValueEntity;
     }
@@ -160,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
      */
     public void saveOrderItem(OrderItemEntity orderItem) {
         if (orderItemMapper.insert(orderItem) < 1) {
-            throw new RuntimeException("保存订单详情信息失败");
+            throw new OrderException("保存订单详情信息失败");
         }
     }
 
@@ -169,7 +170,7 @@ public class OrderServiceImpl implements OrderService {
      */
     public void saveOrderItemSpec(OrderItemSpecEntity orderItemSpec) {
         if (orderItemSpecMapper.insert(orderItemSpec) < 1) {
-            throw new RuntimeException("保存订单规格信息失败");
+            throw new OrderException("保存订单规格信息失败");
         }
     }
 }

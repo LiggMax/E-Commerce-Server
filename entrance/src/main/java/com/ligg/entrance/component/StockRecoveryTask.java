@@ -53,10 +53,10 @@ public class StockRecoveryTask {
                 redisUtil.set(ProductConstant.STOCK_KEY_PREFIX + productStock.getProductId(), productStock.getStock());
             }
             totalLoaded += batch.size();
-            log.info("已加载 {} 条库存记录", totalLoaded);
+            log.info("已缓存 {{}} 条商品库存记录", totalLoaded);
             offset += limit;
         } while (!batch.isEmpty() && batch.size() == limit); // 当返回记录数小于limit时，说明已经处理完所有数据
-        log.info("Redis 库存恢复完成,共加载：{}", totalLoaded);
+        log.info("Redis 商品库存恢复完成,共加载：{{}}", totalLoaded);
     }
 
     /**
@@ -87,6 +87,6 @@ public class StockRecoveryTask {
             }
             offset += limit;
         } while (!batch.isEmpty() && batch.size() == limit); // 当返回记录数小于limit时，说明已经处理完所有数据
-        log.info("定时同步 Redis 库存到 MySQL 完成,共更新：{},每十分钟同步一次", updated);
+        log.info("定时同步 Redis 库存到 MySQL 完成,共更新:{{}}条,每十分钟同步一次", updated);
     }
 }

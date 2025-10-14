@@ -6,6 +6,7 @@ package com.ligg.entrance.exception;
 
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.Response;
+import com.ligg.order.service.exception.OrderException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
@@ -43,5 +44,14 @@ public class GlobalException {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.joining("; "));
         return Response.error(BusinessStates.VALIDATION_FAILED, message);
+    }
+
+    /**
+     * 处理订单异常
+     */
+    @ExceptionHandler(OrderException.class)
+    public Response<String> handleOrderException(OrderException e) {
+        log.error("订单异常:{}", e.getMessage());
+        return Response.error(BusinessStates.VALIDATION_FAILED, e.getMessage());
     }
 }

@@ -29,7 +29,8 @@ public class WebConfig implements WebMvcConfigurer {
         //客户端拦截器
         registry.addInterceptor(clientLoginInterceptors)
                 //拦截路径
-                .addPathPatterns("/api/client/user/**")
+                .addPathPatterns("/api/client/user/**",
+                        "/api/client/order/**")
                 //放行路径
                 .excludePathPatterns();
     }
