@@ -177,8 +177,8 @@ public class AdminProductController {
      */
     @Operation(summary = "获取上传的图片")
     @GetMapping("/image")
-    public Response<List<ProductImageVo>> getImages(@Schema(description = "精选商品id") @NotNull String featuredId) {
-        List<ProductImageEntity> featuredImageList = productImageService.getList(featuredId);
+    public Response<List<ProductImageVo>> getImages(@Schema(description = "精选商品id") @NotNull String productId) {
+        List<ProductImageEntity> featuredImageList = productImageService.getList(productId);
         return Response.success(BusinessStates.SUCCESS, featuredImageList.stream().map(featuredImage -> {
             ProductImageVo imageVo = new ProductImageVo();
             imageVo.setId(featuredImage.getId());

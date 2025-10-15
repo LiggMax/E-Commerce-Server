@@ -8,6 +8,4 @@ import com.ligg.common.module.entity.ProductDetailEntity;
  * @Time 2025/9/30
  **/
 public interface ProductDetailService extends IService<ProductDetailEntity> {
-
-
 }

@@ -23,8 +23,8 @@ import java.util.List;
  */
 @Tag(name = "客户端轮播图接口")
 @RestController
-@RequestMapping("/api/client/carousel")
 @RequiredArgsConstructor
+@RequestMapping("/api/client/carousel")
 public class ClientCarouselController {
 
     private final CarouselService carouselService;

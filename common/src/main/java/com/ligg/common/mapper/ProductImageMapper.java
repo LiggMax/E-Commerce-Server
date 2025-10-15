@@ -17,6 +17,6 @@ public interface ProductImageMapper extends BaseMapper<ProductImageEntity> {
     /**
      * 根据商品id获取图片列表
      */
-    @Select("select id,sort,image_path from product_image where product_id = #{featuredId}")
-    List<ProductImageEntity> selectImageListById(String featuredId);
+    @Select("select id,sort,image_path from product_image where product_id = #{productId}")
+    List<ProductImageEntity> selectImageListById(String productId);
 }

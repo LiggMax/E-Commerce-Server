@@ -25,23 +25,23 @@ public class ProductImageServiceImpl extends ServiceImpl<ProductImageMapper, Pro
     /**
      * 获取图片列表
      *
-     * @param featuredId 商品id
+     * @param productId 商品id
      * @return List<FeaturedImageVo>
      */
     @Override
-    public List<ProductImageEntity> getList(String featuredId) {
+    public List<ProductImageEntity> getList(String productId) {
         return productImageMapper.selectList(new LambdaQueryWrapper<ProductImageEntity>()
-                .eq(ProductImageEntity::getProductId, featuredId));
+                .eq(ProductImageEntity::getProductId, productId));
     }
 
     /**
      * 根据商品id获取图片列表
      *
-     * @param featuredId 商品id
+     * @param productId 商品id
      * @return 图片列表
      */
     @Override
-    public List<ProductImageEntity> getImagesByFeaturedId(String featuredId) {
-        return productImageMapper.selectImageListById(featuredId);
+    public List<ProductImageEntity> getImagesByFeaturedId(String productId) {
+        return productImageMapper.selectImageListById(productId);
     }
 }

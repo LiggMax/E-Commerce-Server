@@ -14,10 +14,10 @@ public interface ProductImageService extends IService<ProductImageEntity> {
 
     /**
      * 获取图片列表
-     * @param featuredId 商品id
+     * @param productId 商品id
      * @return List<FeaturedImageVo>
      */
-    List<ProductImageEntity> getList(@NotNull String featuredId);
+    List<ProductImageEntity> getList(@NotNull String productId);
 
     /**
      * 根据商品id获取图片列表
