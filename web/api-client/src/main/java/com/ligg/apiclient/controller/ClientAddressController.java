@@ -57,7 +57,6 @@ public class ClientAddressController {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
         String userId = (String) userInfo.get(UserConstant.USER_ID);
         userAddressEntity.setUserId(userId);
-        userAddressEntity.setIsDefault(address.getIsDefault() ? Default.YES : Default.NO);
         userAddressEntity.setCreateTime(LocalDateTime.now());
         userAddressEntity.setUpdateTime(LocalDateTime.now());
         return addressService.addAddress(userAddressEntity) > 0

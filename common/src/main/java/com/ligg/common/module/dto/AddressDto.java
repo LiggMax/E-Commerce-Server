@@ -1,6 +1,7 @@
 package com.ligg.common.module.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,6 +59,7 @@ public class AddressDto {
      * 详情地址
      */
     @NotNull
+    @Pattern(regexp = "^.{5,120}$")
     private String detailAddress;
 
     /**
