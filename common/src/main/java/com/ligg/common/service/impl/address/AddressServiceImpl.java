@@ -1,7 +1,6 @@
 package com.ligg.common.service.impl.address;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.mapper.address.AddressMapper;
@@ -51,17 +50,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, UserAddressEn
      */
     @Override
     public int updateAddress(UserAddressEntity address) {
-        return addressMapper.update(new LambdaUpdateWrapper<UserAddressEntity>()
-                .eq(UserAddressEntity::getUserId, address.getUserId())
-                .eq(UserAddressEntity::getId, address.getId())
-                .set(UserAddressEntity::getIsDefault, address.getIsDefault())
-                .set(UserAddressEntity::getReceiverName, address.getReceiverName())
-                .set(UserAddressEntity::getReceiverPhone, address.getReceiverPhone())
-                .set(UserAddressEntity::getProvince, address.getProvince())
-                .set(UserAddressEntity::getCity, address.getCity())
-                .set(UserAddressEntity::getDistrict, address.getDistrict())
-                .set(UserAddressEntity::getDetailAddress, address.getDetailAddress())
-                .set(UserAddressEntity::getUpdateTime, address.getUpdateTime()));
+        return addressMapper.updateAddress(address);
     }
 
     /**
