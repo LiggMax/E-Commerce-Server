@@ -9,6 +9,7 @@ import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.enums.Default;
 import com.ligg.common.module.dto.AddressDto;
 import com.ligg.common.module.entity.UserAddressEntity;
+import com.ligg.common.module.vo.AddressVo;
 import com.ligg.common.service.address.AddressService;
 import com.ligg.common.utils.Response;
 import com.ligg.common.utils.ThreadLocalUtil;
@@ -35,10 +36,15 @@ public class ClientAddressController {
      * 获取收货地址
      */
     @GetMapping
-    public Response<List<UserAddressEntity>> getAddress() {
+    public Response<List<AddressVo>> getAddress() {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
         String userId = (String) userInfo.get(UserConstant.USER_ID);
-        return Response.success(BusinessStates.SUCCESS, addressService.getAddress(userId));
+        return Response.success(BusinessStates.SUCCESS, addressService.getAddress(userId).stream().map(entity -> {
+            AddressVo addressVo = new AddressVo();
+            BeanUtils.copyProperties(entity, addressVo);
+            addressVo.setIsDefault(entity.getIsDefault() == Default.YES);
+            return addressVo;
+        }).toList());
     }
 
     /**

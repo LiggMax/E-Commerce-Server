@@ -11,10 +11,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Default {
-    YES(1, true),
-    NO(0, false);
+    YES(1),
+    NO(0);
 
     @EnumValue
     private final Integer code;
-    private final boolean isDefault;
 }

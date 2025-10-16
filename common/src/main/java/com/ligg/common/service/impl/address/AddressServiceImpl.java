@@ -70,7 +70,8 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, UserAddressEn
     @Override
     public List<UserAddressEntity> getAddress(String userId) {
         return addressMapper.selectList(new LambdaQueryWrapper<UserAddressEntity>()
-                .eq(UserAddressEntity::getUserId, userId));
+                .eq(UserAddressEntity::getUserId, userId)
+                .orderByAsc(UserAddressEntity::getUpdateTime));
     }
 
     /**
