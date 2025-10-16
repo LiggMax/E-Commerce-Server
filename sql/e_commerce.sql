@@ -174,7 +174,7 @@ CREATE TABLE `product_spec`  (
 -- ----------------------------
 -- Table structure for spec_value
 -- ----------------------------
-DROP TABLE IF EXISTS `spec_value`;
+DROP TABLE IF EXISTS product_spec_value;
 CREATE TABLE `spec_value`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `spec_id` int NOT NULL COMMENT '规格id',

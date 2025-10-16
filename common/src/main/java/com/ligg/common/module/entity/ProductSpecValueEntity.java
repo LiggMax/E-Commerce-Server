@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("spec_value")
-public class SpecValueEntity {
+@TableName("product_spec_value")
+public class ProductSpecValueEntity {
 
     @TableId(type = IdType.AUTO)
     private Integer id;

@@ -1,7 +1,7 @@
 package com.ligg.common.service;
 
 import com.ligg.common.module.entity.ProductSpecEntity;
-import com.ligg.common.module.entity.SpecValueEntity;
+import com.ligg.common.module.entity.ProductSpecValueEntity;
 import com.ligg.common.module.vo.SpecVo;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public interface SpecService {
      *
      * @param specId 规格id
      */
-    List<SpecValueEntity> getSpecValueListBySpecId(Integer specId);
+    List<ProductSpecValueEntity> getSpecValueListBySpecId(Integer specId);
 
     /**
      * 添加商品规格
@@ -44,7 +44,7 @@ public interface SpecService {
      *
      * @param specValueEntity 商品规格内容
      */
-    int addSpecValue(SpecValueEntity specValueEntity);
+    int addSpecValue(ProductSpecValueEntity specValueEntity);
 
     /**
      * 获取商品规格详情

@@ -6,7 +6,7 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ligg.common.module.entity.ProductSpecEntity;
-import com.ligg.common.module.entity.SpecValueEntity;
+import com.ligg.common.module.entity.ProductSpecValueEntity;
 import com.ligg.common.mapper.ProductSpecMapper;
 import com.ligg.common.mapper.SpecValueMapper;
 import com.ligg.common.service.SpecService;
@@ -50,9 +50,9 @@ public class SpecServiceImpl implements SpecService {
      * @param specId 规格id
      */
     @Override
-    public List<SpecValueEntity> getSpecValueListBySpecId(Integer specId) {
-        return specValueMapper.selectList(new LambdaQueryWrapper<SpecValueEntity>()
-                .eq(SpecValueEntity::getSpecId, specId));
+    public List<ProductSpecValueEntity> getSpecValueListBySpecId(Integer specId) {
+        return specValueMapper.selectList(new LambdaQueryWrapper<ProductSpecValueEntity>()
+                .eq(ProductSpecValueEntity::getSpecId, specId));
     }
 
     /**
@@ -72,7 +72,7 @@ public class SpecServiceImpl implements SpecService {
      * @param specValueEntity 商品规格内容
      */
     @Override
-    public int addSpecValue(SpecValueEntity specValueEntity) {
+    public int addSpecValue(ProductSpecValueEntity specValueEntity) {
         return specValueMapper.insert(specValueEntity);
     }
 
@@ -90,7 +90,7 @@ public class SpecServiceImpl implements SpecService {
             SpecVo specVo = new SpecVo();
             BeanUtils.copyProperties(specEntity, specVo);
 
-            List<SpecValueEntity> valueListBySpec = getSpecValueListBySpecId(specVo.getId());
+            List<ProductSpecValueEntity> valueListBySpec = getSpecValueListBySpecId(specVo.getId());
             specVo.setSpecValues(valueListBySpec.stream().map(valueEntity -> {
                 SpecVo.SpecValueVo specValueVo = new SpecVo.SpecValueVo();
                 BeanUtils.copyProperties(valueEntity, specValueVo);
