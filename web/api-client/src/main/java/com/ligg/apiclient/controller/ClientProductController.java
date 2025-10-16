@@ -4,7 +4,6 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.entity.ProductImageEntity;
@@ -24,7 +23,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +32,7 @@ import java.util.List;
  */
 @Tag(name = "客户端精选商品接口")
 @RestController
-@RequestMapping("/api/client/featured")
+@RequestMapping("/api/client/product")
 @RequiredArgsConstructor
 public class ClientProductController {
 
@@ -134,16 +132,6 @@ public class ClientProductController {
         pageVo.setTotal(searchData.getTotal());
         pageVo.setList(searchResult);
         return Response.success(BusinessStates.SUCCESS, pageVo);
-    }
-
-    /**
-     * 创建商品订单
-     */
-    @PostMapping("/order")
-    @Operation(summary = "创建商品订单")
-    public Response<String> createOrder(@Validated @RequestBody OrderDto orderDto) {
-
-        return Response.success(BusinessStates.SUCCESS);
     }
 }
 
