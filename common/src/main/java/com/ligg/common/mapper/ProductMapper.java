@@ -7,6 +7,7 @@ import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.vo.search.FeaturedSearchVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @Author Ligg
@@ -26,6 +27,15 @@ public interface ProductMapper extends BaseMapper<ProductEntity> {
 
     IPage<FeaturedSearchVo> selectProductDetailPage(IPage<FeaturedSearchVo> page);
 
-//    @Select("select * from product_image where product_id = #{productId}")
-//    List<FeaturedDetailVo.Images> selectProductImagesById(Long productId);
+    /**
+     * 扣减商品库存
+     */
+    @Update("update product set stock = stock - #{quantity} where id = #{productId}")
+    int updateStockDeduct(Long productId, Integer quantity);
+
+    /**
+     * 增加商品库存
+     */
+    @Update("update product set stock = stock + #{quantity} where id = #{productId}")
+    int updateStockAdd(Long productId, Integer quantity);
 }

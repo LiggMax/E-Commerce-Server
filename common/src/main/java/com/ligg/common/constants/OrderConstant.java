@@ -12,4 +12,9 @@ public class OrderConstant {
      * 订单锁前缀
      */
     public static final String ORDER_LOCK_KEY = "order:create:";
+
+    /**
+     * 订单
+     */
+    public static final String ORDER_KEY = "order:";
 }

@@ -11,6 +11,7 @@ import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.module.vo.search.FeaturedSearchVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author Ligg
@@ -48,6 +49,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     /**
      * 获取精选商品详情分页列表
      * 自定义搜索条件
+     *
      * @param pageNumber 页码
      * @param pageSize   每页数量
      * @return 精选商品详情分页列表
@@ -75,11 +77,17 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
         return productMapper.selectProductDetailById(productId);
     }
 
-    /**
-     * 根据id更新商品图片路径
-     */
     @Override
-    public void updateImagePathById(String id, String imagePath) {
-
+    @Transactional
+    public int updateStockDeduct(Long productId, Integer quantity) {
+        return productMapper.updateStockDeduct(productId, quantity);
     }
+
+    @Override
+    @Transactional
+    public int updateStockAdd(Long productId, Integer quantity) {
+        return productMapper.updateStockAdd(productId, quantity);
+    }
+
+
 }

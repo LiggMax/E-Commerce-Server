@@ -60,11 +60,23 @@ public class OrderServiceImpl implements OrderService {
         DECR_STOCK_SCRIPT.setResultType(Long.class);
     }
 
+    @Override
+    public void checkOrder() {
+        Map<String, Object> userObject = ThreadLocalUtil.get();
+        String userId = (String) userObject.get(UserConstant.USER_ID);
+        OrderEntity redisOrder = (OrderEntity) redisTemplate.opsForValue().get(OrderConstant.ORDER_KEY + userId);
+        if (redisOrder != null ) {
+            throw new OrderException("您有一笔订单未完成支付");
+        }
+    }
+
     /**
      * 创建订单
      */
     @Override
     public synchronized String createOrder(OrderDto orderDto) {
+        Map<String, Object> userObject = ThreadLocalUtil.get();
+        String userId = (String) userObject.get(UserConstant.USER_ID);
         String orderLockKey = OrderConstant.ORDER_LOCK_KEY + orderDto.getProductId();
         Boolean lockSuccess = redisTemplate.opsForValue().setIfAbsent(orderLockKey, true, 10, TimeUnit.SECONDS);
 
@@ -103,6 +115,8 @@ public class OrderServiceImpl implements OrderService {
 
             // 从这里开始，如果后续任意一步失败，需要回滚库存
             try {
+                //扣减商品数据库库存
+                productMapper.updateStockDeduct(orderDto.getProductId(), quantity);
                 // 获取商品详情
                 ProductEntity productDetail = getProductDetail(orderDto.getProductId());
 
@@ -110,8 +124,6 @@ public class OrderServiceImpl implements OrderService {
                 OrderEntity order = new OrderEntity();
 
                 String orderNo = UUID.randomUUID().toString();
-                Map<String, Object> userObject = ThreadLocalUtil.get();
-                String userId = (String) userObject.get(UserConstant.USER_ID);
 
                 //构建订单数据
                 order.setOrderNo(orderNo);
@@ -121,7 +133,6 @@ public class OrderServiceImpl implements OrderService {
                 order.setAddressId(orderDto.getAddressId());
                 order.setRemark(orderDto.getRemark());
                 order.setCreateTime(LocalDateTime.now());
-                order.setPayTime(LocalDateTime.now());
 
                 // 计算商品总价
                 Double currentPrice = productDetail.getCurrentPrice();
@@ -152,11 +163,15 @@ public class OrderServiceImpl implements OrderService {
                     }
                 }
 
+                //订单放入缓存
+                redisTemplate.opsForValue().set(
+                        OrderConstant.ORDER_KEY + userId, order, 1, TimeUnit.HOURS); //订单有效期1小时
                 //返回订单id
                 return orderNo;
             } catch (RuntimeException ex) {
                 // 回滚库存
                 redisTemplate.opsForValue().increment(stockKey, quantity);
+                productMapper.updateStockAdd(orderDto.getProductId(), quantity);
                 throw ex;
             }
         } finally {

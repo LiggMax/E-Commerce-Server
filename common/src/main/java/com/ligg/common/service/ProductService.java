@@ -33,9 +33,14 @@ public interface ProductService extends IService<ProductEntity> {
     ProductDetailEntity getFeaturedDetailById(String productId);
 
     /**
-     * 根据id更新精选商品图片路径
+     * 扣减库存
      */
-    void updateImagePathById(String id, String imagePath);
+    int updateStockDeduct(Long productId, Integer quantity);
+
+    /**
+     * 增加库存
+     */
+    int updateStockAdd(Long productId, Integer quantity);
 
     /**
      * 获取精选商品分页列表
