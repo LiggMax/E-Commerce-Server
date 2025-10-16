@@ -50,5 +50,4 @@ public class SearchVo {
      */
     @Schema(description = "折扣")
     private Double discount;
-
 }
