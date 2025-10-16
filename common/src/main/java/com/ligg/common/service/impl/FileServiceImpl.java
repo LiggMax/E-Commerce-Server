@@ -4,7 +4,7 @@
  **/
 package com.ligg.common.service.impl;
 
-import com.ligg.common.Imagenum.ImageType;
+import com.ligg.common.enums.ImageType;
 import com.ligg.common.constants.Constant;
 import com.ligg.common.service.FileService;
 import lombok.extern.slf4j.Slf4j;

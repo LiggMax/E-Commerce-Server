@@ -128,9 +128,7 @@ public class OrderServiceImpl implements OrderService {
                 //构建订单数据
                 order.setOrderNo(orderNo);
                 order.setUserId(userId);
-                order.setPayType(orderDto.getPayType());
                 order.setStatus(OrderStatus.UNPAID);
-                order.setAddressId(orderDto.getAddressId());
                 order.setRemark(orderDto.getRemark());
                 order.setCreateTime(LocalDateTime.now());
 

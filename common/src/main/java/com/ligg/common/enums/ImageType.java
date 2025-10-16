@@ -1,4 +1,4 @@
-package com.ligg.common.Imagenum;
+package com.ligg.common.enums;
 
 import lombok.Getter;
 

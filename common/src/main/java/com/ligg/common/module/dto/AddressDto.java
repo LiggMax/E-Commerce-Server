@@ -1,77 +1,72 @@
-/**
- * @Author LiGG
- * @Time 2025/10/11
- */
-package com.ligg.common.module.entity;
+package com.ligg.common.module.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.ligg.common.enums.Default;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 /**
- * 用户地址
- */
+ * @Author Ligg
+ * @Time 2025/10/16
+ **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("user_address")
-public class UserAddressEntity {
-    @TableId(type = IdType.AUTO)
-    private Long id;
+public class AddressDto {
 
     /**
-     * 用户id
+     * 收货地址id
      */
-    private String userId;
+    private Long id;
 
     /**
      * 收货人名称
      */
+    @NotNull
     private String receiverName;
 
     /**
      * 收货人手机号码
      */
+    @NotNull
     private String receiverPhone;
 
     /**
      * 省
      */
+    @NotNull
     private String province;
 
     /**
      * 市
      */
+    @NotNull
     private String city;
 
     /**
      * 区/县
      */
+    @NotNull
     private String district;
 
     /**
      * 是否默认地址
      */
-    private Default isDefault;
+    private Boolean isDefault;
 
     /**
      * 详情地址
      */
+    @NotNull
     private String detailAddress;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Long createTime;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    private Long updateTime;
 }

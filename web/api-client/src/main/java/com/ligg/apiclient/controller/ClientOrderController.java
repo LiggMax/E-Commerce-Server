@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/client/order")
+@RequestMapping("/api/client/user/order")
 public class ClientOrderController {
 
     private final OrderService orderService;
