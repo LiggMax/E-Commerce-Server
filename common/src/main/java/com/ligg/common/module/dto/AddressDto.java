@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author Ligg
  * @Time 2025/10/16
@@ -65,10 +67,10 @@ public class AddressDto {
     /**
      * 创建时间
      */
-    private Long createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    private Long updateTime;
+    private LocalDateTime updateTime;
 }
