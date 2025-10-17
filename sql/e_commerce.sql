@@ -11,7 +11,7 @@
  Target Server Version : 80040 (8.0.40)
  File Encoding         : 65001
 
- Date: 15/10/2025 16:47:48
+ Date: 16/10/2025 19:16:27
 */
 
 SET NAMES utf8mb4;
@@ -75,7 +75,7 @@ CREATE TABLE `order_item_spec`  (
   `spec_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格名称（冗余存储）',
   `spec_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格内容（冗余存储）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for orders
@@ -172,10 +172,10 @@ CREATE TABLE `product_spec`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for spec_value
+-- Table structure for product_spec_value
 -- ----------------------------
-DROP TABLE IF EXISTS product_spec_value;
-CREATE TABLE `spec_value`  (
+DROP TABLE IF EXISTS `product_spec_value`;
+CREATE TABLE `product_spec_value`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `spec_id` int NOT NULL COMMENT '规格id',
   `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '值(内容)',
@@ -212,13 +212,19 @@ CREATE TABLE `user`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `user_address`;
 CREATE TABLE `user_address`  (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `receiver_name` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人姓名',
-  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '联系电话',
-  `is_default` tinyint NULL DEFAULT NULL COMMENT '是否默认地址',
+  `receiver_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '联系电话',
+  `province` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '省份',
+  `city` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '城市',
+  `district` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '区/县',
+  `is_default` tinyint NULL DEFAULT 0 COMMENT '是否默认地址',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `detail` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '详情地址',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址' ROW_FORMAT = Dynamic;
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `detail_address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '详情地址',
+  `user_id` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_address_user_id_index`(`user_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
