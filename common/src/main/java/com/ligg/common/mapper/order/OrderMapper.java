@@ -1,7 +1,6 @@
 package com.ligg.common.mapper.order;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.dto.ProductStockDto;
 import com.ligg.common.module.entity.OrderEntity;
@@ -40,7 +39,7 @@ public interface OrderMapper extends BaseMapper<OrderEntity> {
     void updateProductStock(String productId, Integer productStock);
 
     /**
-     * 根据订单id查询订单信息
+     * 根据订单号查询订单信息
      */
-    OrderInfoDto selectOrderByOrderId(String orderId);
+    OrderInfoDto selectOrderByOrderNo(String orderNo);
 }

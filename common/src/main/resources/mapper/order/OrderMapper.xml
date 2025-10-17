@@ -3,7 +3,7 @@
 <mapper namespace="com.ligg.common.mapper.order.OrderMapper">
 
     <!-- 查询订单信息 -->
-    <select id="selectOrderByOrderId" resultType="com.ligg.common.module.dto.OrderInfoDto">
+    <select id="selectOrderByOrderNo" resultType="com.ligg.common.module.dto.OrderInfoDto">
         select o.id,
                o.order_no,
                o.user_id,
@@ -17,6 +17,6 @@
                oi.product_id
         from orders o
                  left join order_item oi on o.id = oi.order_id
-        where o.order_no = #{orderId}
+        where o.order_no = #{orderNo}
     </select>
 </mapper>

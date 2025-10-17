@@ -6,6 +6,7 @@ package com.ligg.order.service;
 
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.OrderInfoDto;
+import com.ligg.common.module.entity.OrderEntity;
 
 public interface OrderService {
 
@@ -22,10 +23,10 @@ public interface OrderService {
     /**
      * 获取订单信息
      */
-    OrderInfoDto getOrderInfo(String orderId);
+    OrderInfoDto getOrderInfo(String orderNo);
 
     /**
-     * 支付订单
+     * 更新订单状态
      */
-    String payOrder(String orderId);
+    void updateOrderStatus( OrderEntity order);
 }

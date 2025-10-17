@@ -1,4 +1,4 @@
-package com.ligg.order.service.exception;
+package com.ligg.common.exception;
 
 import lombok.Getter;
 

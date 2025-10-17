@@ -6,6 +6,7 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ligg.common.constants.UserConstant;
+import com.ligg.common.exception.OrderException;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.service.UserService;
@@ -92,7 +93,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userMapper.selectById(userId);
         BigDecimal accountBalance = userEntity.getAccountBalance();
         if (accountBalance.compareTo(amount) < 0) {
-            throw new RuntimeException("余额不足");
+            throw new OrderException("余额不足");
         }
         if (!(userMapper.debitBalance(userId, amount) > 0)) {
             throw new RuntimeException("扣减用户余额失败");

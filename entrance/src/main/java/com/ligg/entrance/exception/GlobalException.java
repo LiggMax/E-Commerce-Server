@@ -6,7 +6,7 @@ package com.ligg.entrance.exception;
 
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.Response;
-import com.ligg.order.service.exception.OrderException;
+import com.ligg.common.exception.OrderException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;

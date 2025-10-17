@@ -5,8 +5,10 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.OrderInfoDto;
+import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.vo.OrderInfoVo;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.Response;
@@ -44,6 +46,7 @@ public class ClientOrderController {
      * 获取订单信息
      * @param orderNo 订单号
      */
+    //TODO 响应数据待补充完善
     @GetMapping("/info")
     public Response<OrderInfoVo> getOrderInfo(@NotNull String orderNo) {
         OrderInfoDto orderInfo = orderService.getOrderInfo(orderNo);
@@ -56,11 +59,15 @@ public class ClientOrderController {
      * 支付订单
      */
     @PostMapping("/pay")
-    public Response<String> payOrder(@NotNull String orderNo) {
-        OrderInfoDto orderInfo = orderService.getOrderInfo(orderNo);
+    public Response<String> payOrder(@RequestBody @Validated PayDto pay) {
+        OrderInfoDto orderInfo = orderService.getOrderInfo(pay.getOrderNo());
+        if (orderInfo.getStatus() != OrderStatus.UNPAID) {
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED,"订单状态异常无法支付");
+        }
         //扣款
         userService.debit(orderInfo.getTotalAmount());
-        //TODO 待完善消费订单
+        //更新订单状态
+        orderService.updateOrderStatus(orderInfo);
         return Response.success(BusinessStates.SUCCESS);
     }
 }

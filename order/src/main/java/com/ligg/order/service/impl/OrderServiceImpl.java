@@ -5,9 +5,11 @@
 package com.ligg.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ligg.common.constants.OrderConstant;
 import com.ligg.common.constants.ProductConstant;
 import com.ligg.common.constants.UserConstant;
+import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.mapper.ProductMapper;
 import com.ligg.common.mapper.ProductSpecMapper;
@@ -20,12 +22,13 @@ import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.entity.*;
 import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.order.service.OrderService;
-import com.ligg.order.service.exception.OrderException;
+import com.ligg.common.exception.OrderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -70,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
         Map<String, Object> userObject = ThreadLocalUtil.get();
         String userId = (String) userObject.get(UserConstant.USER_ID);
         OrderEntity redisOrder = (OrderEntity) redisTemplate.opsForValue().get(OrderConstant.ORDER_KEY + userId);
-        if (redisOrder != null ) {
+        if (redisOrder != null) {
             throw new OrderException("您有一笔订单未完成支付");
         }
     }
@@ -188,17 +191,23 @@ public class OrderServiceImpl implements OrderService {
      * 获取订单信息
      */
     @Override
-    public OrderInfoDto getOrderInfo(String orderId) {
-        return orderMapper.selectOrderByOrderId(orderId);
+    public OrderInfoDto getOrderInfo(String orderNo) {
+        return orderMapper.selectOrderByOrderNo(orderNo);
     }
 
     /**
-     * 支付订单
+     * 更新订单状态
      */
     @Override
-    public String payOrder(String orderId) {
-
-        return "";
+    @Transactional
+    public void updateOrderStatus(OrderEntity order) {
+        if (orderMapper.update(new LambdaUpdateWrapper<OrderEntity>()
+                .eq(OrderEntity::getId, order.getId())
+                .set(OrderEntity::getPayTime, LocalDateTime.now())
+                .set(OrderEntity::getCreateTime, LocalDateTime.now())
+                .set(OrderEntity::getPayType, order.getPayType())
+                .set(OrderEntity::getStatus, OrderStatus.PAID)) < 1)
+            throw new OrderException(BusinessStates.INTERNAL_SERVER_ERROR.getMessage());
     }
 
     /**
