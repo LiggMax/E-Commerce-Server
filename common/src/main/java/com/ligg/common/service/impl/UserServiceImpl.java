@@ -12,11 +12,16 @@ import com.ligg.common.service.UserService;
 import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.RedisUtil;
 import com.ligg.common.module.vo.UserInfoVo;
+import com.ligg.common.utils.ThreadLocalUtil;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -74,6 +79,24 @@ public class UserServiceImpl implements UserService {
 
         BeanUtils.copyProperties(redisUserInfo, userInfoVo);
         return userInfoVo;
+    }
+
+    /**
+     * 扣减用户余额
+     */
+    @Override
+    @Transactional
+    public void debit(@NotNull BigDecimal amount) {
+        Map<String, Object> userInfo = ThreadLocalUtil.get();
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
+        UserEntity userEntity = userMapper.selectById(userId);
+        BigDecimal accountBalance = userEntity.getAccountBalance();
+        if (accountBalance.compareTo(amount) < 0) {
+            throw new RuntimeException("余额不足");
+        }
+        if (!(userMapper.debitBalance(userId, amount) > 0)) {
+            throw new RuntimeException("扣减用户余额失败");
+        }
     }
 
     private UserEntity getRedisUserInfo(String userId) {

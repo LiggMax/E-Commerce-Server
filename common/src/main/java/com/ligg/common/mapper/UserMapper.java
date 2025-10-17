@@ -2,7 +2,11 @@ package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ligg.common.module.entity.UserEntity;
+import jakarta.validation.constraints.NotNull;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
+
+import java.math.BigDecimal;
 
 /**
  * @Author Ligg
@@ -10,4 +14,13 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface UserMapper extends BaseMapper<UserEntity> {
+
+    /**
+     * 扣减账户余额
+     * @param userId 用户id
+     * @param amount 减去金额
+     * @return 扣减结果
+     */
+    @Update("update user set account_balance = account_balance - #{amount} where user_id = #{userId}")
+    int debitBalance(String userId, @NotNull BigDecimal amount);
 }

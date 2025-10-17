@@ -16,6 +16,7 @@ import com.ligg.common.mapper.order.OrderItemMapper;
 import com.ligg.common.mapper.order.OrderItemSpecMapper;
 import com.ligg.common.mapper.order.OrderMapper;
 import com.ligg.common.module.dto.OrderDto;
+import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.entity.*;
 import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.order.service.OrderService;
@@ -26,6 +27,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +62,9 @@ public class OrderServiceImpl implements OrderService {
         DECR_STOCK_SCRIPT.setResultType(Long.class);
     }
 
+    /**
+     * 校验是否有订单还未付款
+     */
     @Override
     public void checkOrder() {
         Map<String, Object> userObject = ThreadLocalUtil.get();
@@ -128,15 +133,17 @@ public class OrderServiceImpl implements OrderService {
                 //构建订单数据
                 order.setOrderNo(orderNo);
                 order.setUserId(userId);
+                order.setAddressId(orderDto.getAddressId());
                 order.setStatus(OrderStatus.UNPAID);
                 order.setRemark(orderDto.getRemark());
+                order.setPayType(orderDto.getPayType());
                 order.setCreateTime(LocalDateTime.now());
 
                 // 计算商品总价
                 Double currentPrice = productDetail.getCurrentPrice();
                 Integer proDuctQuantity = orderDto.getQuantity();
                 //公式 商品总价 = (商品单价 + 规格总价) * 商品数量
-                order.setTotalAmount((currentPrice + specValuetotalAmount) * proDuctQuantity);
+                order.setTotalAmount(BigDecimal.valueOf((currentPrice + specValuetotalAmount) * proDuctQuantity));
 
                 //保存订单
                 if (orderMapper.insert(order) < 1) {
@@ -175,6 +182,23 @@ public class OrderServiceImpl implements OrderService {
         } finally {
             redisTemplate.delete(orderLockKey);
         }
+    }
+
+    /**
+     * 获取订单信息
+     */
+    @Override
+    public OrderInfoDto getOrderInfo(String orderId) {
+        return orderMapper.selectOrderByOrderId(orderId);
+    }
+
+    /**
+     * 支付订单
+     */
+    @Override
+    public String payOrder(String orderId) {
+
+        return "";
     }
 
     /**

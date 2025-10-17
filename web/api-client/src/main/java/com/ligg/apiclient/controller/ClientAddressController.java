@@ -80,7 +80,6 @@ public class ClientAddressController {
 
         BeanUtils.copyProperties(address, entity);
         entity.setUserId(userId);
-        entity.setIsDefault(address.getIsDefault() ? Default.YES : Default.NO);
         entity.setUpdateTime(LocalDateTime.now());
         return addressService.updateAddress(entity) > 0
                 ? Response.success(BusinessStates.SUCCESS)
@@ -102,5 +101,20 @@ public class ClientAddressController {
         return addressService.deleteAddress(id) > 0
                 ? Response.success(BusinessStates.SUCCESS)
                 : Response.error(BusinessStates.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 设置默认收货地址
+     */
+    @PatchMapping("/{id}")
+    public Response<String> setDefaultAddress(@PathVariable Long id) {
+        Map<String, Object> userInfo = ThreadLocalUtil.get();
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
+        UserAddressEntity userAddress = addressService.getAddressByIdAndUserId(id, userId);
+        if (!userId.equals(userAddress.getUserId())) {
+            return Response.error(BusinessStates.FORBIDDEN, "没有权限设置默认收货地址");
+        }
+
+        return Response.success(BusinessStates.SUCCESS);
     }
 }

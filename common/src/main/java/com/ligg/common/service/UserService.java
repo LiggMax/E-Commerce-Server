@@ -4,6 +4,8 @@ import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.module.vo.UserInfoVo;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
+
 /**
  * @Author Ligg
  * @Time 2025/9/22
@@ -25,4 +27,9 @@ public interface UserService {
      * 根据用户id获取用户信息
      */
     UserInfoVo getUserInfoById(String userId);
+
+    /**
+     * 账户扣款
+     */
+    void debit(@NotNull BigDecimal amount);
 }
