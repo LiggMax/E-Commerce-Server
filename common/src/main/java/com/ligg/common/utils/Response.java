@@ -6,6 +6,7 @@
  **/
 package com.ligg.common.utils;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.ligg.common.enums.BusinessStates;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class Response<T> {
      * 数据
      */
     @Schema(description = "数据")
+    @JsonView({Object.class})
     private T data;
 
     public static <T> Response<T> success(BusinessStates status, T data) {

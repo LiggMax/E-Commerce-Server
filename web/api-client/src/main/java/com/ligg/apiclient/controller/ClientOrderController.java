@@ -4,20 +4,27 @@
  **/
 package com.ligg.apiclient.controller;
 
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.JsonView;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.vo.OrderInfoVo;
+import com.ligg.common.module.vo.Views;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.Response;
 import com.ligg.order.service.OrderService;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * 订单控接口
@@ -46,12 +53,24 @@ public class ClientOrderController {
      * 获取订单信息
      * @param orderNo 订单号
      */
-    //TODO 响应数据待补充完善
     @GetMapping("/info")
+    @JsonView(Views.SimpleView.class)
     public Response<OrderInfoVo> getOrderInfo(@NotNull String orderNo) {
         OrderInfoDto orderInfo = orderService.getOrderInfo(orderNo);
+
+        // 检查查询结果是否为空
+        if (orderInfo == null) {
+            return Response.error(BusinessStates.NOT_FOUND, "订单不存在");
+        }
+
         OrderInfoVo orderInfoVo = new OrderInfoVo();
-        BeanUtils.copyProperties(orderInfo, orderInfoVo);
+        orderInfoVo.setCreateTime(orderInfo.getCreateTime());
+        orderInfoVo.setOrderNo(orderInfo.getOrderNo());
+        orderInfoVo.setAddressId(orderInfo.getAddressId());
+        orderInfoVo.setRemark(orderInfo.getRemark());
+        orderInfoVo.setStatus(orderInfo.getStatus());
+        orderInfoVo.setTotalAmount(orderInfo.getTotalAmount());
+        System.out.println(orderInfo);
         return Response.success(BusinessStates.SUCCESS, orderInfoVo);
     }
 

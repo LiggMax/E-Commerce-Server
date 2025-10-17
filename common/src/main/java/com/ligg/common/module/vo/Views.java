@@ -1,6 +1,6 @@
 package com.ligg.common.module.vo;
 
 public class Views {
-    public static class Public {}
-    public static class Internal extends Public {}
+    public interface  SimpleView {}
+    public  interface DetailView extends SimpleView {}
 }
