@@ -143,10 +143,13 @@ public class OrderServiceImpl implements OrderService {
                 order.setCreateTime(LocalDateTime.now());
 
                 // 计算商品总价
-                Double currentPrice = productDetail.getCurrentPrice();
-                Integer proDuctQuantity = orderDto.getQuantity();
+                BigDecimal productPrice = BigDecimal.valueOf(productDetail.getCurrentPrice());
+                BigDecimal specTotalAmount = BigDecimal.valueOf(specValuetotalAmount);
+                BigDecimal productQuantity = BigDecimal.valueOf(orderDto.getQuantity());
+
+                BigDecimal totalAmount = productPrice.add(specTotalAmount).multiply(productQuantity);
                 //公式 商品总价 = (商品单价 + 规格总价) * 商品数量
-                order.setTotalAmount(BigDecimal.valueOf((currentPrice + specValuetotalAmount) * proDuctQuantity));
+                order.setTotalAmount(totalAmount);
 
                 //保存订单
                 if (orderMapper.insert(order) < 1) {
@@ -158,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
                 orderItem.setOrderId(order.getId());
                 orderItem.setProductId(orderDto.getProductId());
                 orderItem.setQuantity(orderDto.getQuantity());
-                orderItem.setSubtotal(currentPrice * proDuctQuantity);
+                orderItem.setSubtotal(productPrice.multiply(productQuantity));
                 saveOrderItem(orderItem);
 
                 //规格部位空时，保存订单规格详情

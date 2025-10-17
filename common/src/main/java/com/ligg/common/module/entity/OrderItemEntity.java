@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * 订单明细
  */
@@ -50,5 +52,5 @@ public class OrderItemEntity {
     /**
      * 小计金额(价格x数量)
      */
-    private Double subtotal;
+    private BigDecimal subtotal;
 }
