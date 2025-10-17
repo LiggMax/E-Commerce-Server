@@ -204,7 +204,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderMapper.update(new LambdaUpdateWrapper<OrderEntity>()
                 .eq(OrderEntity::getId, order.getId())
                 .set(OrderEntity::getPayTime, LocalDateTime.now())
-                .set(OrderEntity::getCreateTime, LocalDateTime.now())
+                .set(OrderEntity::getUpdateTime, LocalDateTime.now())
                 .set(OrderEntity::getPayType, order.getPayType())
                 .set(OrderEntity::getStatus, OrderStatus.PAID)) < 1)
             throw new OrderException(BusinessStates.INTERNAL_SERVER_ERROR.getMessage());
