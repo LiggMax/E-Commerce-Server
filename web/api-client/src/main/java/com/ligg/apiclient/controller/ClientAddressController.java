@@ -13,6 +13,9 @@ import com.ligg.common.module.vo.AddressVo;
 import com.ligg.common.service.address.AddressService;
 import com.ligg.common.utils.Response;
 import com.ligg.common.utils.ThreadLocalUtil;
+import io.swagger.v3.oas.annotations.OpenAPI31;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +28,7 @@ import java.util.Map;
 /**
  * 收货地址
  */
+@Tag(name = "收货地址",description = "管理收货客户收货地址")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/client/user/address")
@@ -35,6 +39,7 @@ public class ClientAddressController {
     /**
      * 获取收货地址
      */
+    @Operation(summary = "获取收货地址")
     @GetMapping
     public Response<List<AddressVo>> getAddress() {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
@@ -50,6 +55,7 @@ public class ClientAddressController {
     /**
      * 添加收货地址
      */
+    @Operation(summary = "添加收货地址")
     @PostMapping
     public Response<String> addAddress(@Validated @RequestBody AddressDto address) {
         UserAddressEntity userAddressEntity = new UserAddressEntity();
@@ -68,6 +74,7 @@ public class ClientAddressController {
     /**
      * 修改收货地址
      */
+    @Operation(summary = "修改收货地址")
     @PutMapping
     public Response<String> updateAddress(@Validated @RequestBody AddressDto address) {
         UserAddressEntity entity = new UserAddressEntity();
@@ -88,6 +95,7 @@ public class ClientAddressController {
 
     /**
      * 删除收货地址
+     * @param id 收货地址id
      */
     @DeleteMapping("/{id}")
     public Response<String> deleteAddress(@PathVariable Long id) {

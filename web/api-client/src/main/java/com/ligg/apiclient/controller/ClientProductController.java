@@ -28,9 +28,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 精选商品接口
+ * 商品接口
  */
-@Tag(name = "客户端精选商品接口")
+@Tag(name = "商品接口")
 @RestController
 @RequestMapping("/api/client/product")
 @RequiredArgsConstructor
@@ -42,7 +42,7 @@ public class ClientProductController {
     private final ProductImageService productImageService;
 
     /**
-     * 获取精选商品分页列表
+     * 获取商品分页列表
      */
     @GetMapping
     @Operation(summary = "获取精选商品列表")
@@ -67,7 +67,7 @@ public class ClientProductController {
     }
 
     /**
-     * 获取精选商品详情
+     * 获取商品详情
      */
     @Operation(summary = "获取精选商品详情")
     @GetMapping("/detail")

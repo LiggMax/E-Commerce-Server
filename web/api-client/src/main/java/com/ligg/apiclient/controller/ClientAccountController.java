@@ -37,8 +37,11 @@ import java.util.UUID;
 public class ClientAccountController {
 
     private final UserService userService;
+
     private final TokenService tokenService;
+
     private final CaptchaService captchaService;
+
     private final ClientAccountService clientAccountService;
 
     /**
@@ -78,7 +81,8 @@ public class ClientAccountController {
     /**
      * 登录
      */
-    @RequestMapping("/login")
+    @Operation(summary = "登录")
+    @PostMapping("/login")
     public Response<String> login(@Validated @RequestBody AccountDto account) {
         UserEntity userInfo = userService.getUserInfoByAccount(account.getAccount());
         if (userInfo == null || !BCryptUtil.verify(account.getPassword(), userInfo.getPassword())) {
@@ -89,6 +93,6 @@ public class ClientAccountController {
             return Response.error(BusinessStates.INTERNAL_SERVER_ERROR);
         }
         tokenService.saveToken(token, userInfo.getUserId());
-        return Response.success(BusinessStates.SUCCESS,token);
+        return Response.success(BusinessStates.SUCCESS, token);
     }
 }
