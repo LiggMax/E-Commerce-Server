@@ -11,7 +11,7 @@
  Target Server Version : 80040 (8.0.40)
  File Encoding         : 65001
 
- Date: 16/10/2025 19:16:27
+ Date: 17/10/2025 19:18:16
 */
 
 SET NAMES utf8mb4;
@@ -75,7 +75,7 @@ CREATE TABLE `order_item_spec`  (
   `spec_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格名称（冗余存储）',
   `spec_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格内容（冗余存储）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for orders
@@ -92,7 +92,7 @@ CREATE TABLE `orders`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '订单备注',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建使时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `pay_time` datetime NOT NULL COMMENT '支付时间',
+  `pay_time` datetime NULL DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `order_pk_2`(`order_no` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单' ROW_FORMAT = Dynamic;
@@ -199,12 +199,14 @@ CREATE TABLE `user`  (
   `account` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_cs_0900_ai_ci NOT NULL COMMENT '账号',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_cs_0900_ai_ci NULL DEFAULT NULL,
   `role` int NOT NULL DEFAULT 1 COMMENT '角色(1用户、2管理员)',
-  `status` int NOT NULL DEFAULT 1 COMMENT '用户状态',
+  `status` int NOT NULL DEFAULT 1 COMMENT '用户状态(1=正常  0=禁用)',
   `create_time` datetime NOT NULL COMMENT '注册时间',
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_cs_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
   `last_login_time` datetime NULL DEFAULT NULL COMMENT '最后登录时间',
+  `account_balance` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '余额',
   PRIMARY KEY (`user_id`) USING BTREE,
-  UNIQUE INDEX `user_pk`(`account` ASC) USING BTREE
+  UNIQUE INDEX `user_pk`(`account` ASC) USING BTREE,
+  CONSTRAINT `check_name` CHECK (`account_balance` >= 0)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_cs_0900_ai_ci COMMENT = '账户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -225,6 +227,6 @@ CREATE TABLE `user_address`  (
   `user_id` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_address_user_id_index`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
