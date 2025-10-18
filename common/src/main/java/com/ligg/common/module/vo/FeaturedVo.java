@@ -60,6 +60,12 @@ public class FeaturedVo {
     private Double discount;
 
     /**
+     * 库存
+     */
+    @Schema(description = "库存")
+    private Integer stock;
+
+    /**
      * 创建时间
      */
     @Schema(description = "创建时间")

@@ -7,6 +7,7 @@ package com.ligg.common.module.dto;
 import com.ligg.common.enums.PayType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class OrderDto {
     /**
      * 购买数量
      */
+    @NotNull(message = "商品数量不能为空")
     @Min(value = 1, message = "商品数量不能小于1")
     @Max(value = 100, message = "商品数量不能大于100")
     private Integer quantity;

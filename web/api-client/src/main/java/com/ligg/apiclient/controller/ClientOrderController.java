@@ -43,8 +43,6 @@ public class ClientOrderController {
      */
     @PostMapping
     public Response<String> createOrder(@Validated @RequestBody OrderDto orderDto) {
-        // 校验是否有订单未完成支付
-        orderService.checkOrder();
         String orderNo = orderService.createOrder(orderDto);
         return Response.success(BusinessStates.SUCCESS, orderNo);
     }

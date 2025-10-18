@@ -5,6 +5,8 @@ package com.ligg.common.constants;
  * @Time 2025/10/13
  **/
 public class UserConstant {
+
+    public static final String USER = "user";
     /**
      * 用户id
      */

@@ -49,6 +49,11 @@ public class ProductEntity {
     private int rating;
 
     /**
+     * 库存
+     */
+    private Integer stock;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createdAt;

@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
     public void checkOrder() {
         Map<String, Object> userObject = ThreadLocalUtil.get();
         String userId = (String) userObject.get(UserConstant.USER_ID);
-        OrderEntity redisOrder = (OrderEntity) redisTemplate.opsForValue().get(OrderConstant.ORDER_KEY + userId);
+        OrderEntity redisOrder = (OrderEntity) redisTemplate.opsForValue().get(UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId);
         if (redisOrder != null) {
             throw new OrderException("您有一笔订单未完成支付");
         }
@@ -85,21 +85,40 @@ public class OrderServiceImpl implements OrderService {
      * 创建订单
      */
     @Override
-    public synchronized String createOrder(OrderDto orderDto) {
+    public String createOrder(OrderDto orderDto) {
         Map<String, Object> userObject = ThreadLocalUtil.get();
         String userId = (String) userObject.get(UserConstant.USER_ID);
-        String orderLockKey = OrderConstant.ORDER_LOCK_KEY + orderDto.getProductId();
-        Boolean lockSuccess = redisTemplate.opsForValue().setIfAbsent(orderLockKey, true, 10, TimeUnit.SECONDS);
-
-        if (Boolean.FALSE.equals(lockSuccess)) {
-            throw new OrderException("请勿重复下单");
-        }
-
+        String userOrderLockKey = OrderConstant.ORDER_LOCK_KEY + orderDto.getProductId();
+        Boolean userLockSuccess = redisTemplate.opsForValue().setIfAbsent(userOrderLockKey, true, 10, TimeUnit.SECONDS);
+        long waitTime = 0;
         try {
-            String stockKey = ProductConstant.STOCK_KEY_PREFIX + orderDto.getProductId();
-            int quantity = orderDto.getQuantity() == null ? 1 : orderDto.getQuantity();
-            if (quantity <= 0) {
-                quantity = 1;
+
+            // 用户锁，防止重复下单
+            if (Boolean.FALSE.equals(userLockSuccess)) {
+                // 等待锁释放，最多等待10秒
+                while (waitTime < 10000) { // 最多等待10秒
+                    try {
+                        Thread.sleep(100); // 每100毫秒检查一次
+                        waitTime += 100;
+                        Boolean isLocked = redisTemplate.opsForValue().setIfAbsent(userOrderLockKey, true, 10, TimeUnit.SECONDS);
+                        if (Boolean.TRUE.equals(isLocked)) {
+                            userLockSuccess = true;
+                            break;
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        throw new OrderException("下单过程中发生中断");
+                    }
+                }
+                // 等待超时
+                if (!userLockSuccess) {
+                    throw new OrderException("系统繁忙，请稍后再试");
+                }
+            }
+
+            OrderEntity redisOrder = (OrderEntity) redisTemplate.opsForValue().get(UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId);
+            if (redisOrder != null) {
+                throw new OrderException("您有一笔订单未完成支付");
             }
 
             /*
@@ -116,6 +135,9 @@ public class OrderServiceImpl implements OrderService {
             }
 
             // 规格校验通过后，再原子扣减库存
+            String stockKey = ProductConstant.STOCK_KEY_PREFIX + orderDto.getProductId();
+            int quantity = orderDto.getQuantity();
+
             long result = redisTemplate.execute(DECR_STOCK_SCRIPT, Collections.singletonList(stockKey), quantity);
             if (result == -2L) {
                 throw new OrderException("库存信息不存在");
@@ -179,7 +201,7 @@ public class OrderServiceImpl implements OrderService {
 
                 //订单放入缓存
                 redisTemplate.opsForValue().set(
-                        OrderConstant.ORDER_KEY + userId, order, 1, TimeUnit.HOURS); //订单有效期1小时
+                        UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId, order, 1, TimeUnit.HOURS); //订单有效期1小时
                 //返回订单id
                 return orderNo;
             } catch (RuntimeException ex) {
@@ -189,7 +211,7 @@ public class OrderServiceImpl implements OrderService {
                 throw ex;
             }
         } finally {
-            redisTemplate.delete(orderLockKey);
+            redisTemplate.delete(userOrderLockKey);
         }
     }
 
@@ -199,19 +221,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderInfoDto getOrderInfo(String orderNo) {
         return orderMapper.selectOrderByOrderNo(orderNo);
-    }
-
-    /**
-     * 更新订单状态为已支付
-     */
-    public void updateOrderStatus(OrderEntity order) {
-        if (orderMapper.update(new LambdaUpdateWrapper<OrderEntity>()
-                .eq(OrderEntity::getId, order.getId())
-                .set(OrderEntity::getPayTime, LocalDateTime.now())
-                .set(OrderEntity::getUpdateTime, LocalDateTime.now())
-                .set(OrderEntity::getPayType, order.getPayType())
-                .set(OrderEntity::getStatus, OrderStatus.PAID)) < 1)
-            throw new OrderException(BusinessStates.INTERNAL_SERVER_ERROR.getMessage());
     }
 
     /**
@@ -238,7 +247,9 @@ public class OrderServiceImpl implements OrderService {
             userService.debit(orderInfo.getTotalAmount());
             //修改订单状态为已支付
             updateOrderStatus(orderInfo);
-        }finally {
+            //删除用户订单缓存
+            redisTemplate.delete(UserConstant.USER + ':' + OrderConstant.ORDER_KEY + orderInfo.getUserId());
+        } finally {
             //释放锁
             redisTemplate.delete(OrderConstant.ORDER_PAY_LOCK_KEY + orderNo);
         }
@@ -270,6 +281,19 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderException("规格内容不存在");
         }
         return specValueEntity;
+    }
+
+    /**
+     * 更新订单状态为已支付
+     */
+    public void updateOrderStatus(OrderEntity order) {
+        if (orderMapper.update(new LambdaUpdateWrapper<OrderEntity>()
+                .eq(OrderEntity::getId, order.getId())
+                .set(OrderEntity::getPayTime, LocalDateTime.now())
+                .set(OrderEntity::getUpdateTime, LocalDateTime.now())
+                .set(OrderEntity::getPayType, order.getPayType())
+                .set(OrderEntity::getStatus, OrderStatus.PAID)) < 1)
+            throw new OrderException(BusinessStates.INTERNAL_SERVER_ERROR.getMessage());
     }
 
     /**
