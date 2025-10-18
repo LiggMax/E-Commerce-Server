@@ -11,7 +11,7 @@
  Target Server Version : 80040 (8.0.40)
  File Encoding         : 65001
 
- Date: 17/10/2025 19:18:16
+ Date: 18/10/2025 14:30:52
 */
 
 SET NAMES utf8mb4;
@@ -75,7 +75,7 @@ CREATE TABLE `order_item_spec`  (
   `spec_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格名称（冗余存储）',
   `spec_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格内容（冗余存储）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for orders
@@ -120,8 +120,8 @@ CREATE TABLE `product`  (
   `id` bigint NOT NULL,
   `title` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称',
   `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `original_price` double NOT NULL COMMENT '原价',
-  `current_price` double NOT NULL COMMENT '现价',
+  `original_price` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '原价',
+  `current_price` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '现价',
   `reviews` int NOT NULL DEFAULT 0 COMMENT '评论数',
   `rating` tinyint NOT NULL DEFAULT 5 COMMENT '评价',
   `created_at` datetime NOT NULL COMMENT '上传时间',
@@ -182,7 +182,7 @@ CREATE TABLE `product_spec_value`  (
   `sort` int NOT NULL COMMENT '排序',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  `price` double NULL DEFAULT 0 COMMENT '规格价格',
+  `price` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '规格价格',
   `product_id` bigint NOT NULL COMMENT '商品id',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `spec_value_spec_id_index`(`spec_id` ASC) USING BTREE
