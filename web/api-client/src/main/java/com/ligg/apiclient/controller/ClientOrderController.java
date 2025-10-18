@@ -79,14 +79,7 @@ public class ClientOrderController {
      */
     @PostMapping("/pay")
     public Response<String> payOrder(@RequestBody @Validated PayDto pay) {
-        OrderInfoDto orderInfo = orderService.getOrderInfo(pay.getOrderNo());
-        if (orderInfo.getStatus() != OrderStatus.UNPAID) {
-            return Response.error(BusinessStates.METHOD_NOT_ALLOWED,"订单状态异常无法支付");
-        }
-        //扣款
-        userService.debit(orderInfo.getTotalAmount());
-        //更新订单状态
-        orderService.updateOrderStatus(orderInfo);
+        orderService.payOrder(pay.getOrderNo());
         return Response.success(BusinessStates.SUCCESS);
     }
 }

@@ -20,6 +20,7 @@ import com.ligg.common.mapper.order.OrderMapper;
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.entity.*;
+import com.ligg.common.service.UserService;
 import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.order.service.OrderService;
 import com.ligg.common.exception.OrderException;
@@ -42,19 +43,21 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final OrderMapper orderMapper;
 
-    private final SpecValueMapper specValueMapper;
+    private final UserService userService;
 
     private final ProductMapper productMapper;
 
-    private final ProductSpecMapper productSpecMapper;
-
-    private final OrderMapper orderMapper;
-
     private final OrderItemMapper orderItemMapper;
 
+    private final SpecValueMapper specValueMapper;
+
+    private final ProductSpecMapper productSpecMapper;
+
     private final OrderItemSpecMapper orderItemSpecMapper;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     // 使用 Lua 脚本原子校验并按数量扣减库存：
     // 返回值约定：>=0 表示扣减后库存，-1 表示库存不足，-2 表示库存键不存在
@@ -199,10 +202,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 更新订单状态
+     * 更新订单状态为已支付
      */
-    @Override
-    @Transactional
     public void updateOrderStatus(OrderEntity order) {
         if (orderMapper.update(new LambdaUpdateWrapper<OrderEntity>()
                 .eq(OrderEntity::getId, order.getId())
@@ -211,6 +212,36 @@ public class OrderServiceImpl implements OrderService {
                 .set(OrderEntity::getPayType, order.getPayType())
                 .set(OrderEntity::getStatus, OrderStatus.PAID)) < 1)
             throw new OrderException(BusinessStates.INTERNAL_SERVER_ERROR.getMessage());
+    }
+
+    /**
+     * 支付订单
+     */
+    @Override
+    @Transactional
+    public void payOrder(String orderNo) {
+        Boolean locked = redisTemplate.opsForValue().setIfAbsent(
+                OrderConstant.ORDER_PAY_LOCK_KEY + orderNo, true, 10, TimeUnit.SECONDS);
+        if (Boolean.FALSE.equals(locked)) {
+            throw new OrderException("订单正在处理中,请勿重复操作");
+        }
+        try {
+            OrderInfoDto orderInfo = orderMapper.selectOrderByOrderNo(orderNo);
+            if (orderInfo == null) {
+                throw new OrderException("订单不存在");
+            }
+            if (orderInfo.getStatus() != OrderStatus.UNPAID) {
+                throw new OrderException("订单已支付或也取消");
+            }
+
+            //扣减用户余额
+            userService.debit(orderInfo.getTotalAmount());
+            //修改订单状态为已支付
+            updateOrderStatus(orderInfo);
+        }finally {
+            //释放锁
+            redisTemplate.delete(OrderConstant.ORDER_PAY_LOCK_KEY + orderNo);
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ package com.ligg.order.service;
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.entity.OrderEntity;
+import jakarta.validation.constraints.NotNull;
 
 public interface OrderService {
 
@@ -26,7 +27,7 @@ public interface OrderService {
     OrderInfoDto getOrderInfo(String orderNo);
 
     /**
-     * 更新订单状态
+     * 支付订单
      */
-    void updateOrderStatus( OrderEntity order);
+    void payOrder(@NotNull String orderNo);
 }

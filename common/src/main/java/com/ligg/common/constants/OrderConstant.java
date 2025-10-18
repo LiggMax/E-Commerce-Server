@@ -9,12 +9,17 @@ public class OrderConstant {
     public static final long ORDER_TIMEOUT = 10 * 60 * 1000;
 
     /**
-     * 订单锁前缀
-     */
-    public static final String ORDER_LOCK_KEY = "order:create:";
-
-    /**
      * 订单
      */
     public static final String ORDER_KEY = "order:";
+
+    /**
+     * 订单锁前缀
+     */
+    public static final String ORDER_LOCK_KEY = ORDER_KEY + "create:";
+
+    /**
+     * 订单支付锁前缀
+     */
+    public static final String ORDER_PAY_LOCK_KEY = ORDER_KEY + "pay:";
 }
