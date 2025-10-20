@@ -10,6 +10,8 @@ import com.ligg.common.service.UserService;
 import com.ligg.common.utils.Response;
 import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.common.module.vo.UserInfoVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import java.util.Map;
 /**
  * 用户接口
  */
+@Tag(name = "用户接口", description = "管理账户信息")
 @RestController
 @RequestMapping("/api/client/user")
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class ClientUserController {
     /**
      * 获取用户信息
      */
+    @Operation(summary = "获取用户信息")
     @GetMapping("/info")
     public Response<UserInfoVo> getUserInfo() {
         Map<String, Object> userObject = ThreadLocalUtil.get();

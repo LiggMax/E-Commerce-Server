@@ -53,7 +53,6 @@ public class StockRecoveryTask {
                 redisUtil.set(ProductConstant.STOCK_KEY_PREFIX + productStock.getProductId(), productStock.getStock());
             }
             totalLoaded += batch.size();
-            log.info("已缓存 {{}} 条商品库存记录", totalLoaded);
             offset += limit;
         } while (!batch.isEmpty() && batch.size() == limit); // 当返回记录数小于limit时，说明已经处理完所有数据
         log.info("Redis 商品库存恢复完成,共加载：{{}}", totalLoaded);

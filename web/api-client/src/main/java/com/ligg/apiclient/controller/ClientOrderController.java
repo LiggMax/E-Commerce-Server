@@ -4,6 +4,8 @@
  **/
 package com.ligg.apiclient.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * 订单控接口
  */
+@Tag(name = "订单接口")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/client/user/order")
@@ -41,6 +44,7 @@ public class ClientOrderController {
     /**
      * 创建订单
      */
+    @Operation(summary = "创建订单")
     @PostMapping
     public Response<String> createOrder(@Validated @RequestBody OrderDto orderDto) {
         String orderNo = orderService.createOrder(orderDto);
@@ -51,6 +55,7 @@ public class ClientOrderController {
      * 获取订单信息
      * @param orderNo 订单号
      */
+    @Operation(summary = "获取订单信息")
     @GetMapping("/info")
     @JsonView(Views.SimpleView.class)
     public Response<OrderInfoVo> getOrderInfo(@NotNull String orderNo) {
@@ -75,6 +80,7 @@ public class ClientOrderController {
     /**
      * 支付订单
      */
+    @Operation(summary = "支付订单")
     @PostMapping("/pay")
     public Response<String> payOrder(@RequestBody @Validated PayDto pay) {
         orderService.payOrder(pay.getOrderNo());
