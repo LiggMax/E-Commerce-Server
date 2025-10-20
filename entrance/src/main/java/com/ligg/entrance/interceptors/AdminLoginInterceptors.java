@@ -12,8 +12,8 @@ import com.ligg.common.utils.RedisUtil;
 import com.ligg.common.utils.ThreadLocalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -27,10 +27,10 @@ import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class AdminLoginInterceptors implements HandlerInterceptor {
 
-    @Autowired
-    private RedisUtil redisUtil;
+    private final RedisUtil redisUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

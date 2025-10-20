@@ -23,6 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class ClientProductController {
      */
     @GetMapping
     @Operation(summary = "获取精选商品列表")
-    public Response<PageVo<FeaturedVo>> pagelist(@NotNull Long pageNumber) {
+    public Response<PageVo<FeaturedVo>> pagelist(@Validated @NotNull(message = "页码不能为空") Long pageNumber) {
         PageVo<ProductEntity> featuredPage = featuredService.getFeaturedPageList(pageNumber, 10L);
         List<FeaturedVo> featuredVoList = featuredPage.getList().stream().map(featured -> {
             FeaturedVo featuredVo = new FeaturedVo();

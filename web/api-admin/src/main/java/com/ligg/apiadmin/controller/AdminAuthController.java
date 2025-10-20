@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Tag(name = "账户接口")
 @RestController
-@RequestMapping("/api/admin/account")
+@RequestMapping("/api/admin/auth")
 @RequiredArgsConstructor
-public class AccountController {
+public class AdminAuthController {
 
     private final UserService userService;
     private final TokenService tokenService;

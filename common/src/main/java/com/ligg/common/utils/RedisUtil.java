@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
  * @Author Ligg
  * @Time 2025/9/22
  */
+@Slf4j
 @Getter
 @Component
-@Slf4j
 public class RedisUtil {
 
     /**

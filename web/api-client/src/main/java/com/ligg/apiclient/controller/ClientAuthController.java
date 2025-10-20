@@ -34,8 +34,8 @@ import java.util.UUID;
 @Tag(name = "账户接口")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/client/account")
-public class ClientAccountController {
+@RequestMapping("/api/client/auth")
+public class ClientAuthController {
 
     private final UserService userService;
 
