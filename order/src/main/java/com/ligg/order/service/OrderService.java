@@ -6,7 +6,7 @@ package com.ligg.order.service;
 
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.OrderInfoDto;
-import com.ligg.common.module.entity.OrderEntity;
+import com.ligg.common.module.vo.OrderInfoVo;
 import jakarta.validation.constraints.NotNull;
 
 public interface OrderService {
@@ -24,7 +24,12 @@ public interface OrderService {
     /**
      * 获取订单信息
      */
-    OrderInfoDto getOrderInfo(String orderNo);
+    OrderInfoVo getOrderInfo(String orderNo);
+
+    /**
+     * 获取订单过期时间
+     */
+    Long getOrderExpireTime(String orderNo);
 
     /**
      * 支付订单

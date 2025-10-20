@@ -20,11 +20,13 @@ import com.ligg.common.mapper.order.OrderMapper;
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.entity.*;
+import com.ligg.common.module.vo.OrderInfoVo;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.order.service.OrderService;
 import com.ligg.common.exception.OrderException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.core.io.ClassPathResource;
@@ -200,8 +202,8 @@ public class OrderServiceImpl implements OrderService {
                 }
 
                 //订单放入缓存
-                redisTemplate.opsForValue().set(
-                        UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId, order, 1, TimeUnit.HOURS); //订单有效期1小时
+                String orderKey = UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId + ':' + orderNo;
+                redisTemplate.opsForValue().set(orderKey, order, 1, TimeUnit.HOURS); //订单有效期1小时
                 //返回订单id
                 return orderNo;
             } catch (RuntimeException ex) {
@@ -219,8 +221,22 @@ public class OrderServiceImpl implements OrderService {
      * 获取订单信息
      */
     @Override
-    public OrderInfoDto getOrderInfo(String orderNo) {
-        return orderMapper.selectOrderByOrderNo(orderNo);
+    public OrderInfoVo getOrderInfo(String orderNo) {
+        OrderInfoVo orderInfo = orderMapper.selectOrderByOrderNo(orderNo);
+        List<OrderInfoVo.SpecValue> specValues = orderMapper.getOrderItemSpecListByOrderNo(orderNo);
+
+        OrderInfoVo orderInfoVo = new OrderInfoVo();
+        BeanUtils.copyProperties(orderInfo, orderInfoVo);
+        orderInfoVo.setSpecValues(specValues);
+        return orderInfoVo;
+    }
+
+    @Override
+    public Long getOrderExpireTime(String orderNo) {
+        Map<String, Object> userInfo = ThreadLocalUtil.get();
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
+        String orderKey = UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId + ':' + orderNo;
+        return redisTemplate.getExpire(orderKey, TimeUnit.SECONDS);
     }
 
     /**
@@ -229,16 +245,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void payOrder(String orderNo) {
-        Boolean locked = redisTemplate.opsForValue().setIfAbsent(
-                OrderConstant.ORDER_PAY_LOCK_KEY + orderNo, true, 10, TimeUnit.SECONDS);
-        if (Boolean.FALSE.equals(locked)) {
-            throw new OrderException("订单正在处理中,请勿重复操作");
-        }
+        Map<String, Object> userInfo = ThreadLocalUtil.get();
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
+        String userOrderLockKey = OrderConstant.ORDER_PAY_LOCK_KEY + orderNo;
+        String orderKey = UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId + ':' + orderNo;
+
         try {
-            OrderInfoDto orderInfo = orderMapper.selectOrderByOrderNo(orderNo);
+            Boolean locked = redisTemplate.opsForValue().setIfAbsent(userOrderLockKey, true, 10, TimeUnit.SECONDS);
+            if (Boolean.FALSE.equals(locked)) {
+                throw new OrderException("订单正在处理中,请勿重复操作");
+            }
+
+            OrderEntity orderInfo = (OrderEntity) redisTemplate.opsForValue().get(orderKey);
             if (orderInfo == null) {
                 throw new OrderException("订单不存在");
             }
+
             if (orderInfo.getStatus() != OrderStatus.UNPAID) {
                 throw new OrderException("订单已支付或也取消");
             }
@@ -248,10 +270,10 @@ public class OrderServiceImpl implements OrderService {
             //修改订单状态为已支付
             updateOrderStatus(orderInfo);
             //删除用户订单缓存
-            redisTemplate.delete(UserConstant.USER + ':' + OrderConstant.ORDER_KEY + orderInfo.getUserId());
+            redisTemplate.delete(orderKey);
         } finally {
             //释放锁
-            redisTemplate.delete(OrderConstant.ORDER_PAY_LOCK_KEY + orderNo);
+            redisTemplate.delete(userOrderLockKey);
         }
     }
 

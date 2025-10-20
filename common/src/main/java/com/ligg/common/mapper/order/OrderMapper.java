@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.dto.ProductStockDto;
 import com.ligg.common.module.entity.OrderEntity;
+import com.ligg.common.module.vo.OrderInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -41,5 +42,10 @@ public interface OrderMapper extends BaseMapper<OrderEntity> {
     /**
      * 根据订单号查询订单信息
      */
-    OrderInfoDto selectOrderByOrderNo(String orderNo);
+    OrderInfoVo selectOrderByOrderNo(String orderNo);
+
+    /**
+     * 根据订单号获取规格内容list
+     */
+    List<OrderInfoVo.SpecValue> getOrderItemSpecListByOrderNo(String orderNo);
 }

@@ -22,12 +22,14 @@ public class Response<T> {
      * 状态码
      */
     @Schema(description = "状态码")
+    @JsonView({Object.class})
     private Integer code;
 
     /**
      * 状态信息
      */
     @Schema(description = "状态信息")
+    @JsonView({Object.class})
     private String message;
 
     /**

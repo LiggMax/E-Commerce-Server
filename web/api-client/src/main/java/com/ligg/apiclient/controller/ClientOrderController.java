@@ -6,6 +6,7 @@ package com.ligg.apiclient.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.ligg.common.enums.BusinessStates;
-import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.module.dto.OrderDto;
-import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.vo.OrderInfoVo;
 import com.ligg.common.module.vo.Views;
@@ -32,6 +31,7 @@ import lombok.RequiredArgsConstructor;
  * 订单控接口
  */
 @Tag(name = "订单接口")
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/client/user/order")
@@ -53,28 +53,23 @@ public class ClientOrderController {
 
     /**
      * 获取订单信息
+     *
      * @param orderNo 订单号
      */
+    @JsonView(Views.SimpleView.class)
     @Operation(summary = "获取订单信息")
     @GetMapping("/info")
-    @JsonView(Views.SimpleView.class)
     public Response<OrderInfoVo> getOrderInfo(@NotNull String orderNo) {
-        OrderInfoDto orderInfo = orderService.getOrderInfo(orderNo);
+        Long expireTime = orderService.getOrderExpireTime(orderNo);
 
+        OrderInfoVo orderInfo = orderService.getOrderInfo(orderNo);
         // 检查查询结果是否为空
         if (orderInfo == null) {
             return Response.error(BusinessStates.NOT_FOUND, "订单不存在");
         }
 
-        OrderInfoVo orderInfoVo = new OrderInfoVo();
-        orderInfoVo.setCreateTime(orderInfo.getCreateTime());
-        orderInfoVo.setOrderNo(orderInfo.getOrderNo());
-        orderInfoVo.setAddressId(orderInfo.getAddressId());
-        orderInfoVo.setRemark(orderInfo.getRemark());
-        orderInfoVo.setStatus(orderInfo.getStatus());
-        orderInfoVo.setTotalAmount(orderInfo.getTotalAmount());
-        System.out.println(orderInfo);
-        return Response.success(BusinessStates.SUCCESS, orderInfoVo);
+        orderInfo.setExpireTime(expireTime);
+        return Response.success(BusinessStates.SUCCESS, orderInfo);
     }
 
     /**
