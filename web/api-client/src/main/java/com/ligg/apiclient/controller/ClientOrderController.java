@@ -20,12 +20,13 @@ import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.vo.OrderInfoVo;
 import com.ligg.common.module.vo.Views;
-import com.ligg.common.service.UserService;
 import com.ligg.common.utils.Response;
 import com.ligg.order.service.OrderService;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 /**
  * 订单控接口
@@ -38,8 +39,6 @@ import lombok.RequiredArgsConstructor;
 public class ClientOrderController {
 
     private final OrderService orderService;
-
-    private final UserService userService;
 
     /**
      * 创建订单
@@ -78,7 +77,17 @@ public class ClientOrderController {
     @Operation(summary = "支付订单")
     @PostMapping("/pay")
     public Response<String> payOrder(@RequestBody @Validated PayDto pay) {
-        orderService.payOrder(pay.getOrderNo());
+        orderService.payOrder(pay);
+        return Response.success(BusinessStates.SUCCESS);
+    }
+
+    /**
+     * 获取用户订单列表
+     */
+    @Operation(summary = "获取用户订单列表")
+    @GetMapping("/list")
+    public Response<List<OrderInfoVo>> getUserOrderList() {
+
         return Response.success(BusinessStates.SUCCESS);
     }
 }

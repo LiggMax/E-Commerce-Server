@@ -18,7 +18,7 @@ import com.ligg.common.mapper.order.OrderItemMapper;
 import com.ligg.common.mapper.order.OrderItemSpecMapper;
 import com.ligg.common.mapper.order.OrderMapper;
 import com.ligg.common.module.dto.OrderDto;
-import com.ligg.common.module.dto.OrderInfoDto;
+import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.entity.*;
 import com.ligg.common.module.vo.OrderInfoVo;
 import com.ligg.common.service.UserService;
@@ -68,19 +68,6 @@ public class OrderServiceImpl implements OrderService {
     static {
         DECR_STOCK_SCRIPT.setLocation(new ClassPathResource("redis.lua"));
         DECR_STOCK_SCRIPT.setResultType(Long.class);
-    }
-
-    /**
-     * 校验是否有订单还未付款
-     */
-    @Override
-    public void checkOrder() {
-        Map<String, Object> userObject = ThreadLocalUtil.get();
-        String userId = (String) userObject.get(UserConstant.USER_ID);
-        OrderEntity redisOrder = (OrderEntity) redisTemplate.opsForValue().get(UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId);
-        if (redisOrder != null) {
-            throw new OrderException("您有一笔订单未完成支付");
-        }
     }
 
     /**
@@ -244,11 +231,11 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public void payOrder(String orderNo) {
+    public void payOrder(PayDto pay) {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
         String userId = (String) userInfo.get(UserConstant.USER_ID);
-        String userOrderLockKey = OrderConstant.ORDER_PAY_LOCK_KEY + orderNo;
-        String orderKey = UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId + ':' + orderNo;
+        String userOrderLockKey = OrderConstant.ORDER_PAY_LOCK_KEY + pay.getOrderNo();
+        String orderKey = UserConstant.USER + ':' + OrderConstant.ORDER_KEY + userId + ':' + pay.getOrderNo();
 
         try {
             Boolean locked = redisTemplate.opsForValue().setIfAbsent(userOrderLockKey, true, 10, TimeUnit.SECONDS);
@@ -266,6 +253,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             //扣减用户余额
+            orderInfo.setPayType(pay.getPayType());
             userService.debit(orderInfo.getTotalAmount());
             //修改订单状态为已支付
             updateOrderStatus(orderInfo);

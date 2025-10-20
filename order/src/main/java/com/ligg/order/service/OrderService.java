@@ -5,16 +5,11 @@
 package com.ligg.order.service;
 
 import com.ligg.common.module.dto.OrderDto;
-import com.ligg.common.module.dto.OrderInfoDto;
+import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.vo.OrderInfoVo;
 import jakarta.validation.constraints.NotNull;
 
 public interface OrderService {
-
-    /**
-     * 校验是否有订单还未付款
-     */
-    void checkOrder();
 
     /**
      * 创建订单
@@ -34,5 +29,5 @@ public interface OrderService {
     /**
      * 支付订单
      */
-    void payOrder(@NotNull String orderNo);
+    void payOrder(@NotNull PayDto pay);
 }
