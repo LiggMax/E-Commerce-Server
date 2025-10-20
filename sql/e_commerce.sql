@@ -11,7 +11,7 @@
  Target Server Version : 80040 (8.0.40)
  File Encoding         : 65001
 
- Date: 18/10/2025 14:30:52
+ Date: 20/10/2025 18:26:46
 */
 
 SET NAMES utf8mb4;
@@ -61,7 +61,9 @@ CREATE TABLE `order_item`  (
   `product_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '下单商品价格(冗余)',
   `quantity` int NOT NULL COMMENT '购买数量',
   `subtotal` decimal(10, 2) NOT NULL COMMENT '小计金额(价格x数量)',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `order_item_product_id_index`(`product_id` ASC) USING BTREE,
+  INDEX `order_item_order_id_index`(`order_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -75,7 +77,7 @@ CREATE TABLE `order_item_spec`  (
   `spec_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格名称（冗余存储）',
   `spec_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格内容（冗余存储）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 59 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for orders
@@ -86,7 +88,7 @@ CREATE TABLE `orders`  (
   `order_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单号',
   `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   `total_amount` decimal(10, 2) NOT NULL COMMENT '订单总价',
-  `pay_type` tinyint NOT NULL COMMENT '支付方式',
+  `pay_type` tinyint NOT NULL DEFAULT 0 COMMENT '支付方式',
   `status` tinyint NOT NULL COMMENT '订单状态（0=待支付，1=已支付，2=已发货，3=已收货，4=已取消，5=退款中，6=已退款）',
   `address_id` bigint NOT NULL COMMENT '收货地址id',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '订单备注',
