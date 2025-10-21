@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -33,6 +34,12 @@ public interface OrderMapper extends BaseMapper<OrderEntity> {
      */
     @Update("update product set stock = #{productStock} where id = #{productId}")
     void updateProductStock(String productId, Integer productStock);
+
+    /**
+     * 查询订单基本信息
+     */
+    @Select("select * from orders where order_no = #{oredrNo} ")
+    OrderEntity selectOrderBaseInfo(String orderNo);
 
     /**
      * 根据订单号查询订单信息

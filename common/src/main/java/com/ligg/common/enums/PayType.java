@@ -15,7 +15,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PayType {
     ALI_PAY(1, "支付宝"),
-    WX_PAY(2, "微信支付");
+    WX_PAY(2, "微信支付"),
+    BANK_CARD(3, "银行卡支付");
 
     @EnumValue
     private final Integer code;

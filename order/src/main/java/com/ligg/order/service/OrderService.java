@@ -4,6 +4,7 @@
  **/
 package com.ligg.order.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.entity.OrderEntity;
@@ -12,7 +13,7 @@ import com.ligg.common.module.vo.OrderVo;
 import com.ligg.common.module.vo.PageVo;
 import jakarta.validation.constraints.NotNull;
 
-public interface OrderService {
+public interface OrderService extends IService<OrderEntity> {
 
     /**
      * 创建订单
@@ -20,7 +21,14 @@ public interface OrderService {
     String createOrder(OrderDto orderDto);
 
     /**
-     * 获取订单信息
+     * 根据订单编号获取订单基本信息
+     * @param orderNo 订单号
+     * @return 订单基本信息
+     */
+    OrderEntity getOrderById(String orderNo);
+
+    /**
+     * 获取订单详情信息
      */
     OrderInfoVo getOrderInfo(String orderNo);
 
@@ -38,4 +46,9 @@ public interface OrderService {
      * 获取用户订单列表
      */
     PageVo<OrderVo> getUserOrderList(Long pageNum, Long pageSize);
+
+    /**
+     * 修改订单状态为取消
+     */
+    void cancelOrder(Long orderId);
 }

@@ -5,6 +5,7 @@
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.enums.OrderStatus;
+import com.ligg.common.module.entity.OrderEntity;
 import com.ligg.common.module.vo.OrderVo;
 import com.ligg.common.module.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -89,5 +90,23 @@ public class ClientOrderController {
                                                       @RequestParam(required = false) OrderStatus status) {
         PageVo<OrderVo> userOrderList = orderService.getUserOrderList(pageNum, pageSize);
         return Response.success(BusinessStates.SUCCESS, userOrderList);
+    }
+
+    /**
+     * 取消订单
+     */
+    @PatchMapping("/{orderNo}")
+    @Operation(summary = "取消订单")
+    public Response<String> cancelOrder(@NotNull @PathVariable String orderNo) {
+        OrderEntity order = orderService.getOrderById(orderNo);
+        if (order == null) {
+            return Response.error(BusinessStates.NOT_FOUND, "订单不存在");
+        }
+
+        if (order.getStatus() != OrderStatus.UNPAID) {
+            return Response.error(BusinessStates.VALIDATION_FAILED, "订单已支付");
+        }
+        orderService.cancelOrder(order.getId());
+        return Response.success(BusinessStates.SUCCESS);
     }
 }

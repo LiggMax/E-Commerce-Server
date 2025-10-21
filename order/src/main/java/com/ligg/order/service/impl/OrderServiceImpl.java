@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.constants.OrderConstant;
 import com.ligg.common.constants.ProductConstant;
 import com.ligg.common.constants.UserConstant;
@@ -47,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> implements OrderService {
 
     private final OrderMapper orderMapper;
 
@@ -209,7 +210,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 获取订单信息
+     * 根据订单编号获取订单基本信息
+     * @param orderNo 订单号
+     * @return 订单基本信息
+     */
+    @Override
+    public OrderEntity getOrderById(String orderNo) {
+        return orderMapper.selectOrderBaseInfo(orderNo);
+    }
+
+    /**
+     * 获取订单详情信息
      */
     @Override
     public OrderInfoVo getOrderInfo(String orderNo) {
@@ -285,6 +296,19 @@ public class OrderServiceImpl implements OrderService {
         orderList.setTotal(result.getTotal());
         orderList.setList(result.getRecords());
         return orderList;
+    }
+
+    /**
+     * 取消订单
+     */
+    @Override
+    public void cancelOrder(Long orderId) {
+        if (orderMapper.update(new LambdaUpdateWrapper<OrderEntity>()
+                .eq(OrderEntity::getId, orderId)
+                .set(OrderEntity::getStatus, OrderStatus.CANCELED)
+                .set(OrderEntity::getUpdateTime, LocalDateTime.now())) < 1) {
+            throw new OrderException(BusinessStates.INTERNAL_SERVER_ERROR.getMessage());
+        }
     }
 
     /**
