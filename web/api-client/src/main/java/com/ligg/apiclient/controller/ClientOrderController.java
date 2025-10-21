@@ -87,18 +87,19 @@ public class ClientOrderController {
     @GetMapping("/list")
     public Response<PageVo<OrderVo>> getUserOrderList(@NotNull Long pageNum,
                                                       @NotNull Long pageSize,
-                                                      @RequestParam(required = false) OrderStatus status) {
-        PageVo<OrderVo> userOrderList = orderService.getUserOrderList(pageNum, pageSize);
+                                                      @RequestParam(required = false) OrderStatus status,
+                                                      @RequestParam(required = false) String keyword) {
+        PageVo<OrderVo> userOrderList = orderService.getUserOrderList(pageNum, pageSize,status,keyword);
         return Response.success(BusinessStates.SUCCESS, userOrderList);
     }
 
     /**
      * 取消订单
      */
-    @PatchMapping("/{orderNo}")
+    @PatchMapping("/{order_no}")
     @Operation(summary = "取消订单")
-    public Response<String> cancelOrder(@NotNull @PathVariable String orderNo) {
-        OrderEntity order = orderService.getOrderById(orderNo);
+    public Response<String> cancelOrder(@NotNull @PathVariable String order_no) {
+        OrderEntity order = orderService.getOrderByOderNo(order_no);
         if (order == null) {
             return Response.error(BusinessStates.NOT_FOUND, "订单不存在");
         }

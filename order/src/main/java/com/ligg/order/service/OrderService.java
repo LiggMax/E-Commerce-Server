@@ -5,6 +5,7 @@
 package com.ligg.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.entity.OrderEntity;
@@ -22,10 +23,11 @@ public interface OrderService extends IService<OrderEntity> {
 
     /**
      * 根据订单编号获取订单基本信息
+     *
      * @param orderNo 订单号
      * @return 订单基本信息
      */
-    OrderEntity getOrderById(String orderNo);
+    OrderEntity getOrderByOderNo(String orderNo);
 
     /**
      * 获取订单详情信息
@@ -45,7 +47,7 @@ public interface OrderService extends IService<OrderEntity> {
     /**
      * 获取用户订单列表
      */
-    PageVo<OrderVo> getUserOrderList(Long pageNum, Long pageSize);
+    PageVo<OrderVo> getUserOrderList(Long pageNum, Long pageSize, OrderStatus status, String keyword);
 
     /**
      * 修改订单状态为取消

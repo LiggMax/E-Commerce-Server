@@ -2,6 +2,7 @@ package com.ligg.common.mapper.order;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.module.dto.ProductStockDto;
 import com.ligg.common.module.entity.OrderEntity;
 import com.ligg.common.module.vo.OrderInfoVo;
@@ -10,7 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -23,8 +23,9 @@ public interface OrderMapper extends BaseMapper<OrderEntity> {
 
     /**
      * 分批获取商品id和库存
+     *
      * @param offset 偏移量
-     * @param limit 限制数量
+     * @param limit  限制数量
      */
     @Select("select id as productId,stock from product limit #{offset},#{limit}")
     List<ProductStockDto> getProductStockByBatch(@Param("offset") Integer offset, @Param("limit") Integer limit);
@@ -54,5 +55,5 @@ public interface OrderMapper extends BaseMapper<OrderEntity> {
     /**
      * 根据用户id查询订单列表
      */
-    IPage<OrderVo> selectOrderListByUserId(IPage<OrderVo> page, String userId);
+    IPage<OrderVo> selectOrderListByUserId(@Param("page") IPage<OrderVo> page, String userId, OrderStatus status, String keyword);
 }

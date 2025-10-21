@@ -211,11 +211,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     /**
      * 根据订单编号获取订单基本信息
+     *
      * @param orderNo 订单号
      * @return 订单基本信息
      */
     @Override
-    public OrderEntity getOrderById(String orderNo) {
+    public OrderEntity getOrderByOderNo(String orderNo) {
         return orderMapper.selectOrderBaseInfo(orderNo);
     }
 
@@ -284,12 +285,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
      * 获取用户订单列表
      */
     @Override
-    public PageVo<OrderVo> getUserOrderList(Long pageNum, Long pageSize) {
+    public PageVo<OrderVo> getUserOrderList(Long pageNum, Long pageSize, OrderStatus status, String keyword) {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
         String userId = (String) userInfo.get(UserConstant.USER_ID);
 
         IPage<OrderVo> page = new Page<>(pageNum, pageSize);
-        IPage<OrderVo> result = orderMapper.selectOrderListByUserId(page, userId);
+        IPage<OrderVo> result = orderMapper.selectOrderListByUserId(page, userId,status,keyword);
 
         PageVo<OrderVo> orderList = new PageVo<>();
         orderList.setPages(result.getPages());
