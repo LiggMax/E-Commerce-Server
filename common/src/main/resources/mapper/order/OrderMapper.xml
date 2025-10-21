@@ -60,7 +60,7 @@
     </select>
 
     <!-- 订单规格列表-->
-    <select id="getOrderItemSpecListByOrderNo" resultType="com.ligg.common.module.vo.OrderInfoVo$SpecValue">
+    <select id="selectOrderItemSpecListByOrderNo" resultType="com.ligg.common.module.vo.OrderInfoVo$SpecValue">
         select psv.id,
                psv.value
         from orders o

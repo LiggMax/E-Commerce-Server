@@ -214,7 +214,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderInfoVo getOrderInfo(String orderNo) {
         OrderInfoVo orderInfo = orderMapper.selectOrderByOrderNo(orderNo);
-        List<OrderInfoVo.SpecValue> specValues = orderMapper.getOrderItemSpecListByOrderNo(orderNo);
+        List<OrderInfoVo.SpecValue> specValues = orderMapper.selectOrderItemSpecListByOrderNo(orderNo);
 
         OrderInfoVo orderInfoVo = new OrderInfoVo();
         BeanUtils.copyProperties(orderInfo, orderInfoVo);

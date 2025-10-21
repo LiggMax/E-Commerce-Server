@@ -21,12 +21,6 @@ import java.util.List;
 public interface OrderMapper extends BaseMapper<OrderEntity> {
 
     /**
-     * 获取所有商品id和库存
-     */
-    @Select("select id as productId,stock as stock from product")
-    List<ProductStockDto> getAllProductStock();
-
-    /**
      * 分批获取商品id和库存
      * @param offset 偏移量
      * @param limit 限制数量
@@ -48,7 +42,7 @@ public interface OrderMapper extends BaseMapper<OrderEntity> {
     /**
      * 根据订单号获取规格内容list
      */
-    List<OrderInfoVo.SpecValue> getOrderItemSpecListByOrderNo(String orderNo);
+    List<OrderInfoVo.SpecValue> selectOrderItemSpecListByOrderNo(String orderNo);
 
     /**
      * 根据用户id查询订单列表
