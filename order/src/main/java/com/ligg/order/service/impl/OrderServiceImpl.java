@@ -6,6 +6,8 @@ package com.ligg.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ligg.common.constants.OrderConstant;
 import com.ligg.common.constants.ProductConstant;
 import com.ligg.common.constants.UserConstant;
@@ -21,6 +23,8 @@ import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.PayDto;
 import com.ligg.common.module.entity.*;
 import com.ligg.common.module.vo.OrderInfoVo;
+import com.ligg.common.module.vo.OrderVo;
+import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.order.service.OrderService;
@@ -263,6 +267,24 @@ public class OrderServiceImpl implements OrderService {
             //释放锁
             redisTemplate.delete(userOrderLockKey);
         }
+    }
+
+    /**
+     * 获取用户订单列表
+     */
+    @Override
+    public PageVo<OrderVo> getUserOrderList(Long pageNum, Long pageSize) {
+        Map<String, Object> userInfo = ThreadLocalUtil.get();
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
+
+        IPage<OrderVo> page = new Page<>(pageNum, pageSize);
+        IPage<OrderVo> result = orderMapper.selectOrderListByUserId(page, userId);
+
+        PageVo<OrderVo> orderList = new PageVo<>();
+        orderList.setPages(result.getPages());
+        orderList.setTotal(result.getTotal());
+        orderList.setList(result.getRecords());
+        return orderList;
     }
 
     /**

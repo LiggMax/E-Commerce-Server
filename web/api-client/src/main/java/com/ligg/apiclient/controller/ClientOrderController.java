@@ -4,6 +4,9 @@
  **/
 package com.ligg.apiclient.controller;
 
+import com.ligg.common.module.entity.OrderEntity;
+import com.ligg.common.module.vo.OrderVo;
+import com.ligg.common.module.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +28,6 @@ import com.ligg.order.service.OrderService;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 /**
  * 订单控接口
@@ -86,8 +87,9 @@ public class ClientOrderController {
      */
     @Operation(summary = "获取用户订单列表")
     @GetMapping("/list")
-    public Response<List<OrderInfoVo>> getUserOrderList() {
-
-        return Response.success(BusinessStates.SUCCESS);
+    public Response<PageVo<OrderVo>> getUserOrderList(Long pageNum,
+                                                      Long pageSize) {
+        PageVo<OrderVo> userOrderList = orderService.getUserOrderList(pageNum,pageSize);
+        return Response.success(BusinessStates.SUCCESS, userOrderList);
     }
 }

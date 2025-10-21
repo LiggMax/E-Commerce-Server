@@ -110,11 +110,11 @@ public class OrderInfoVo {
     @JsonView(Views.SimpleView.class)
     private Product product;
 
-    @JsonProperty("paymentStatus")
-    @JsonView(Views.SimpleView.class)
-    public String getStatusDescription() {
-        return this.status != null ? this.status.getDescription() : null;
-    }
+//    @JsonProperty("paymentStatus")
+//    @JsonView(Views.SimpleView.class)
+//    public String getStatusDescription() {
+//        return this.status != null ? this.status.getDescription() : null;
+//    }
 
     @Getter
     @Setter

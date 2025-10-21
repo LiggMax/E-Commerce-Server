@@ -6,7 +6,10 @@ package com.ligg.order.service;
 
 import com.ligg.common.module.dto.OrderDto;
 import com.ligg.common.module.dto.PayDto;
+import com.ligg.common.module.entity.OrderEntity;
 import com.ligg.common.module.vo.OrderInfoVo;
+import com.ligg.common.module.vo.OrderVo;
+import com.ligg.common.module.vo.PageVo;
 import jakarta.validation.constraints.NotNull;
 
 public interface OrderService {
@@ -30,4 +33,9 @@ public interface OrderService {
      * 支付订单
      */
     void payOrder(@NotNull PayDto pay);
+
+    /**
+     * 获取用户订单列表
+     */
+    PageVo<OrderVo> getUserOrderList(Long pageNum, Long pageSize);
 }

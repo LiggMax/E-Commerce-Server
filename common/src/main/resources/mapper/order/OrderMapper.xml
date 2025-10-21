@@ -69,4 +69,23 @@
         left join product_spec_value psv on ois.spec_value_id = psv.id
         where o.order_no = #{orderNo}
     </select>
+
+    <!-- 订单列表-->
+    <select id="selectOrderListByUserId" resultType="com.ligg.common.module.vo.OrderVo">
+        select o.id,
+               o.order_no,
+               o.total_amount,
+               o.pay_type,
+               o.status,
+               o.address_id,
+               o.remark,
+               o.create_time,
+               o.pay_time,
+               p.image_path as cover
+        from orders o
+                 left join order_item oi on o.id = oi.order_id
+                 left join product p on oi.product_id = p.id
+        where o.user_id = #{userId}
+        order by o.create_time desc
+    </select>
 </mapper>
