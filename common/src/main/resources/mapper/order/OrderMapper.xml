@@ -81,7 +81,9 @@
                o.remark,
                o.create_time,
                o.pay_time,
-               p.image_path as cover
+               oi.quantity,
+               p.image_path as image,
+               p.title
         from orders o
                  left join order_item oi on o.id = oi.order_id
                  left join product p on oi.product_id = p.id

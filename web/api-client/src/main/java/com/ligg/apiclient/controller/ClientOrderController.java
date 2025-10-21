@@ -4,18 +4,14 @@
  **/
 package com.ligg.apiclient.controller;
 
-import com.ligg.common.module.entity.OrderEntity;
+import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.module.vo.OrderVo;
 import com.ligg.common.module.vo.PageVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.ligg.common.enums.BusinessStates;
@@ -34,6 +30,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Tag(name = "订单接口")
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/client/user/order")
@@ -87,9 +84,10 @@ public class ClientOrderController {
      */
     @Operation(summary = "获取用户订单列表")
     @GetMapping("/list")
-    public Response<PageVo<OrderVo>> getUserOrderList(Long pageNum,
-                                                      Long pageSize) {
-        PageVo<OrderVo> userOrderList = orderService.getUserOrderList(pageNum,pageSize);
+    public Response<PageVo<OrderVo>> getUserOrderList(@NotNull Long pageNum,
+                                                      @NotNull Long pageSize,
+                                                      @RequestParam(required = false) OrderStatus status) {
+        PageVo<OrderVo> userOrderList = orderService.getUserOrderList(pageNum, pageSize);
         return Response.success(BusinessStates.SUCCESS, userOrderList);
     }
 }

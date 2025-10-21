@@ -6,7 +6,7 @@ package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.ligg.common.enums.PayStatus;
+import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.enums.PayType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,7 +47,7 @@ public class PaymentLogEntity {
     /**
      * 支付状态
      */
-    private PayStatus payStatus;
+    private OrderStatus payStatus;
 
     /**
      * 支付时间

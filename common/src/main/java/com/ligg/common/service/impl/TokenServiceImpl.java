@@ -8,6 +8,7 @@ import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,11 +30,17 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public String generateToken(UserEntity userEntity) {
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put(UserConstant.USER_ID, userEntity.getUserId());
-        userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
-        userInfo.put(UserConstant.USER_ROLE, userEntity.getRole().toString());
-        return JWTUtil.createToken(userInfo, EXPIRE);
+        String userToken = (String) redisUtil.get(Constant.TOKEN + userEntity.getUserId());
+
+        if (StringUtils.hasText(userToken)) {
+            return userToken;
+        } else {
+            Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put(UserConstant.USER_ID, userEntity.getUserId());
+            userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
+            userInfo.put(UserConstant.USER_ROLE, userEntity.getRole().toString());
+            return JWTUtil.createToken(userInfo, EXPIRE);
+        }
     }
 
     /**

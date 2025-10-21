@@ -1,7 +1,5 @@
 package com.ligg.common.module.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.enums.PayType;
 import lombok.AllArgsConstructor;
@@ -23,9 +21,18 @@ public class OrderVo {
     private Long id;
 
     /**
+     * 商品标题
+     */
+    private String title;
+
+    /**
+     * 购买数量
+     */
+    private Integer quantity;
+    /**
      * 商品封面
      */
-    private String cover;
+    private String image;
 
     /**
      * 订单编号

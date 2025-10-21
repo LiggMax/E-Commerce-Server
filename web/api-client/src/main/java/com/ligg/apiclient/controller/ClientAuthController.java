@@ -7,6 +7,7 @@ package com.ligg.apiclient.controller;
 import com.ligg.apiclient.service.ClientAccountService;
 import com.ligg.common.enums.UserRole;
 import com.ligg.common.module.dto.AccountDto;
+import com.ligg.common.module.dto.LoginDto;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.CaptchaService;
@@ -16,9 +17,6 @@ import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -31,11 +29,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 //TODO 通用命名AuthController
-
 /**
  * 账户接口
  */
-@Validated
 @Tag(name = "账户接口")
 @RestController
 @RequiredArgsConstructor
@@ -89,10 +85,9 @@ public class ClientAuthController {
      */
     @Operation(summary = "登录")
     @PostMapping("/login")
-    public Response<String> login(@NotNull @Pattern(regexp = "^[a-zA-Z0-9]{6,20}$", message = "参数不合法") String account,
-                                  @NotNull @Pattern(regexp = "^[a-zA-Z0-9]{6,20}$", message = "参数不合法") String password) {
-        UserEntity userInfo = userService.getUserInfoByAccount(account);
-        if (userInfo == null || !BCryptUtil.verify(password, userInfo.getPassword())) {
+    public Response<String> login(@Validated @RequestBody LoginDto account) {
+        UserEntity userInfo = userService.getUserInfoByAccount(account.getAccount());
+        if (userInfo == null || !BCryptUtil.verify(account.getPassword(), userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
         }
         String token = tokenService.generateToken(userInfo);

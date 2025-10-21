@@ -2,7 +2,6 @@ package com.ligg.common.mapper.order;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ligg.common.module.dto.OrderInfoDto;
 import com.ligg.common.module.dto.ProductStockDto;
 import com.ligg.common.module.entity.OrderEntity;
 import com.ligg.common.module.vo.OrderInfoVo;
