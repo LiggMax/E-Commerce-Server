@@ -6,7 +6,6 @@ package com.ligg.apiclient.controller;
 
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.BusinessStates;
-import com.ligg.common.enums.PayType;
 import com.ligg.common.module.dto.PaymentDto;
 import com.ligg.common.module.dto.UserDto;
 import com.ligg.common.module.entity.UserEntity;

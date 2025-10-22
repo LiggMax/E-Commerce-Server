@@ -25,14 +25,6 @@ public interface UserMapper extends BaseMapper<UserEntity> {
     int debitBalance(String userId, @NotNull BigDecimal amount);
 
     /**
-     * 更新用户头像
-     * @param userId 用户id
-     * @param imagePath 头像路径
-     */
-    @Update("update user set avatar = #{imagePath} where user_id = #{userId}")
-    void updateAvatar(String userId, String imagePath);
-
-    /**
      * 更新用户信息
      * @param userEntity 用户信息
      * @return 1
