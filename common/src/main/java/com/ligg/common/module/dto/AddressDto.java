@@ -1,5 +1,6 @@
 package com.ligg.common.module.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class AddressDto {
      * 收货人名称
      */
     @NotNull
+    @Schema(description = "收货人名称")
     private String receiverName;
 
     /**
