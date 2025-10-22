@@ -11,7 +11,6 @@ public class Constant {
      */
     public static final String AUTHORIZATION = "Authorization";
 
-
     /**
      * 账号
      */
@@ -41,6 +40,11 @@ public class Constant {
      * 文件大小
      */
     public static final long FILE_SIZE = 1024 * 1024 * 2;
+
+    /**
+     * 头像文件保持路径
+     */
+    public static final String AVATAR_FILE_PATH = "/Avatar";
 
     /**
      * 精选商品文件保持路径

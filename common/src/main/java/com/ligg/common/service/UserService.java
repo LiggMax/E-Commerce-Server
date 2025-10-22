@@ -3,6 +3,7 @@ package com.ligg.common.service;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.module.vo.UserInfoVo;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -32,4 +33,14 @@ public interface UserService {
      * 账户扣款
      */
     void debit(@NotNull BigDecimal amount);
+
+    /**
+     * 更新用户头像
+     */
+    void updateUserAvatar( MultipartFile avatarFile);
+
+    /**
+     * 更新用户信息
+     */
+    int updateUserInfo(UserEntity userEntity);
 }

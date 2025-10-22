@@ -5,10 +5,12 @@
 package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.exception.OrderException;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
+import com.ligg.common.service.FileService;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.RedisUtil;
@@ -17,8 +19,10 @@ import com.ligg.common.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,10 +35,18 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final RedisUtil redisUtil;
+
     private final UserMapper userMapper;
+
+    private final FileService fileService;
+
+    @Value("${file.image.base-path}")
+    private String IMAGE_PATH;
+
     /**
      * 注册账号
-     * @param account 账号
+     *
+     * @param account  账号
      * @param password 密码
      */
     @Override
@@ -98,6 +110,41 @@ public class UserServiceImpl implements UserService {
         if (!(userMapper.debitBalance(userId, amount) > 0)) {
             throw new RuntimeException("扣减用户余额失败");
         }
+    }
+
+    /**
+     * 更新用户头像
+     */
+    @Override
+    public void updateUserAvatar(MultipartFile avatarFile) {
+        Map<String, Object> UserInfo = ThreadLocalUtil.get();
+        String userId = (String) UserInfo.get(UserConstant.USER_ID);
+
+        UserEntity userInfo = userMapper.selectById(userId);
+        String avatar = userInfo.getAvatar();
+        //如果头像不 != null || "" 则删除旧头像
+        if (avatar != null && !avatar.equals("/")) {
+            String avatarPath = IMAGE_PATH + avatar.replace(Constant.IMAGE_RELATIVE_PATH, "");
+            fileService.deleteFileAsync(avatarPath);
+        }
+        String imagePath = fileService.uploadImage(avatarFile, Constant.AVATAR_FILE_PATH);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setAvatar(imagePath);
+        userEntity.setUserId(userId);
+        userMapper.updateUserInfo(userEntity);
+    }
+
+    /**
+     * 更新用户信息
+     */
+    @Override
+    public int updateUserInfo(UserEntity userEntity) {
+        int number = userMapper.updateUserInfo(userEntity);
+        if (number > 0) {
+            String userKey = UserConstant.USER_INFO + ":" + userEntity.getUserId();
+            redisUtil.del(userKey);
+        }
+        return number;
     }
 
     private UserEntity getRedisUserInfo(String userId) {

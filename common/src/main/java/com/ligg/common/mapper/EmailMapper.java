@@ -12,9 +12,4 @@ import java.util.List;
  */
 @Mapper
 public interface EmailMapper extends BaseMapper<EmailEntity> {
-
-    /**
-     * 获取所有商品id
-     */
-    List<String> getAllProductId();
 }
