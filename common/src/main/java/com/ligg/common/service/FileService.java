@@ -10,10 +10,10 @@ public interface FileService {
      * 上传图片文件到指定路径
      *
      * @param imageFile 图片文件
-     * @param path      指定的路径（可选）
+     * @param FilePath  指定文件保存的路径
      * @return 图片访问路径
      */
-    String uploadImage(MultipartFile imageFile, String path);
+    String uploadImage(MultipartFile imageFile, String FilePath);
 
     /**
      * 获取多种图片输入流
