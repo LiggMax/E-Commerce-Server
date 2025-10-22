@@ -5,6 +5,7 @@
 package com.ligg.entrance.exception;
 
 import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.exception.PermissionsException;
 import com.ligg.common.utils.Response;
 import com.ligg.common.exception.OrderException;
 import jakarta.validation.ConstraintViolationException;
@@ -53,5 +54,14 @@ public class GlobalException {
     public Response<String> handleOrderException(OrderException e) {
         log.error("订单异常:{}", e.getMessage());
         return Response.error(BusinessStates.VALIDATION_FAILED, e.getMessage());
+    }
+
+    /**
+     * 处理权限异常
+     */
+    @ExceptionHandler(PermissionsException.class)
+    public Response<String> handlePermissionsException(PermissionsException e) {
+        log.error("权限不足:{}", e.getMessage());
+        return Response.error(BusinessStates.UNAUTHORIZED, e.getMessage());
     }
 }
