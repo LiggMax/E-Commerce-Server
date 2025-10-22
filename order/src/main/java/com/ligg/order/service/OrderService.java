@@ -50,6 +50,11 @@ public interface OrderService extends IService<OrderEntity> {
     PageVo<OrderVo> getUserOrderList(Long pageNum, Long pageSize, OrderStatus status, String keyword);
 
     /**
+     * 获取订单列表
+     */
+    PageVo<OrderVo> getOrderList(Long pageNum, Long pageSize);
+
+    /**
      * 修改订单状态为取消
      */
     void cancelOrder(Long orderId);

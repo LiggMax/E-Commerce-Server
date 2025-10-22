@@ -72,7 +72,7 @@
 
     <!-- 订单列表-->
     <select id="selectOrderListByUserId" resultType="com.ligg.common.module.vo.OrderVo">
-        SELECT ord.id,
+        select ord.id,
         ord.order_no,
         ord.total_amount,
         ord.pay_type,
@@ -84,16 +84,42 @@
         oi.quantity,
         p.image_path AS image,
         p.title
-        FROM orders ord
-        LEFT JOIN order_item oi ON ord.id = oi.order_id
-        LEFT JOIN product p ON oi.product_id = p.id
-        WHERE ord.user_id = #{userId}
+        from orders ord
+        left join order_item oi on ord.id = oi.order_id
+        left join product p on oi.product_id = p.id
+        where ord.user_id = #{userId}
         <if test="keyword != null and keyword != ''">
-            AND (p.title LIKE CONCAT('%', #{keyword}, '%') OR ord.order_no LIKE CONCAT('%', #{keyword}, '%'))
+            and (p.title like concat('%', #{keyword}, '%') or ord.order_no like concat('%', #{keyword}, '%'))
         </if>
         <if test="status != null">
-            AND ord.status = #{status.code}
+            and ord.status = #{status.code}
         </if>
-        ORDER BY ord.create_time DESC
+        order by ord.create_time desc
+    </select>
+
+    <!-- 订单列表-->
+    <select id="selectOrderList" resultType="com.ligg.common.module.vo.OrderVo">
+        select ord.id,
+               ord.order_no,
+               ord.total_amount,
+               ord.pay_type,
+               ord.status,
+               ord.address_id,
+               ord.remark,
+               ord.create_time,
+               ord.pay_time,
+               oi.quantity,
+               p.image_path as image,
+               p.title
+        from orders ord
+                 left join order_item oi on ord.id = oi.order_id
+                 left join product p on oi.product_id = p.id
+<!--        <if test="keyword != null and keyword != ''">-->
+<!--            and (p.title like concat('%', #{keyword}, '%') or ord.order_no like concat('%', #{keyword}, '%'))-->
+<!--        </if>-->
+<!--        <if test="status != null">-->
+<!--            and ord.status = #{status.code}-->
+<!--        </if>-->
+        order by ord.create_time desc
     </select>
 </mapper>

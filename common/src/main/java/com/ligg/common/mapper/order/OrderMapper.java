@@ -2,6 +2,7 @@ package com.ligg.common.mapper.order;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.module.dto.ProductStockDto;
 import com.ligg.common.module.entity.OrderEntity;
@@ -56,4 +57,11 @@ public interface OrderMapper extends BaseMapper<OrderEntity> {
      * 根据用户id查询订单列表
      */
     IPage<OrderVo> selectOrderListByUserId(@Param("page") IPage<OrderVo> page, String userId, OrderStatus status, String keyword);
+
+    /**
+     * 查询订单列表
+     * @param page
+     * @return
+     */
+    IPage<OrderVo> selectOrderList(Page<OrderVo> page);
 }

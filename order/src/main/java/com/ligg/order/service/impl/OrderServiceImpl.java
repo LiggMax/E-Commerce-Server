@@ -290,8 +290,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         String userId = (String) userInfo.get(UserConstant.USER_ID);
 
         IPage<OrderVo> page = new Page<>(pageNum, pageSize);
-        IPage<OrderVo> result = orderMapper.selectOrderListByUserId(page, userId,status,keyword);
+        IPage<OrderVo> result = orderMapper.selectOrderListByUserId(page, userId, status, keyword);
 
+        PageVo<OrderVo> orderList = new PageVo<>();
+        orderList.setPages(result.getPages());
+        orderList.setTotal(result.getTotal());
+        orderList.setList(result.getRecords());
+        return orderList;
+    }
+
+    @Override
+    public PageVo<OrderVo> getOrderList(Long pageNum, Long pageSize) {
+        Page<OrderVo> page = new Page<>(pageNum, pageSize);
+        IPage<OrderVo> result = orderMapper.selectOrderList(page);
         PageVo<OrderVo> orderList = new PageVo<>();
         orderList.setPages(result.getPages());
         orderList.setTotal(result.getTotal());

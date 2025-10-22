@@ -21,6 +21,13 @@
             <artifactId>common</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
+        <!--订单模块-->
+        <dependency>
+            <groupId>com.ligg</groupId>
+            <artifactId>order</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
