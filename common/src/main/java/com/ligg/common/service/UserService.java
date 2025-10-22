@@ -13,7 +13,8 @@ import java.math.BigDecimal;
  **/
 public interface UserService {
     /**
-     *  注册账号
+     * 注册账号
+     *
      * @param account
      * @param password
      */
@@ -37,10 +38,15 @@ public interface UserService {
     /**
      * 更新用户头像
      */
-    void updateUserAvatar( MultipartFile avatarFile);
+    void updateUserAvatar(MultipartFile avatarFile);
 
     /**
      * 更新用户信息
      */
     int updateUserInfo(UserEntity userEntity);
+
+    /**
+     * 充值
+     **/
+    int recharge(BigDecimal amount, String userId);
 }

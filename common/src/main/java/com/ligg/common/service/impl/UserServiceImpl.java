@@ -147,6 +147,19 @@ public class UserServiceImpl implements UserService {
         return number;
     }
 
+    /**
+     * 充值
+     * @param amount 金额
+     * @param userId 用户id
+     * @return 充值结果
+     */
+    @Override
+    public int recharge(BigDecimal amount, String userId) {
+        String userKey = UserConstant.USER_INFO + ":" + userId;
+        redisUtil.del(userKey);
+        return userMapper.recharge(amount, userId);
+    }
+
     private UserEntity getRedisUserInfo(String userId) {
         return (UserEntity) redisUtil.get(UserConstant.USER_INFO + ":" + userId);
     }

@@ -38,4 +38,12 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @return 1
      */
     int updateUserInfo(UserEntity userEntity);
+
+    /**
+     * 充值
+     * @param amount 充值金额
+     * @param userId 用户id
+     */
+    @Update("update user set account_balance = account_balance + #{amount} where user_id = #{userId}")
+    int recharge(BigDecimal amount, String userId);
 }

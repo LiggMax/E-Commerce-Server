@@ -6,6 +6,8 @@ package com.ligg.apiclient.controller;
 
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.enums.PayType;
+import com.ligg.common.module.dto.PaymentDto;
 import com.ligg.common.module.dto.UserDto;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.service.UserService;
@@ -15,20 +17,20 @@ import com.ligg.common.module.vo.UserInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Objects;
 
 /**
  * 用户接口
  */
+@Slf4j
 @Tag(name = "用户接口", description = "管理账户信息")
 @RestController
 @RequestMapping("/api/client/user")
@@ -65,6 +67,24 @@ public class ClientUserController {
         BeanUtils.copyProperties(userDto, userEntity);
         userEntity.setUserId(userId);
         return userService.updateUserInfo(userEntity) < 1
+                ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
+                : Response.success(BusinessStates.SUCCESS);
+    }
+
+    /**
+     * 余额充值
+     */
+    @PatchMapping("/recharge")
+    public Response<String> recharge(@RequestBody PaymentDto payment) {
+        //金额是否小于0
+        if (payment.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            return Response.error(BusinessStates.VALIDATION_FAILED);
+        }
+        //TODO 后续在对充值类型进行处理
+        log.info("{}:充值", payment.getPayType());
+        Map<String, Object> userInfo = ThreadLocalUtil.get();
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
+        return userService.recharge(payment.getAmount(), userId) < 1
                 ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
                 : Response.success(BusinessStates.SUCCESS);
     }
