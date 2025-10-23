@@ -11,7 +11,7 @@
  Target Server Version : 80040 (8.0.40)
  File Encoding         : 65001
 
- Date: 20/10/2025 18:26:46
+ Date: 23/10/2025 18:07:19
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `carousel`  (
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `update_at` datetime NOT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_cs_0900_ai_ci COMMENT = '轮播图' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_cs_0900_ai_ci COMMENT = '轮播图' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for email
@@ -77,7 +77,7 @@ CREATE TABLE `order_item_spec`  (
   `spec_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格名称（冗余存储）',
   `spec_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格内容（冗余存储）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 59 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for orders
@@ -96,7 +96,9 @@ CREATE TABLE `orders`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `pay_time` datetime NULL DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `order_pk_2`(`order_no` ASC) USING BTREE
+  UNIQUE INDEX `order_pk_2`(`order_no` ASC) USING BTREE,
+  INDEX `orders_create_time_index`(`create_time` ASC) USING BTREE,
+  INDEX `orders_update_time_index`(`update_time` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -133,6 +135,31 @@ CREATE TABLE `product`  (
   PRIMARY KEY (`id`) USING BTREE,
   CONSTRAINT `product_chk_1` CHECK (`stock` >= 0)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for product_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `product_comment`;
+CREATE TABLE `product_comment`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `product_id` bigint NOT NULL COMMENT '商品ID',
+  `order_id` bigint NOT NULL COMMENT '订单ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评论内容',
+  `rating` tinyint NOT NULL COMMENT '评分（1~5星）',
+  `images` json NULL COMMENT '评论图片，JSON数组格式',
+  `type` tinyint NOT NULL DEFAULT 1 COMMENT '评论类型（1初评/2追评/3回复）',
+  `status` enum('VISIBLE','HIDDEN','DELETED') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'VISIBLE' COMMENT '评论状态',
+  `is_anonymous` tinyint(1) NULL DEFAULT 0 COMMENT '是否匿名评论',
+  `audit_status` enum('PENDING','APPROVED','REJECTED') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'APPROVED' COMMENT '审核状态',
+  `ip_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评论时的IP',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_product`(`product_id` ASC) USING BTREE,
+  INDEX `idx_user`(`user_id` ASC) USING BTREE,
+  INDEX `idx_status`(`status` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_detail

@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAsync
-@SpringBootApplication
 @EnableScheduling
+@SpringBootApplication
 @ComponentScan(value = "com.ligg")
 @MapperScan("com.ligg.**.mapper")
 public class EntranceApplication {
