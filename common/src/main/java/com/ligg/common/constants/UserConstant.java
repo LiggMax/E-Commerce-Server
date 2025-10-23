@@ -12,6 +12,11 @@ public class UserConstant {
      */
     public static final String USER_ID = "userId";
 
+    /**
+     * 用户ip
+     */
+    public static final String USER_IP = "userIp";
+
     public static final String USER_INFO = "userInfo";
 
     /**

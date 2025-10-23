@@ -7,6 +7,7 @@ import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "商品评价接口")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/client/product/comment")
+@RequestMapping("/api/client/user/product/comment")
 public class ClientProductCommentController {
 
     private final ProductCommentService commentService;
@@ -25,7 +26,7 @@ public class ClientProductCommentController {
      * 发布商品评价
      */
     @PostMapping
-    public Response<String> publishComment(ProductCommentDto content) {
+    public Response<String> publishComment(@RequestBody ProductCommentDto content) {
         commentService.publishComment(content);
         return Response.success(BusinessStates.SUCCESS);
     }

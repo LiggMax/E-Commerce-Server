@@ -34,18 +34,12 @@ public class TokenServiceImpl implements TokenService {
      */
     @Override
     public String generateToken(UserEntity userEntity) {
-        String userToken = (String) redisUtil.get(Constant.TOKEN + userEntity.getUserId());
-
-        if (StringUtils.hasText(userToken)) {
-            return userToken;
-        } else {
-            Map<String, Object> userInfo = new HashMap<>();
-            userInfo.put(UserConstant.USER_ID, userEntity.getUserId());
-            userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
-            userInfo.put(UserConstant.USER_IP, GetClientIp.getIp(request));
-            userInfo.put(UserConstant.USER_ROLE, userEntity.getRole().toString());
-            return JWTUtil.createToken(userInfo, EXPIRE);
-        }
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put(UserConstant.USER_ID, userEntity.getUserId());
+        userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
+        userInfo.put(UserConstant.USER_IP, GetClientIp.getIp(request));
+        userInfo.put(UserConstant.USER_ROLE, userEntity.getRole().toString());
+        return JWTUtil.createToken(userInfo, EXPIRE);
     }
 
     /**

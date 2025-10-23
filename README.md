@@ -42,6 +42,11 @@
 * **HTTP客户端**: Axios
 * **构建工具**: Vite
 
+<div style="border-radius: 5px;">
+    <img alt="gif" style="border-radius: 10px; " height="200"  width="350" src="docs/2月8日_1_.gif"/>
+    <img alt="gif" style="border-radius: 10px; " height="200"  width="350" src="docs/2月8日_1_.gif"/>
+</div>
+
 ## 📂 项目结构
 
 ```
