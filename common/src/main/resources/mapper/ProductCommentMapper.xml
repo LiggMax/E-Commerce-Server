@@ -2,8 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ligg.common.mapper.product.ProductCommentMapper">
 
+    <!-- 商品评价结果映射 -->
+    <resultMap id="ProductCommentVoMap" type="com.ligg.common.module.vo.ProductCommentVo">
+        <id column="id" property="id"/>
+        <result column="product_id" property="productId"/>
+        <result column="user_id" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="rating" property="rating"/>
+        <result column="images" property="images" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result column="type" property="type"/>
+        <result column="ip_address" property="ipAddress"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
     <!-- 商品评价查询 -->
-    <select id="selectCommentByProductId" resultType="com.ligg.common.module.vo.ProductCommentVo">
+    <select id="selectCommentByProductId" resultMap="ProductCommentVoMap">
         select p.id,
                p.product_id,
                p.user_id,
