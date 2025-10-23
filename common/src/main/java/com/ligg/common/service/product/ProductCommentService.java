@@ -1,5 +1,6 @@
 package com.ligg.common.service.product;
 
+import com.ligg.common.module.bo.ProductCommentBo;
 import com.ligg.common.module.dto.ProductCommentDto;
 
 /**
@@ -11,5 +12,5 @@ public interface ProductCommentService {
     /**
      * 发布商品评价
      */
-    int publishComment(ProductCommentDto content);
+    int publishComment(ProductCommentBo content);
 }

@@ -7,10 +7,10 @@ public interface FileService {
 
 
     /**
-     * 上传图片文件到指定路径
+     * 上传图片文件到指定路径(前缀)
      *
      * @param imageFile 图片文件
-     * @param FilePath  指定文件保存的路径
+     * @param FilePath  指定文件保存的路径(前缀)
      * @return 图片访问路径
      */
     String uploadImage(MultipartFile imageFile, String FilePath);

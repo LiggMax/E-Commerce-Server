@@ -3,7 +3,7 @@ package com.ligg.common.service.impl.product;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.AuditStatu;
 import com.ligg.common.mapper.product.ProductCommentMapper;
-import com.ligg.common.module.dto.ProductCommentDto;
+import com.ligg.common.module.bo.ProductCommentBo;
 import com.ligg.common.module.entity.ProductCommentEntity;
 import com.ligg.common.service.product.ProductCommentService;
 import com.ligg.common.utils.ThreadLocalUtil;
@@ -24,7 +24,7 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 
     private final ProductCommentMapper commentMapper;
     @Override
-    public int publishComment(ProductCommentDto content) {
+    public int publishComment(ProductCommentBo content) {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
         String userId = (String) userInfo.get(UserConstant.USER_ID);
 

@@ -52,6 +52,11 @@ public class Constant {
     public static final String FEATURED_FILE_PATH = "/Featured";
 
     /**
+     * 评论
+     */
+    public static final String COMMENT_FILE_PATH = "/Comment";
+
+    /**
      * 轮播图保持路径
      */
     public static final String CAROUSEL_FILE_PATH = "/Carousel";

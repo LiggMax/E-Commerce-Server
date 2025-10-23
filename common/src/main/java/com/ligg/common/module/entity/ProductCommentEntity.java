@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,7 +52,7 @@ public class ProductCommentEntity {
      * 图片(json数组)
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String,Object> images;
+    private List<String> images;
 
     /**
      * 评论类型
