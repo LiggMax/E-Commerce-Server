@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ligg.common.mapper.product.ProductCommentMapper">
+
+    <!-- 商品评价查询 -->
+    <select id="selectCommentByProductId" resultType="com.ligg.common.module.vo.ProductCommentVo">
+        select p.id,
+               p.product_id,
+               p.user_id,
+               p.content,
+               p.rating,
+               p.images,
+               p.type,
+               p.status,
+               p.is_anonymous,
+               p.ip_address,
+               p.create_time,
+               p.update_time
+        from product_comment p
+        where p.product_id = #{productId}
+          and p.status = 1
+        order by p.create_time desc
+    </select>
+</mapper>

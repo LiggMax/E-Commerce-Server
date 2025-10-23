@@ -1,8 +1,12 @@
-package com.ligg.common.module.bo;
+package com.ligg.common.module.vo;
 
-import com.ligg.common.enums.Whether;
-import lombok.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -12,7 +16,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCommentBo {
+public class ProductCommentVo {
+
+    private Long id;
 
     /**
      * 商品id
@@ -37,6 +43,7 @@ public class ProductCommentBo {
     /**
      * 图片(json数组)
      */
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> images;
 
     /**
@@ -44,9 +51,13 @@ public class ProductCommentBo {
      */
     private Integer type;
 
+    /**
+     * 评论时的ip
+     */
+    private String ipAddress;
 
     /**
-     * 是匿名评论
+     * 创建时间
      */
-    private Whether isAnonymous;
+    private LocalDateTime createTime;
 }

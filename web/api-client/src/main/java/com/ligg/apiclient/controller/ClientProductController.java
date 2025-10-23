@@ -9,6 +9,7 @@ import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.entity.ProductImageEntity;
 import com.ligg.common.module.vo.*;
 import com.ligg.common.module.vo.search.SearchVo;
+import com.ligg.common.service.product.ProductCommentService;
 import com.ligg.common.service.product.ProductImageService;
 import com.ligg.common.service.product.ProductService;
 import com.ligg.common.enums.BusinessStates;
@@ -20,6 +21,8 @@ import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -38,8 +41,13 @@ import java.util.List;
 public class ClientProductController {
 
     private final SpecService specService;
+
     private final SearchService searchService;
+
     private final ProductService featuredService;
+
+    private final ProductCommentService commentService;
+
     private final ProductImageService productImageService;
 
     /**
@@ -133,6 +141,19 @@ public class ClientProductController {
         pageVo.setTotal(searchData.getTotal());
         pageVo.setList(searchResult);
         return Response.success(BusinessStates.SUCCESS, pageVo);
+    }
+
+    /**
+     * 获取商品评论
+     */
+    @GetMapping("/comment")
+    @Operation(summary = "获取商品评论")
+    public Response<PageVo<ProductCommentVo>> getComment(@Schema(description = "商品id") @NotNull String productId,
+                                                         @NotNull @Max(100) Long pageNumber,
+                                                         @NotNull @Min(5) @Max(20) Long pageSize
+    ) {
+        PageVo<ProductCommentVo> commentPage = commentService.getCommentByProductId(productId,pageNumber,pageSize);
+        return Response.success(BusinessStates.SUCCESS, commentPage);
     }
 }
 

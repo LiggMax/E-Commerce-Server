@@ -19,7 +19,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Map;
 
-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 /**
  * 客户端登录拦截器

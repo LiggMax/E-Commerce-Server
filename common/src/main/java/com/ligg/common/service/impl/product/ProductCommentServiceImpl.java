@@ -1,10 +1,14 @@
 package com.ligg.common.service.impl.product;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.AuditStatu;
 import com.ligg.common.mapper.product.ProductCommentMapper;
 import com.ligg.common.module.bo.ProductCommentBo;
 import com.ligg.common.module.entity.ProductCommentEntity;
+import com.ligg.common.module.vo.PageVo;
+import com.ligg.common.module.vo.ProductCommentVo;
 import com.ligg.common.service.product.ProductCommentService;
 import com.ligg.common.utils.ThreadLocalUtil;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +46,20 @@ public class ProductCommentServiceImpl implements ProductCommentService {
         commentEntity.setUpdateTime(LocalDateTime.now());
 
          return commentMapper.insert(commentEntity);
+    }
+
+    /**
+     * 获取商品评价
+     */
+    @Override
+    public PageVo<ProductCommentVo> getCommentByProductId(String productId, Long pageNumber, Long pageSize) {
+        IPage<ProductCommentVo> Page = new Page<>(pageNumber, pageSize);
+        IPage<ProductCommentVo> result = commentMapper.selectCommentByProductId(Page,productId);
+
+        PageVo<ProductCommentVo> pageVo = new PageVo<>();
+        pageVo.setTotal(result.getTotal());
+        pageVo.setPages(result.getPages());
+        pageVo.setList(result.getRecords());
+        return pageVo;
     }
 }
