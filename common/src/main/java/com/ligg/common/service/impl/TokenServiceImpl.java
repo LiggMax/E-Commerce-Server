@@ -4,8 +4,10 @@ import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.service.TokenService;
+import com.ligg.common.utils.GetClientIp;
 import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.RedisUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,6 +23,8 @@ import static com.ligg.common.constants.Constant.EXPIRE;
 public class TokenServiceImpl implements TokenService {
 
     private final RedisUtil redisUtil;
+
+    private final HttpServletRequest request;
 
     /**
      * 生成token
@@ -38,6 +42,7 @@ public class TokenServiceImpl implements TokenService {
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.put(UserConstant.USER_ID, userEntity.getUserId());
             userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
+            userInfo.put(UserConstant.USER_IP, GetClientIp.getIp(request));
             userInfo.put(UserConstant.USER_ROLE, userEntity.getRole().toString());
             return JWTUtil.createToken(userInfo, EXPIRE);
         }
