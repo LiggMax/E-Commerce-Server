@@ -7,7 +7,7 @@ package com.ligg.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ligg.common.module.entity.ProductSpecEntity;
 import com.ligg.common.module.entity.ProductSpecValueEntity;
-import com.ligg.common.mapper.ProductSpecMapper;
+import com.ligg.common.mapper.product.ProductSpecMapper;
 import com.ligg.common.mapper.SpecValueMapper;
 import com.ligg.common.service.SpecService;
 import com.ligg.common.module.vo.SpecVo;

@@ -1,9 +1,9 @@
-package com.ligg.common.service.impl;
+package com.ligg.common.service.impl.product;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.module.entity.ProductDetailEntity;
-import com.ligg.common.mapper.ProductDetailMapper;
-import com.ligg.common.service.ProductDetailService;
+import com.ligg.common.mapper.product.ProductDetailMapper;
+import com.ligg.common.service.product.ProductDetailService;
 import org.springframework.stereotype.Service;
 
 /**

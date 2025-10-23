@@ -1,12 +1,12 @@
-package com.ligg.common.service.impl;
+package com.ligg.common.service.impl.product;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
-import com.ligg.common.mapper.ProductMapper;
-import com.ligg.common.service.ProductService;
+import com.ligg.common.mapper.product.ProductMapper;
+import com.ligg.common.service.product.ProductService;
 import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.module.vo.search.FeaturedSearchVo;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ligg.common.mapper.ProductMapper">
+<mapper namespace="com.ligg.common.mapper.product.ProductMapper">
 
     <!-- 精选商品详情查询 -->
     <select id="selectProductDetailPage" resultType="com.ligg.common.module.vo.search.FeaturedSearchVo">

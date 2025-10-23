@@ -1,4 +1,4 @@
-package com.ligg.common.service;
+package com.ligg.common.service.product;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.module.entity.ProductImageEntity;

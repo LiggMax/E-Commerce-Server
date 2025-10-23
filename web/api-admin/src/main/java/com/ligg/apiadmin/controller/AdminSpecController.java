@@ -8,7 +8,7 @@ import com.ligg.common.module.dto.SpecDto;
 import com.ligg.common.module.entity.ProductSpecEntity;
 import com.ligg.common.module.entity.ProductSpecValueEntity;
 import com.ligg.common.enums.BusinessStates;
-import com.ligg.common.service.ProductService;
+import com.ligg.common.service.product.ProductService;
 import com.ligg.common.service.SpecService;
 import com.ligg.common.utils.Response;
 import lombok.RequiredArgsConstructor;

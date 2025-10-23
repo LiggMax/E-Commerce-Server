@@ -1,7 +1,7 @@
 package com.ligg.common.mapper.address;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ligg.common.enums.Default;
+import com.ligg.common.enums.Whether;
 import com.ligg.common.module.entity.UserAddressEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -23,13 +23,13 @@ public interface AddressMapper extends BaseMapper<UserAddressEntity> {
      * 根据userId修改地址为默认地址
      */
     @Update("update user_address set is_default = #{isDefault} where user_id = #{userId}")
-    void updateAddressDefaultByUserId(String userId, Default isDefault);
+    void updateAddressDefaultByUserId(String userId, Whether isDefault);
 
     /**
      * 根据addressId和userId修改默认地址
      */
     @Update("update user_address set is_default = #{isDefault} where user_id = #{userId} and id = #{addressId}")
-    void updateAddressDefaultByAddressIdAndUserId(String userId, Default isDefault, Long addressId);
+    void updateAddressDefaultByAddressIdAndUserId(String userId, Whether isDefault, Long addressId);
 
     /**
      * 根据userId查询创建时间最新的一条收货地址

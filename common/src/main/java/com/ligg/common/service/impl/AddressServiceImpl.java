@@ -1,12 +1,12 @@
-package com.ligg.common.service.impl.address;
+package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.constants.UserConstant;
-import com.ligg.common.enums.Default;
+import com.ligg.common.enums.Whether;
 import com.ligg.common.mapper.address.AddressMapper;
 import com.ligg.common.module.entity.UserAddressEntity;
-import com.ligg.common.service.address.AddressService;
+import com.ligg.common.service.AddressService;
 import com.ligg.common.utils.ThreadLocalUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,11 +46,11 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, UserAddressEn
             throw new RuntimeException("删除收货地址失败");
         }
 
-        if (userAddressEntity != null && userAddressEntity.getIsDefault() == Default.YES) {
+        if (userAddressEntity != null && userAddressEntity.getIsDefault() == Whether.YES) {
             //获取最新添加的收货地址
             UserAddressEntity userAddressOne = addressMapper.selectAddressOneByCreateTime(userId);
             if (userAddressOne != null) {
-                addressMapper.updateAddressDefaultByAddressIdAndUserId(userId, Default.YES, userAddressEntity.getId());
+                addressMapper.updateAddressDefaultByAddressIdAndUserId(userId, Whether.YES, userAddressEntity.getId());
             }
         }
     }
@@ -91,7 +91,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, UserAddressEn
     @Override
     @Transactional
     public void updateAddressDefault(Long addressId, String userId) {
-        addressMapper.updateAddressDefaultByUserId(userId, Default.NO);
-        addressMapper.updateAddressDefaultByAddressIdAndUserId(userId, Default.YES, addressId);
+        addressMapper.updateAddressDefaultByUserId(userId, Whether.NO);
+        addressMapper.updateAddressDefaultByAddressIdAndUserId(userId, Whether.YES, addressId);
     }
 }

@@ -6,11 +6,11 @@ package com.ligg.apiclient.controller;
 
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.BusinessStates;
-import com.ligg.common.enums.Default;
+import com.ligg.common.enums.Whether;
 import com.ligg.common.module.dto.AddressDto;
 import com.ligg.common.module.entity.UserAddressEntity;
 import com.ligg.common.module.vo.AddressVo;
-import com.ligg.common.service.address.AddressService;
+import com.ligg.common.service.AddressService;
 import com.ligg.common.utils.Response;
 import com.ligg.common.utils.ThreadLocalUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,7 +48,7 @@ public class ClientAddressController {
         return Response.success(BusinessStates.SUCCESS, addressService.getAddress(userId).stream().map(entity -> {
             AddressVo addressVo = new AddressVo();
             BeanUtils.copyProperties(entity, addressVo);
-            addressVo.setIsDefault(entity.getIsDefault() == Default.YES);
+            addressVo.setIsDefault(entity.getIsDefault() == Whether.YES);
             return addressVo;
         }).toList());
     }

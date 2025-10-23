@@ -10,10 +10,11 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum Default {
-    YES(1),
-    NO(0);
+public enum Whether {
+    YES(1, "是"),
+    NO(0, "否");
 
     @EnumValue
     private final Integer code;
+    private final String message;
 }

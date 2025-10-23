@@ -1,10 +1,10 @@
-package com.ligg.common.service.impl;
+package com.ligg.common.service.impl.product;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.module.entity.ProductImageEntity;
-import com.ligg.common.mapper.ProductImageMapper;
-import com.ligg.common.service.ProductImageService;
+import com.ligg.common.mapper.product.ProductImageMapper;
+import com.ligg.common.service.product.ProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

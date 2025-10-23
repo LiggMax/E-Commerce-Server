@@ -1,29 +1,36 @@
-/**
- * @Author LiGG
- * @Time 2025/10/11
- */
 package com.ligg.common.module.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.ligg.common.enums.AuditStatu;
 import com.ligg.common.enums.Whether;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
- * 用户地址
- */
+ * @author Ligg
+ * @Time 2025/10/23
+ **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("user_address")
-public class UserAddressEntity {
+@TableName("product_comment")
+public class ProductCommentEntity {
+
     @TableId(type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 商品id
+     */
+    private Long productId;
 
     /**
      * 用户id
@@ -31,39 +38,40 @@ public class UserAddressEntity {
     private String userId;
 
     /**
-     * 收货人名称
+     * 评价内容
      */
-    private String receiverName;
+    private String content;
 
     /**
-     * 收货人手机号码
+     * 评分
      */
-    private String receiverPhone;
+    private Integer rating;
 
     /**
-     * 省
+     * 图片(json数组)
      */
-    private String province;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Map<String,Object> images;
 
     /**
-     * 市
+     * 评论类型
      */
-    private String city;
+    private Integer type;
 
     /**
-     * 区/县
+     * 评论状态
      */
-    private String district;
+    private AuditStatu status;
 
     /**
-     * 是否默认地址
+     * 是匿名评论
      */
-    private Whether isDefault;
+    private Whether isAnonymous;
 
     /**
-     * 详情地址
+     * 评论时的ip
      */
-    private String detailAddress;
+    private String ipAddress;
 
     /**
      * 创建时间

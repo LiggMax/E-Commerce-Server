@@ -1,4 +1,4 @@
-package com.ligg.common.mapper;
+package com.ligg.common.mapper.product;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
