@@ -11,7 +11,7 @@
  Target Server Version : 80040 (8.0.40)
  File Encoding         : 65001
 
- Date: 23/10/2025 18:07:19
+ Date: 23/10/2025 18:50:26
 */
 
 SET NAMES utf8mb4;
@@ -143,15 +143,13 @@ DROP TABLE IF EXISTS `product_comment`;
 CREATE TABLE `product_comment`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `product_id` bigint NOT NULL COMMENT '商品ID',
-  `order_id` bigint NOT NULL COMMENT '订单ID',
-  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `user_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户ID',
   `content` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评论内容',
   `rating` tinyint NOT NULL COMMENT '评分（1~5星）',
   `images` json NULL COMMENT '评论图片，JSON数组格式',
   `type` tinyint NOT NULL DEFAULT 1 COMMENT '评论类型（1初评/2追评/3回复）',
-  `status` enum('VISIBLE','HIDDEN','DELETED') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'VISIBLE' COMMENT '评论状态',
+  `status` tinyint NOT NULL DEFAULT 0 COMMENT '评论状态',
   `is_anonymous` tinyint(1) NULL DEFAULT 0 COMMENT '是否匿名评论',
-  `audit_status` enum('PENDING','APPROVED','REJECTED') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'APPROVED' COMMENT '审核状态',
   `ip_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评论时的IP',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -159,7 +157,7 @@ CREATE TABLE `product_comment`  (
   INDEX `idx_product`(`product_id` ASC) USING BTREE,
   INDEX `idx_user`(`user_id` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_detail
