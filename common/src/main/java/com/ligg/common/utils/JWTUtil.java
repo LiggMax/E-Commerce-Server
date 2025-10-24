@@ -44,7 +44,6 @@ public class JWTUtil {
                     .asMap();
 
         } catch (TokenExpiredException e) {
-            //处理令牌过期的情况,响应状态码401
             throw new TokenExpiredException("令牌已过期", e.getExpiredOn());
         } catch (JWTVerificationException exception) {
             // Invalid signature/claims

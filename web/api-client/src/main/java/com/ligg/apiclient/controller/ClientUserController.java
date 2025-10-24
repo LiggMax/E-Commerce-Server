@@ -85,7 +85,7 @@ public class ClientUserController {
      * 发布商品评价
      */
     @PostMapping("/comment")
-    public Response<String> publishComment(@RequestParam("images") MultipartFile[] imageFiles,
+    public Response<String> publishComment(@RequestParam("imageFiles") MultipartFile[] imageFiles,
                                            ProductCommentDto content) {
 
         if (imageFiles.length > 5) {
