@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * 账户接口
+ * 账户
  */
 @Tag(name = "账户接口")
 @RestController
