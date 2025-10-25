@@ -11,6 +11,7 @@ import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.module.vo.ProductCommentVo;
 import com.ligg.common.service.product.ProductCommentService;
 import com.ligg.common.utils.ThreadLocalUtil;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class ProductCommentServiceImpl implements ProductCommentService {
     public int publishComment(ProductCommentBo content) {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
         String userId = (String) userInfo.get(UserConstant.USER_ID);
+        String userIp = (String) userInfo.get(UserConstant.USER_IP);
 
         ProductCommentEntity commentEntity = new ProductCommentEntity();
         BeanUtils.copyProperties(content, commentEntity);
@@ -40,8 +42,7 @@ public class ProductCommentServiceImpl implements ProductCommentService {
         if (content.getIsAnonymous() != null){
             commentEntity.setIsAnonymous(content.getIsAnonymous());
         }
-        //TODO 后续需要将ip存在Token中
-        commentEntity.setIpAddress("127.0.0.1");
+        commentEntity.setIpAddress(userIp);
         commentEntity.setCreateTime(LocalDateTime.now());
         commentEntity.setUpdateTime(LocalDateTime.now());
 
@@ -52,7 +53,7 @@ public class ProductCommentServiceImpl implements ProductCommentService {
      * 获取商品评价
      */
     @Override
-    public PageVo<ProductCommentVo> getCommentByProductId(String productId, Long pageNumber, Long pageSize) {
+    public PageVo<ProductCommentVo> getCommentByProductId(@NotNull Long productId, Long pageNumber, Long pageSize) {
         IPage<ProductCommentVo> Page = new Page<>(pageNumber, pageSize);
         IPage<ProductCommentVo> result = commentMapper.selectCommentByProductId(Page,productId);
 

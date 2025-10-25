@@ -19,5 +19,5 @@ public interface ProductCommentService {
     /**
      * 获取商品评价
      */
-    PageVo<ProductCommentVo> getCommentByProductId(@NotNull String productId,Long pageNumber, Long pageSize);
+    PageVo<ProductCommentVo> getCommentByProductId(@NotNull Long productId, Long pageNumber, Long pageSize);
 }

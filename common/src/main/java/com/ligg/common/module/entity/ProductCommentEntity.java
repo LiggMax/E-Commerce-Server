@@ -46,7 +46,7 @@ public class ProductCommentEntity {
     /**
      * 评分
      */
-    private Integer rating;
+    private Float rating;
 
     /**
      * 图片(json数组)

@@ -2,9 +2,7 @@ package com.ligg.common.module.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,9 +24,9 @@ public class ProductCommentVo {
     private Long productId;
 
     /**
-     * 用户id
+     * 用户信息
      */
-    private String userId;
+    private CommentUserVo user;
 
     /**
      * 评价内容
@@ -38,7 +36,7 @@ public class ProductCommentVo {
     /**
      * 评分
      */
-    private Integer rating;
+    private Float rating;
 
     /**
      * 图片(json数组)
@@ -60,4 +58,12 @@ public class ProductCommentVo {
      * 创建时间
      */
     private LocalDateTime createTime;
+
+    @Getter
+    @Setter
+    public static class CommentUserVo {
+        private String userId;
+        private String nickName;
+        private String avatar;
+    }
 }
