@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-//TODO 通用命名AuthController
 /**
  * 账户接口
  */
