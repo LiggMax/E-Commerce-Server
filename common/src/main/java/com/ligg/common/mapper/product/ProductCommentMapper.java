@@ -13,5 +13,5 @@ import org.apache.ibatis.annotations.Param;
  **/
 @Mapper
 public interface ProductCommentMapper extends BaseMapper<ProductCommentEntity> {
-    IPage<ProductCommentVo> selectCommentByProductId(@Param("page") IPage<ProductCommentVo> page, @Param("productId") String productId);
+    IPage<ProductCommentVo> selectCommentByProductId(@Param("page") IPage<ProductCommentVo> page, @Param("productId") Long productId);
 }

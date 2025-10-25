@@ -49,4 +49,9 @@ public interface UserService {
      * 充值
      **/
     int recharge(BigDecimal amount, String userId);
+
+    /**
+     * 商品收藏
+     */
+    int productFavorite(Long productId, boolean isFavorite);
 }

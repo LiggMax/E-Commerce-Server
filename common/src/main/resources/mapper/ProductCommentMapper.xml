@@ -6,13 +6,17 @@
     <resultMap id="ProductCommentVoMap" type="com.ligg.common.module.vo.ProductCommentVo">
         <id column="id" property="id"/>
         <result column="product_id" property="productId"/>
-        <result column="user_id" property="userId"/>
         <result column="content" property="content"/>
         <result column="rating" property="rating"/>
         <result column="images" property="images" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result column="type" property="type"/>
         <result column="ip_address" property="ipAddress"/>
         <result column="create_time" property="createTime"/>
+        <association property="user" javaType="com.ligg.common.module.vo.ProductCommentVo$CommentUserVo">
+            <id property="userId" column="user_id"/>
+            <result property="avatar" column="avatar"/>
+            <result property="nickName" column="nick_name"/>
+        </association>
     </resultMap>
 
     <!-- 商品评价查询 -->
@@ -28,8 +32,12 @@
                p.is_anonymous,
                p.ip_address,
                p.create_time,
-               p.update_time
+               p.update_time,
+               u.user_id,
+               u.avatar,
+               u.nick_name
         from product_comment p
+                 left join user u on p.user_id = u.user_id collate utf8mb4_0900_ai_ci
         where p.product_id = #{productId}
           and p.status = 1
         order by p.create_time desc

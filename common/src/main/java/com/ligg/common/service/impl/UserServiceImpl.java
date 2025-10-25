@@ -5,13 +5,18 @@
 package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.exception.OrderException;
+import com.ligg.common.mapper.product.productFavoriteMapper;
+import com.ligg.common.module.entity.ProductEntity;
+import com.ligg.common.module.entity.ProductFavoriteEntity;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.service.FileService;
 import com.ligg.common.service.UserService;
+import com.ligg.common.service.product.ProductService;
 import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.RedisUtil;
 import com.ligg.common.module.vo.UserInfoVo;
@@ -37,6 +42,10 @@ public class UserServiceImpl implements UserService {
     private final RedisUtil redisUtil;
 
     private final UserMapper userMapper;
+
+    private final productFavoriteMapper productFavoriteMapper;
+
+    private final ProductService productService;
 
     private final FileService fileService;
 
@@ -149,6 +158,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 充值
+     *
      * @param amount 金额
      * @param userId 用户id
      * @return 充值结果
@@ -158,6 +168,41 @@ public class UserServiceImpl implements UserService {
         String userKey = UserConstant.USER_INFO + ":" + userId;
         redisUtil.del(userKey);
         return userMapper.recharge(amount, userId);
+    }
+
+    /**
+     * 商品收藏
+     *
+     * @param productId  商品id
+     * @param isFavorite 是否收藏
+     * @return 添加结果
+     */
+    @Override
+    public int productFavorite(Long productId, boolean isFavorite) {
+        ProductEntity product = productService.getById(productId);
+        if (product == null) {
+            throw new OrderException("商品不存在");
+        }
+
+        Map<String, Object> userInfo = ThreadLocalUtil.get();
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
+
+        if (isFavorite) {
+            if (productFavoriteMapper.selectOne(new LambdaQueryWrapper<ProductFavoriteEntity>()
+                    .eq(ProductFavoriteEntity::getUserId, userId)
+                    .eq(ProductFavoriteEntity::getProductId, productId)) != null) {
+                throw new OrderException("商品已收藏");
+            }
+            ProductFavoriteEntity productFavorite = new ProductFavoriteEntity();
+            productFavorite.setProductId(productId);
+            productFavorite.setUserId(userId);
+            productFavorite.setCreateTime(LocalDateTime.now());
+            return productFavoriteMapper.insert(productFavorite);
+        } else {
+            return productFavoriteMapper.delete(new LambdaUpdateWrapper<ProductFavoriteEntity>()
+                    .eq(ProductFavoriteEntity::getUserId, userId)
+                    .eq(ProductFavoriteEntity::getProductId, productId));
+        }
     }
 
     private UserEntity getRedisUserInfo(String userId) {

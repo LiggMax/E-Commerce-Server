@@ -26,7 +26,7 @@ public class ProductCommentDto {
      * 评分
      */
     @NotNull
-    private Integer rating;
+    private Float rating;
 
     /**
      * 评论类型

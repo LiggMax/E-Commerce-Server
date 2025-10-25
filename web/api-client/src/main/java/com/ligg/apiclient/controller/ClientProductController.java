@@ -148,7 +148,7 @@ public class ClientProductController {
      */
     @GetMapping("/comment")
     @Operation(summary = "获取商品评论")
-    public Response<PageVo<ProductCommentVo>> getComment(@Schema(description = "商品id") @NotNull String productId,
+    public Response<PageVo<ProductCommentVo>> getComment(@Schema(description = "商品id") @NotNull Long productId,
                                                          @NotNull @Max(100) Long pageNumber,
                                                          @NotNull @Min(5) @Max(20) Long pageSize
     ) {

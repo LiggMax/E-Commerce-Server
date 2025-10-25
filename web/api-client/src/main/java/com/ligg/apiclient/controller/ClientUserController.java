@@ -85,24 +85,21 @@ public class ClientUserController {
      * 发布商品评价
      */
     @PostMapping("/comment")
-    public Response<String> publishComment(@RequestParam("imageFiles") MultipartFile[] imageFiles,
+    public Response<String> publishComment(@RequestParam(required = false) MultipartFile[] imageFiles,
                                            ProductCommentDto content) {
 
-        if (imageFiles.length > 5) {
-            return Response.error(BusinessStates.VALIDATION_FAILED);
-        }
-
-        List<String> imagePaths = new ArrayList<>();
-        // 遍历上传图片
-        for (MultipartFile imageFile : imageFiles) {
-            if (imageFile != null && !imageFile.isEmpty() && imageFile.getSize() < Constant.FILE_SIZE) {
-                String imagePath = fileService.uploadImage(imageFile, Constant.COMMENT_FILE_PATH);
-                imagePaths.add(imagePath);
-            }
-        }
         ProductCommentBo commentBo = new ProductCommentBo();
         BeanUtils.copyProperties(content, commentBo);
-        commentBo.setImages(imagePaths);
+        if (imageFiles != null && imageFiles.length < 6) {
+            List<String> imagePaths = new ArrayList<>();
+            for (MultipartFile imageFile : imageFiles) {
+                if (imageFile != null && !imageFile.isEmpty() && imageFile.getSize() < Constant.FILE_SIZE) {
+                    String imagePath = fileService.uploadImage(imageFile, Constant.COMMENT_FILE_PATH);
+                    imagePaths.add(imagePath);
+                }
+            }
+            commentBo.setImages(imagePaths);
+        }
 
         return commentService.publishComment(commentBo) < 1
                 ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
