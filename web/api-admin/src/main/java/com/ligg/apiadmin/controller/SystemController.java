@@ -5,7 +5,11 @@
 package com.ligg.apiadmin.controller;
 
 import com.ligg.apiadmin.pojo.SystemInfoVo;
+import com.ligg.apiadmin.pojo.SystemStatusVo;
 import com.ligg.apiadmin.service.SystemMonitorService;
+import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.utils.Response;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -30,18 +34,19 @@ public class SystemController {
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
-    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @Operation(summary = "获取系统状态", description = "CPU使用率,内存使用率,磁盘使用率")
+    @GetMapping(value = "/status", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamSystemInfo() {
         SseEmitter emitter = new SseEmitter(0L); // 不超时
 
         executor.execute(() -> {
             try {
                 while (true) {
-                    SystemInfoVo info = systemMonitorService.getSystemInfo();
+                    SystemStatusVo info = systemMonitorService.getSystemStatus();
                     emitter.send(SseEmitter.event()
                             .name("system-info")
                             .data(info));
-                    Thread.sleep(1000); // 每 1 秒推送一次
+                    Thread.sleep(5000); // 每 1 秒推送一次
                 }
             } catch (IOException | InterruptedException e) {
                 emitter.complete();
@@ -49,5 +54,11 @@ public class SystemController {
         });
 
         return emitter;
+    }
+
+    @GetMapping("/info")
+    @Operation(summary = "获取系统信息", description = "总用户数,今日订单量,总收入数,系统负载")
+    public Response<SystemInfoVo> getSystemInfo() {
+        return Response.success(BusinessStates.SUCCESS,systemMonitorService.getSystemInfo());
     }
 }

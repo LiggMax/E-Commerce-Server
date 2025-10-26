@@ -8,28 +8,9 @@ import lombok.Data;
  **/
 @Data
 public class SystemInfoVo {
-    /**
-     * CPU 使用率 (%)
-     */
-    private double cpuUsage;
 
     /**
-     * 总内存 (GB)
+     * 用户总数
      */
-    private double totalMemory;
-
-    /**
-     * 已用内存 (GB)
-     */
-    private double usedMemory;
-
-    /**
-     * 总磁盘 (GB)
-     */
-    private double totalDisk;
-
-    /**
-     * 已用磁盘 (GB)
-     */
-    private double usedDisk;
+    private long userCount;
 }
