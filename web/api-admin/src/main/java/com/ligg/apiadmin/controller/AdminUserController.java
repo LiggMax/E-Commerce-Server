@@ -4,12 +4,12 @@
  */
 package com.ligg.apiadmin.controller;
 
-import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.TokenService;
 import com.ligg.common.utils.Response;
 import com.ligg.common.utils.ThreadLocalUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/**
- * admin用户接口
- */
+
+@Tag(name = "admin用户接口")
 @RestController
 @RequestMapping("/api/admin/user")
 @RequiredArgsConstructor

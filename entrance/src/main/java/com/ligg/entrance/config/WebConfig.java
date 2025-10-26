@@ -25,7 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
                 //拦截路径
                 .addPathPatterns("/api/admin/**")
                 //放行路径
-                .excludePathPatterns("/api/admin/auth/**");
+                .excludePathPatterns("/api/admin/auth/**","/api/admin/system");
         //客户端拦截器
         registry.addInterceptor(clientLoginInterceptors)
                 //拦截路径

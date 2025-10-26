@@ -5,6 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.ligg.common.constants.Constant;
+import com.ligg.common.enums.BusinessStates;
+import com.ligg.common.exception.PermissionsException;
 
 import java.util.Date;
 import java.util.Map;
@@ -35,7 +37,7 @@ public class JWTUtil {
      *
      * @return token解析获取到的数据
      */
-    public static Map<String, Object> parseToken(String token) {
+    public static Map<String, Object> parseToken(String token){
         try {
             return JWT.require(Algorithm.HMAC256(Constant.TOKEN_KEY))
                     .build()
@@ -44,7 +46,7 @@ public class JWTUtil {
                     .asMap();
 
         } catch (TokenExpiredException e) {
-            throw new TokenExpiredException("令牌已过期", e.getExpiredOn());
+            throw new PermissionsException("令牌已过期", BusinessStates.UNAUTHORIZED.getCode());
         } catch (JWTVerificationException exception) {
             // Invalid signature/claims
             throw new RuntimeException("Invalid JWT token", exception);
