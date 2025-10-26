@@ -25,7 +25,6 @@ public class PermissionsException extends RuntimeException {
 
     public PermissionsException(String message, HttpServletResponse response) {
         super(message);
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         this.message = message;
     }
 

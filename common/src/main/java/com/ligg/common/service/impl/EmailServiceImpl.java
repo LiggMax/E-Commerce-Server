@@ -20,7 +20,7 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
 
     /**
      * 获取邮箱
-     *
+     *++——————————
      * @param email 邮箱
      * @return 邮箱
      */

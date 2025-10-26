@@ -35,7 +35,7 @@ public class AdminLoginInterceptors implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader(Constant.AUTHORIZATION);
         if (token == null) {
-            throw new PermissionsException("缺少授权标头",response);
+            throw new PermissionsException("未获取授权...",response);
         }
         Map<String, Object> claims = JWTUtil.parseToken(token);
         String userRole = (String) claims.get(UserConstant.USER_ROLE);
