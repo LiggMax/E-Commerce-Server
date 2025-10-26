@@ -10,16 +10,16 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum CarouselStatus {
-    ENABLED(1, "启用",true),
-    DISABLED(0, "禁用", false);
+public enum StatusEnum {
+    ENABLED(1, "是",true),
+    DISABLED(0, "否", false);
 
     @EnumValue
     private final Integer code;
     private final String description;
     private final boolean isEnabled;
 
-    public static CarouselStatus fromBoolean(boolean enabled) {
+    public static StatusEnum fromBoolean(boolean enabled) {
         return enabled ? ENABLED : DISABLED;
     }
 }

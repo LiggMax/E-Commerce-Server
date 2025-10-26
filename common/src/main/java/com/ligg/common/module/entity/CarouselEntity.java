@@ -3,7 +3,7 @@ package com.ligg.common.module.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ligg.common.enums.CarouselStatus;
+import com.ligg.common.enums.StatusEnum;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -50,7 +50,7 @@ public class CarouselEntity {
      * 状态
      */
     @NotNull
-    private CarouselStatus status;
+    private StatusEnum status;
 
     //TODO 类型需要修改成枚举
     /**

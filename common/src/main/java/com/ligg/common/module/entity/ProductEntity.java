@@ -7,6 +7,7 @@ package com.ligg.common.module.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ligg.common.enums.StatusEnum;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -47,6 +48,11 @@ public class ProductEntity {
      * 评分
      */
     private int rating;
+
+    /**
+     * 状态
+     */
+    private StatusEnum status;
 
     /**
      * 库存

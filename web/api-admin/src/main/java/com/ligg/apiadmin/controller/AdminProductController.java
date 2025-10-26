@@ -5,6 +5,7 @@
 package com.ligg.apiadmin.controller;
 
 import com.ligg.common.constants.Constant;
+import com.ligg.common.enums.StatusEnum;
 import com.ligg.common.module.dto.ProductDto;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.entity.ProductEntity;
@@ -67,6 +68,7 @@ public class AdminProductController {
         BeanUtils.copyProperties(product, featuredEntity);
         featuredEntity.setRating(new Random().nextInt(5, 11));
         featuredEntity.setImagePath(imagePath);
+        featuredEntity.setStatus(StatusEnum.ENABLED);
         featuredEntity.setCreatedAt(LocalDateTime.now());
         featuredEntity.setUpdateAt(LocalDateTime.now());
         productService.saveFeatured(featuredEntity);

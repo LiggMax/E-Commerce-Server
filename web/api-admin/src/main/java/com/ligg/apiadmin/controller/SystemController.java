@@ -46,7 +46,7 @@ public class SystemController {
                     emitter.send(SseEmitter.event()
                             .name("system-info")
                             .data(info));
-                    Thread.sleep(5000); // 每 1 秒推送一次
+                    Thread.sleep(5000); // 每秒推送次数
                 }
             } catch (IOException | InterruptedException e) {
                 emitter.complete();
