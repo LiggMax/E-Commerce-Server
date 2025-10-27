@@ -37,7 +37,7 @@ public class SystemController {
     @Operation(summary = "获取系统状态", description = "CPU使用率,内存使用率,磁盘使用率")
     @GetMapping(value = "/status", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamSystemInfo() {
-        SseEmitter emitter = new SseEmitter(0L); // 不超时
+        SseEmitter emitter = new SseEmitter(0L);
 
         executor.execute(() -> {
             try {

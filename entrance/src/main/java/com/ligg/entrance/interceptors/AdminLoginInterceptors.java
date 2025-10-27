@@ -6,6 +6,7 @@ package com.ligg.entrance.interceptors;
 
 import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
+import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.enums.UserRole;
 import com.ligg.common.exception.PermissionsException;
 import com.ligg.common.utils.JWTUtil;
@@ -35,7 +36,7 @@ public class AdminLoginInterceptors implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader(Constant.AUTHORIZATION);
         if (token == null) {
-            throw new PermissionsException("未获取授权...",response);
+            throw new PermissionsException("未获取授权...", BusinessStates.UNAUTHORIZED.getCode());
         }
         Map<String, Object> claims = JWTUtil.parseToken(token);
         String userRole = (String) claims.get(UserConstant.USER_ROLE);
