@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -60,8 +61,21 @@ public interface OrderMapper extends BaseMapper<OrderEntity> {
 
     /**
      * 查询订单列表
+     *
      * @param page
      * @return
      */
     IPage<OrderVo> selectOrderList(Page<OrderVo> page);
+
+    /**
+     * 获取当日订单数
+     */
+    @Select("select count(*) from orders where create_time >= curdate() and create_time < date_add(curdate(),interval 1 day )")
+    int getTodayOrderCount();
+
+    /**
+     * 获取订单总金额
+     */
+    @Select("select sum(total_amount) from orders where status = #{status}")
+    BigDecimal getOrderTotalAmount(OrderStatus status);
 }

@@ -3,7 +3,9 @@ package com.ligg.apiadmin.service.impl;
 import com.ligg.apiadmin.pojo.SystemInfoVo;
 import com.ligg.apiadmin.pojo.SystemStatusVo;
 import com.ligg.apiadmin.service.SystemMonitorService;
+import com.ligg.common.enums.OrderStatus;
 import com.ligg.common.mapper.UserMapper;
+import com.ligg.common.mapper.order.OrderMapper;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import oshi.hardware.Sensors;
 import oshi.software.os.OperatingSystem;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +32,9 @@ import java.util.Map;
 public class SystemMonitorServiceImpl implements SystemMonitorService {
 
     private final UserMapper userMapper;
+
+    private final OrderMapper orderMapper;
+
 
     private final SystemInfo systemInfo = new SystemInfo();
     private final CentralProcessor processor = systemInfo.getHardware().getProcessor();
@@ -133,9 +139,14 @@ public class SystemMonitorServiceImpl implements SystemMonitorService {
      */
     @Override
     public SystemInfoVo getSystemInfo() {
-        Long userCount = userMapper.selectCount(null);
         SystemInfoVo systemInfoVo = new SystemInfoVo();
+        int orderCount = orderMapper.getTodayOrderCount();
+        systemInfoVo.setTodayOrderCount(orderCount);
+        Long userCount = userMapper.selectCount(null);
         systemInfoVo.setUserCount(userCount);
+        //获取已完成订单总金额
+        BigDecimal orderTotalAmount = orderMapper.getOrderTotalAmount(OrderStatus.PAID);
+        systemInfoVo.setOrderTotalAmount(orderTotalAmount);
         return systemInfoVo;
     }
 
