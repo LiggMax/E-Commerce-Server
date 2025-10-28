@@ -1,6 +1,7 @@
 package com.ligg.common.service;
 
 import com.ligg.common.module.entity.UserEntity;
+import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.module.vo.UserInfoVo;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,4 +55,6 @@ public interface UserService {
      * 商品收藏
      */
     int productFavorite(Long productId, boolean isFavorite);
+
+
 }
