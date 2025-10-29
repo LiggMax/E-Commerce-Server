@@ -5,8 +5,8 @@ spring:
     name: e-commerce-api
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:13306/e_commerce?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-    username: root
+    url: jdbc:mysql://127.0.0.1:3306/e_commerce?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    username: ligg
     password: ligg200309
   data:
     ## redis配置
