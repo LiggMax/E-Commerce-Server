@@ -1,6 +1,7 @@
 package com.ligg.apiadmin.service;
 
 import com.ligg.apiadmin.pojo.UserManagementVo;
+import com.ligg.apiadmin.pojo.dto.UserInfoDto;
 import com.ligg.common.module.vo.PageVo;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,4 +19,12 @@ public interface UserManagementService {
      * 修改用户状态
      */
     void updateUserStatus(@NotNull String userId, @NotNull Boolean status);
+
+
+    /**
+     * 更新用户信息
+     *
+     * @return
+     */
+    int updateUSerRoleInfo(UserInfoDto userInfo);
 }
