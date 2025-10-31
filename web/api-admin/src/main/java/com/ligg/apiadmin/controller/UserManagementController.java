@@ -44,7 +44,8 @@ public class UserManagementController {
 
     @PutMapping
     @Operation(summary = "更新用户信息")
-    public Response<String> updateUserInfo(UserInfoDto userInfo, MultipartFile avatarFile) {
+    public Response<String> updateUserInfo(@RequestPart("userInfo") @Validated UserInfoDto userInfo,
+                                           @RequestPart("avatarFile") MultipartFile avatarFile) {
         if (avatarFile != null && !avatarFile.isEmpty()) {
             String avatarPath = fileService.uploadImage(avatarFile, Constant.AVATAR_FILE_PATH);
             userInfo.setAvatar(avatarPath);
@@ -64,6 +65,4 @@ public class UserManagementController {
         userManagementService.updateUserStatus(userId, isStatus);
         return Response.success(BusinessStates.SUCCESS);
     }
-
-
 }
