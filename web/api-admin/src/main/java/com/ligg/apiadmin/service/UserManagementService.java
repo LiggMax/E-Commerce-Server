@@ -13,4 +13,9 @@ public interface UserManagementService {
      * 获取用户列表
      */
     PageVo<UserManagementVo> getUserListPage(@NotNull Long pageNumber, @NotNull Long pageSize);
+
+    /**
+     * 修改用户状态
+     */
+    void updateUserStatus(@NotNull String userId, @NotNull Boolean status);
 }

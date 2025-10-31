@@ -1,5 +1,6 @@
 package com.ligg.apiadmin.pojo;
 
+import com.ligg.common.enums.StatusEnum;
 import com.ligg.common.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,7 +45,7 @@ public class UserManagementVo {
     /**
      * 状态 0-禁用 1-正常
      */
-    private Integer status;
+    private int status;
 
     /**
      * 邮箱

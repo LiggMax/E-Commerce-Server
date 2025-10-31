@@ -25,6 +25,13 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalException {
 
+    @ExceptionHandler(RuntimeException.class)
+    public Response<String> RuntimeException(RuntimeException e) {
+        String message = e.getMessage();
+        log.error("运行时异常:{}", e.toString());
+        return Response.error(BusinessStates.VALIDATION_FAILED, message);
+    }
+
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public Response<String> handleMaxSizeException(MaxUploadSizeExceededException e) {
         log.error("上传文件大小超出限制", e);

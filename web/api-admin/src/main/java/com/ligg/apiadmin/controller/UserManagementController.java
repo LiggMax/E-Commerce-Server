@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +35,15 @@ public class UserManagementController {
                                                        @NotNull Long pageSize) {
         PageVo<UserManagementVo> userListPage = userManagementService.getUserListPage(pageNumber, pageSize);
         return Response.success(BusinessStates.SUCCESS,userListPage);
+    }
+
+    /**
+     * 更新用户主状态
+     */
+    @PatchMapping("/status")
+    public Response<String> updateUserStatus(@NotNull String userId,
+                                              @NotNull Boolean isStatus) {
+        userManagementService.updateUserStatus(userId, isStatus);
+        return Response.success(BusinessStates.SUCCESS);
     }
 }

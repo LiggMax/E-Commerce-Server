@@ -11,4 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserManagementMapper {
     IPage<UserManagementVo> selectUserList(IPage<UserManagementVo> page);
+
+    void updateUserStatus(String userId, Boolean status);
 }

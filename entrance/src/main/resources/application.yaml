@@ -1,6 +1,6 @@
 # application.yaml
 spring:
   profiles:
-    active: prod  # 默认使用开发环境
+    active: dev  # 默认使用开发环境
   application:
     name: e-commerce-api

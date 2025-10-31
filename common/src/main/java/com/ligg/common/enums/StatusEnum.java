@@ -11,15 +11,18 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum StatusEnum {
-    ENABLED(1, "是",true),
-    DISABLED(0, "否", false);
+    ENABLED(1 ,true),
+    DISABLED(0, false);
 
     @EnumValue
     private final Integer code;
-    private final String description;
     private final boolean isEnabled;
 
     public static StatusEnum fromBoolean(boolean enabled) {
         return enabled ? ENABLED : DISABLED;
+    }
+
+    public boolean getStatus() {
+        return this.isEnabled;
     }
 }
