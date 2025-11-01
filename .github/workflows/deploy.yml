@@ -1,0 +1,56 @@
+name: Spring Boot CI/CD - Graceful Restart
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 拉取项目代码
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. 安装 JDK
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 3. 编译打包
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      # 4. 上传 jar 到服务器
+      - name: Upload jar via SSH
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          port: ${{ secrets.SERVER_PORT }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "entrance/target/entrance-*-SNAPSHOT.jar"
+          target: "/www/wwwroot/e-commerce/service/"
+
+      # 5. 调用服务器的 restart.sh 优雅重启项目
+      - name: Restart Spring Boot app
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          port: ${{ secrets.SERVER_PORT }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /www/wwwroot/e-commerce/service
+            # 获取最新 jar 文件名
+            LATEST_JAR=$(ls -t *.jar | head -n 1)
+            echo "最新 jar 包：$LATEST_JAR"
+            
+            # 更新 APP_NAME 到 restart.sh 中（如果需要动态）
+            sed -i "s/^APP_NAME=.*/APP_NAME=\"$LATEST_JAR\"/" restart.sh
+            
+            echo "执行优雅重启脚本..."
+            bash restart.sh
