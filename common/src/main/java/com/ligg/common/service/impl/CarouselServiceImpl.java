@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.module.entity.CarouselEntity;
-import com.ligg.common.enums.StatusEnum;
+import com.ligg.common.enums.UserStatus;
 import com.ligg.common.mapper.CarouselMapper;
 import com.ligg.common.service.CarouselService;
 import com.ligg.common.utils.ImageUtil;
@@ -35,7 +35,7 @@ public class CarouselServiceImpl extends ServiceImpl<CarouselMapper, CarouselEnt
     @Override
     public List<CarouselVo> getCarouselList() {
         List<CarouselEntity> entityList = carouselMapper.selectList(new LambdaQueryWrapper<CarouselEntity>()
-                .eq(CarouselEntity::getStatus, StatusEnum.ENABLED.getCode())
+                .eq(CarouselEntity::getStatus, UserStatus.ENABLED.getCode())
                 .orderByAsc(CarouselEntity::getSort));
 
         return entityList.stream().map(entity -> {

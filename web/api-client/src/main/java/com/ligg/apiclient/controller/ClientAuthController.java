@@ -6,6 +6,7 @@ package com.ligg.apiclient.controller;
 
 import com.ligg.apiclient.service.ClientAccountService;
 import com.ligg.common.enums.UserRole;
+import com.ligg.common.enums.UserStatus;
 import com.ligg.common.module.dto.AccountDto;
 import com.ligg.common.module.dto.LoginDto;
 import com.ligg.common.module.entity.UserEntity;
@@ -88,6 +89,9 @@ public class ClientAuthController {
         UserEntity userInfo = userService.getUserInfoByAccount(account.getAccount());
         if (userInfo == null || !BCryptUtil.verify(account.getPassword(), userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
+        }
+        if (userInfo.getStatus().equals(UserStatus.DISABLED)){
+            return Response.error(BusinessStates.FORBIDDEN, "账号已被禁用");
         }
         String token = tokenService.generateToken(userInfo);
         if (token == null) {

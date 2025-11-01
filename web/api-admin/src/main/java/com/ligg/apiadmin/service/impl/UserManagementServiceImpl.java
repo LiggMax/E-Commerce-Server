@@ -8,7 +8,7 @@ import com.ligg.apiadmin.pojo.vo.UserManagementVo;
 import com.ligg.apiadmin.pojo.dto.UserInfoDto;
 import com.ligg.apiadmin.service.UserManagementService;
 import com.ligg.common.constants.UserConstant;
-import com.ligg.common.enums.StatusEnum;
+import com.ligg.common.enums.UserStatus;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.module.vo.PageVo;
@@ -53,15 +53,15 @@ public class UserManagementServiceImpl implements UserManagementService {
             throw new RuntimeException("用户不存在");
         }
         if (isStatus) {
-            if (userInfo.getStatus() == StatusEnum.ENABLED) throw new RuntimeException("用户已启用");
+            if (userInfo.getStatus() == UserStatus.ENABLED) throw new RuntimeException("用户已启用");
             userMapper.update(new LambdaUpdateWrapper<UserEntity>()
                     .eq(UserEntity::getUserId, userId)
-                    .set(UserEntity::getStatus, StatusEnum.ENABLED));
+                    .set(UserEntity::getStatus, UserStatus.ENABLED));
         } else {
-            if (userInfo.getStatus() == StatusEnum.DISABLED) throw new RuntimeException("用户已禁用");
+            if (userInfo.getStatus() == UserStatus.DISABLED) throw new RuntimeException("用户已禁用");
             userMapper.update(new LambdaUpdateWrapper<UserEntity>()
                     .eq(UserEntity::getUserId, userId)
-                    .set(UserEntity::getStatus, StatusEnum.DISABLED));
+                    .set(UserEntity::getStatus, UserStatus.DISABLED));
         }
     }
 

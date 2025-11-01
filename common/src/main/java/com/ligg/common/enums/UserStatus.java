@@ -10,7 +10,7 @@ import lombok.Getter;
  **/
 @Getter
 @AllArgsConstructor
-public enum StatusEnum {
+public enum UserStatus {
     ENABLED(1 ,true),
     DISABLED(0, false);
 
@@ -18,7 +18,7 @@ public enum StatusEnum {
     private final Integer code;
     private final boolean isEnabled;
 
-    public static StatusEnum fromBoolean(boolean enabled) {
+    public static UserStatus fromBoolean(boolean enabled) {
         return enabled ? ENABLED : DISABLED;
     }
 

@@ -3,7 +3,7 @@ package com.ligg.common.module.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ligg.common.enums.StatusEnum;
+import com.ligg.common.enums.UserStatus;
 import com.ligg.common.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -56,7 +56,7 @@ public class UserEntity {
     /**
      * 状态 0-禁用 1-正常
      */
-    private StatusEnum status;
+    private UserStatus status;
 
     /**
      * 邮箱

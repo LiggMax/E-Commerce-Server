@@ -8,7 +8,7 @@ package com.ligg.apiadmin.controller;
 import com.ligg.common.constants.Constant;
 import com.ligg.common.module.dto.CarouselDto;
 import com.ligg.common.module.entity.CarouselEntity;
-import com.ligg.common.enums.StatusEnum;
+import com.ligg.common.enums.UserStatus;
 import com.ligg.common.service.CarouselService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.enums.BusinessStates;
@@ -83,7 +83,7 @@ public class AdminCarouselController {
         }
 
         CarouselEntity entity = new CarouselEntity();
-        entity.setStatus(StatusEnum.fromBoolean(carousel.getStatus()));
+        entity.setStatus(UserStatus.fromBoolean(carousel.getStatus()));
         entity.setCreatedAt(LocalDateTime.now());
         entity.setUpdateAt(LocalDateTime.now());
         BeanUtils.copyProperties(carousel, entity);
@@ -104,7 +104,7 @@ public class AdminCarouselController {
                                    @RequestParam(required = false) @Schema(description = "图片文件") MultipartFile imageFile) {
         CarouselEntity carouselEntity = new CarouselEntity();
         BeanUtils.copyProperties(carousel, carouselEntity);
-        carouselEntity.setStatus(StatusEnum.fromBoolean(carousel.getStatus()));
+        carouselEntity.setStatus(UserStatus.fromBoolean(carousel.getStatus()));
         if (imageFile != null && !imageFile.isEmpty()) {
             if (imageFile.getSize() > 1024 * 1024 * 2) {
                 return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
@@ -131,7 +131,7 @@ public class AdminCarouselController {
     public Response<String> updateStatus(@NotNull Integer id, @NotNull Boolean status) {
         CarouselEntity entity = new CarouselEntity();
         entity.setId(id);
-        entity.setStatus(StatusEnum.fromBoolean(status));
+        entity.setStatus(UserStatus.fromBoolean(status));
         entity.setUpdateAt(LocalDateTime.now());
         return carouselService.updateById(entity) ?
                 Response.success(BusinessStates.SUCCESS) :
