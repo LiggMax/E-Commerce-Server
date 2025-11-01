@@ -37,16 +37,20 @@ public class UserManagementController {
     @Operation(summary = "获取用户列表")
     @GetMapping
     public Response<PageVo<UserManagementVo>> Userlist(@NotNull Long pageNumber,
-                                                       @NotNull Long pageSize) {
-        PageVo<UserManagementVo> userListPage = userManagementService.getUserListPage(pageNumber, pageSize);
+                                                       @NotNull Long pageSize,
+                                                       @RequestParam(required = false) String search) {
+        PageVo<UserManagementVo> userListPage = userManagementService.getUserListPage(pageNumber, pageSize,search);
         return Response.success(BusinessStates.SUCCESS, userListPage);
     }
 
     @PutMapping
     @Operation(summary = "更新用户信息")
-    public Response<String> updateUserInfo(@RequestPart("userInfo") @Validated UserInfoDto userInfo,
-                                           @RequestPart("avatarFile") MultipartFile avatarFile) {
+    public Response<String> updateUserInfo(@Validated UserInfoDto userInfo,
+                                           MultipartFile avatarFile) {
         if (avatarFile != null && !avatarFile.isEmpty()) {
+            if (avatarFile.getSize() > Constant.FILE_SIZE) {
+                return Response.error(BusinessStates.VALIDATION_FAILED,"文件大小不可大于2mb");
+            }
             String avatarPath = fileService.uploadImage(avatarFile, Constant.AVATAR_FILE_PATH);
             userInfo.setAvatar(avatarPath);
         }

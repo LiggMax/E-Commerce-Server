@@ -1,15 +1,11 @@
 package com.ligg.apiadmin.pojo.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.ligg.common.enums.StatusEnum;
 import com.ligg.common.enums.UserRole;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * @Author Ligg
@@ -23,13 +19,19 @@ public class UserInfoDto {
     /**
      * 用户id
      */
+    @NotNull
     private String userId;
 
     /**
      * 昵称
      */
+    @NotNull
     private String nickName;
 
+    /**
+     * 状态
+     */
+    private Boolean isStatus;
 
     /**
      * 头像
@@ -44,5 +46,6 @@ public class UserInfoDto {
     /**
      * 邮箱
      */
+    @Email
     private String email;
 }

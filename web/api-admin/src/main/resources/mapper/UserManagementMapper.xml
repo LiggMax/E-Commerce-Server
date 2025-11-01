@@ -21,5 +21,12 @@
                account_balance,
                create_time
         from user u
+        <where>
+            <if test="search != null and search != ''">
+                and (u.nick_name like concat('%',#{search},'%')
+                or u.account like concat('%',#{search},'%')
+                or u.email like concat('%',#{search},'%'))
+            </if>
+        </where>
     </select>
 </mapper>

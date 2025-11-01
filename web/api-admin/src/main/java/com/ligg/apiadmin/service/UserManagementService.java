@@ -13,7 +13,7 @@ public interface UserManagementService {
     /**
      * 获取用户列表
      */
-    PageVo<UserManagementVo> getUserListPage(@NotNull Long pageNumber, @NotNull Long pageSize);
+    PageVo<UserManagementVo> getUserListPage(@NotNull Long pageNumber, @NotNull Long pageSize, String search);
 
     /**
      * 修改用户状态

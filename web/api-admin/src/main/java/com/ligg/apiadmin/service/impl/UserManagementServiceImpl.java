@@ -33,9 +33,9 @@ public class UserManagementServiceImpl implements UserManagementService {
     private final RedisUtil redisUtil;
 
     @Override
-    public PageVo<UserManagementVo> getUserListPage(Long pageNumber, Long pageSize) {
+    public PageVo<UserManagementVo> getUserListPage(Long pageNumber, Long pageSize, String search) {
         IPage<UserManagementVo> page = new Page<>(pageNumber, pageSize);
-        IPage<UserManagementVo> userInfoVoIPage = userManagementMapper.selectUserList(page);
+        IPage<UserManagementVo> userInfoVoIPage = userManagementMapper.selectUserList(page,search);
         PageVo<UserManagementVo> userList = new PageVo<>();
         userList.setPages(userInfoVoIPage.getPages());
         userList.setTotal(userInfoVoIPage.getTotal());
