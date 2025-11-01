@@ -9,7 +9,7 @@
     </update>
 
     <!-- 查询用户列表 -->
-    <select id="selectUserList" resultType="com.ligg.apiadmin.pojo.UserManagementVo">
+    <select id="selectUserList" resultType="com.ligg.apiadmin.pojo.vo.UserManagementVo">
         select user_id,
                nick_name,
                account,

@@ -4,8 +4,8 @@
  **/
 package com.ligg.apiadmin.controller;
 
-import com.ligg.apiadmin.pojo.SystemInfoVo;
-import com.ligg.apiadmin.pojo.SystemStatusVo;
+import com.ligg.apiadmin.pojo.vo.SystemInfoVo;
+import com.ligg.apiadmin.pojo.vo.SystemStatusVo;
 import com.ligg.apiadmin.service.SystemMonitorService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.utils.Response;

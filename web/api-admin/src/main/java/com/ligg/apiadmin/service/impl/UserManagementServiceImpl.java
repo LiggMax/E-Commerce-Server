@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ligg.apiadmin.mapper.UserManagementMapper;
-import com.ligg.apiadmin.pojo.UserManagementVo;
+import com.ligg.apiadmin.pojo.vo.UserManagementVo;
 import com.ligg.apiadmin.pojo.dto.UserInfoDto;
 import com.ligg.apiadmin.service.UserManagementService;
 import com.ligg.common.constants.UserConstant;

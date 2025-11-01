@@ -1,6 +1,5 @@
-package com.ligg.apiadmin.pojo;
+package com.ligg.apiadmin.pojo.vo;
 
-import com.ligg.common.enums.StatusEnum;
 import com.ligg.common.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;

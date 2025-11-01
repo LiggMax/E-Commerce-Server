@@ -1,7 +1,7 @@
 package com.ligg.apiadmin.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ligg.apiadmin.pojo.UserManagementVo;
+import com.ligg.apiadmin.pojo.vo.UserManagementVo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

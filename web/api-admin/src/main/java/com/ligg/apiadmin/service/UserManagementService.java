@@ -1,6 +1,6 @@
 package com.ligg.apiadmin.service;
 
-import com.ligg.apiadmin.pojo.UserManagementVo;
+import com.ligg.apiadmin.pojo.vo.UserManagementVo;
 import com.ligg.apiadmin.pojo.dto.UserInfoDto;
 import com.ligg.common.module.vo.PageVo;
 import jakarta.validation.constraints.NotNull;

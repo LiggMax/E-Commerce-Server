@@ -1,7 +1,7 @@
 package com.ligg.apiadmin.service;
 
-import com.ligg.apiadmin.pojo.SystemInfoVo;
-import com.ligg.apiadmin.pojo.SystemStatusVo;
+import com.ligg.apiadmin.pojo.vo.SystemInfoVo;
+import com.ligg.apiadmin.pojo.vo.SystemStatusVo;
 
 /**
  * @Author Ligg

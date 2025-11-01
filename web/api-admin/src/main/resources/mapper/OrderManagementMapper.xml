@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ligg.apiadmin.mapper.OrderManagementMapper">
+
+    <!-- 订单列表 -->
+    <resultMap id="orderList" type="com.ligg.apiadmin.pojo.vo.OrderListVo">
+        <id property="orderNo" column="order_no"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="payType" column="pay_type"/>
+        <result property="status" column="status"/>
+        <result property="quantity" column="quantity"/>
+        <result property="remark" column="remark"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <association property="user" javaType="com.ligg.apiadmin.pojo.vo.OrderListVo$UserInfo">
+            <id property="userId" column="user_id"/>
+            <result property="nickName" column="nick_name"/>
+        </association>
+        <association property="address" javaType="com.ligg.common.module.vo.OrderInfoVo$Address">
+            <id property="id" column="address_id"/>
+            <result property="receiverName" column="receiver_name"/>
+            <result property="receiverPhone" column="receiver_phone"/>
+            <result property="province" column="province"/>
+            <result property="city" column="city"/>
+            <result property="district" column="district"/>
+            <result property="detailAddress" column="detail_address"/>
+        </association>
+        <association property="product" javaType="com.ligg.apiadmin.pojo.vo.OrderListVo$Product">
+            <id property="productId" column="product_id"/>
+            <result property="title" column="title"/>
+            <result property="image" column="image_path"/>
+            <collection property="product_spec" ofType="com.ligg.apiadmin.pojo.vo.OrderListVo$Product$Spec">
+                <id property="id" column="product_spec_id"/>
+                <result property="value" column="value"/>
+            </collection>
+        </association>
+    </resultMap>
+
+    <select id="list" resultMap="orderList">
+        select o.order_no,
+        o.total_amount,
+        o.status,
+        o.remark,
+        o.pay_type,
+        o.pay_time,
+        o.create_time,
+        o.update_time,
+        oi.quantity,
+        p.id as product_id,
+        p.title,
+        p.image_path,
+        u.user_id,
+        u.nick_name,
+        ua.id as address_id,
+        ua.receiver_phone,
+        ua.receiver_name,
+        ua.district,
+        ua.city,
+        ua.province,
+        ua.detail_address,
+        ois.id as product_spec_id,
+        psv.value
+        from orders o
+        left join user u on u.user_id = o.user_id collate utf8mb4_0900_ai_ci
+        left join user_address ua on o.address_id = ua.id collate utf8mb4_0900_ai_ci
+        left join order_item oi on oi.order_id = o.id collate utf8mb4_0900_ai_ci
+        left join product p on oi.product_id = p.id collate utf8mb4_0900_ai_ci
+        left join order_item_spec ois on ois.order_item_id = oi.id collate utf8mb4_0900_ai_ci
+        left join product_spec_value psv on ois.spec_value_id = psv.id collate utf8mb4_0900_ai_ci
+        <where>
+            <if test="status != null">
+                and o.status = #{status.code}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (o.order_no like concat('%',#{keyword},'%')
+                or u.nick_name like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrderSpecValueByOrderNo" resultType="com.ligg.apiadmin.pojo.vo.OrderListVo$Product$Spec">
+        select psv.id,
+               psv.value
+        from orders o
+                 left join order_item oi on o.id = oi.order_id
+                 left join order_item_spec ois on oi.id = ois.order_item_id
+                 left join product_spec_value psv on ois.spec_value_id = psv.id
+        where o.order_no = #{orderNo}
+    </select>
+</mapper>

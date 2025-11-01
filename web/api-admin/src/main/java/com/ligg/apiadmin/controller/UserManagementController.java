@@ -1,6 +1,6 @@
 package com.ligg.apiadmin.controller;
 
-import com.ligg.apiadmin.pojo.UserManagementVo;
+import com.ligg.apiadmin.pojo.vo.UserManagementVo;
 import com.ligg.apiadmin.pojo.dto.UserInfoDto;
 import com.ligg.apiadmin.service.UserManagementService;
 import com.ligg.common.constants.Constant;

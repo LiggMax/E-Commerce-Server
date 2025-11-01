@@ -1,4 +1,4 @@
-package com.ligg.apiadmin.pojo;
+package com.ligg.apiadmin.pojo.vo;
 
 import lombok.Data;
 

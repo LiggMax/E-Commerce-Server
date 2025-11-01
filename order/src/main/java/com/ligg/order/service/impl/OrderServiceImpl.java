@@ -234,6 +234,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         return orderInfoVo;
     }
 
+    /**
+     * 获取订单过期时间
+     * @param orderNo 订单号
+     * @return 过期时间
+     */
     @Override
     public Long getOrderExpireTime(String orderNo) {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
