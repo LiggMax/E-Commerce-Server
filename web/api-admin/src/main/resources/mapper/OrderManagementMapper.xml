@@ -77,9 +77,17 @@
                 or u.nick_name like concat('%',#{keyword},'%'))
             </if>
         </where>
-        <if test="sortOrder != null and sortOrder != ''">
-            order by o.create_time ${sortOrder}
-        </if>
+        <choose>
+            <when test="sortOrder != null and sortOrder.name() == 'ASC'">
+                order by o.create_time
+            </when>
+            <when test="sortOrder != null and sortOrder.name() == 'DESC'">
+                order by o.create_time desc
+            </when>
+            <otherwise>
+                `order` by o.create_time desc
+            </otherwise>
+        </choose>
     </select>
 
     <select id="selectOrderSpecValueByOrderNo" resultType="com.ligg.apiadmin.pojo.vo.OrderListVo$Product$Spec">
