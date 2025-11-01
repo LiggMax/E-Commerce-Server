@@ -6,6 +6,7 @@ import com.ligg.apiadmin.mapper.OrderManagementMapper;
 import com.ligg.apiadmin.pojo.vo.OrderListVo;
 import com.ligg.apiadmin.service.OrderManagementService;
 import com.ligg.common.enums.OrderStatus;
+import com.ligg.common.enums.Sort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +24,8 @@ public class OrderManagementServiceImpl implements OrderManagementService {
      * 订单列表
      */
     @Override
-    public IPage<OrderListVo> list(Long pageNumber, Long pageSize, OrderStatus status, String keyword) {
+    public IPage<OrderListVo> list(Long pageNumber, Long pageSize, OrderStatus status, String keyword, Sort sortOrder) {
         IPage<OrderListVo> page = new Page<>(pageNumber, pageSize);
-        IPage<OrderListVo> productList = orderManagementMapper.list(page, status, keyword);
-
-        return productList;
+        return orderManagementMapper.list(page, status, keyword, sortOrder);
     }
 }

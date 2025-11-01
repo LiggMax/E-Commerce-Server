@@ -74,9 +74,12 @@
             </if>
             <if test="keyword != null and keyword != ''">
                 and (o.order_no like concat('%',#{keyword},'%')
-                or u.nick_name like concat('%',#{keyword},'%')
+                or u.nick_name like concat('%',#{keyword},'%'))
             </if>
         </where>
+        <if test="sortOrder != null and sortOrder != ''">
+            order by o.create_time ${sortOrder}
+        </if>
     </select>
 
     <select id="selectOrderSpecValueByOrderNo" resultType="com.ligg.apiadmin.pojo.vo.OrderListVo$Product$Spec">

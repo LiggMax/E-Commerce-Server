@@ -3,8 +3,7 @@ package com.ligg.apiadmin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ligg.apiadmin.pojo.vo.OrderListVo;
 import com.ligg.common.enums.OrderStatus;
-import com.ligg.common.module.vo.PageVo;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.ligg.common.enums.Sort;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,5 +15,6 @@ public interface OrderManagementService {
     IPage<OrderListVo> list(@NotNull @Max(100) Long pageNumber,
                             @NotNull @Max(100) Long pageSize,
                             OrderStatus status,
-                            String keyword);
+                            String keyword,
+                            Sort sortOrder);
 }

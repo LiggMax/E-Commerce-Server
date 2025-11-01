@@ -5,7 +5,7 @@ import com.ligg.apiadmin.pojo.vo.OrderListVo;
 import com.ligg.apiadmin.service.OrderManagementService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.enums.OrderStatus;
-import com.ligg.common.module.vo.OrderVo;
+import com.ligg.common.enums.Sort;
 import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,8 +39,9 @@ public class AdminOrderController {
     public Response<PageVo<OrderListVo>> getOrderList(@Schema(description = "页码") @NotNull @Max(100) Long pageNumber,
                                                       @Schema(description = "页大小") @NotNull @Max(100) Long pageSize,
                                                       @Schema(description = "订单状态") @RequestParam(required = false) OrderStatus status,
-                                                      @Schema(description = "搜索关键字") @RequestParam(required = false) String keyword) {
-        IPage<OrderListVo> list = orderManagementService.list(pageNumber, pageSize, status, keyword);
+                                                      @Schema(description = "搜索关键字") @RequestParam(required = false) String keyword,
+                                                      @Schema(description = "时间排序") @RequestParam(required = false) Sort sortOrder) {
+        IPage<OrderListVo> list = orderManagementService.list(pageNumber, pageSize, status, keyword, sortOrder);
         PageVo<OrderListVo> page = new PageVo<>();
         page.setTotal(list.getTotal());
         page.setPages(list.getPages());
