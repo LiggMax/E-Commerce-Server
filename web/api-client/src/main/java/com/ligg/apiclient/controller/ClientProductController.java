@@ -4,6 +4,8 @@
  **/
 package com.ligg.apiclient.controller;
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.ligg.apiclient.pojo.vo.TagVo;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.entity.ProductImageEntity;
@@ -44,7 +46,7 @@ public class ClientProductController {
 
     private final SearchService searchService;
 
-    private final ProductService featuredService;
+    private final ProductService productService;
 
     private final ProductCommentService commentService;
 
@@ -55,10 +57,10 @@ public class ClientProductController {
      */
     @GetMapping
     @Operation(summary = "获取精选商品列表")
-    public Response<PageVo<FeaturedVo>> pagelist(@Validated @NotNull(message = "页码不能为空") Long pageNumber) {
-        PageVo<ProductEntity> featuredPage = featuredService.getFeaturedPageList(pageNumber, 10L);
-        List<FeaturedVo> featuredVoList = featuredPage.getList().stream().map(featured -> {
-            FeaturedVo featuredVo = new FeaturedVo();
+    public Response<PageVo<Product>> pagelist(@Validated @NotNull(message = "页码不能为空") Long pageNumber) {
+        PageVo<ProductEntity> featuredPage = productService.getFeaturedPageList(pageNumber, 10L);
+        List<Product> featuredVoList = featuredPage.getList().stream().map(featured -> {
+            Product featuredVo = new Product();
             BeanUtils.copyProperties(featured, featuredVo);
             ImagesVo imagePath = ImageUtil.getImagePath(featured.getImagePath());
             featuredVo.setImages(imagePath);
@@ -68,7 +70,7 @@ public class ClientProductController {
             return featuredVo;
         }).toList();
 
-        PageVo<FeaturedVo> result = new PageVo<>();
+        PageVo<Product> result = new PageVo<>();
         result.setTotal(featuredPage.getTotal());
         result.setPages(featuredPage.getPages());
         result.setList(featuredVoList);
@@ -81,13 +83,13 @@ public class ClientProductController {
     @Operation(summary = "获取精选商品详情")
     @GetMapping("/detail")
     public Response<ProductDetailVo> getFeaturedDetail(@Schema(description = "商品id") String productId) {
-        ProductEntity featured = featuredService.getById(productId);
+        ProductEntity featured = productService.getById(productId);
         if (featured == null) {
             return Response.error(BusinessStates.NOT_FOUND);
         }
 
         //获取基本详情信息
-        ProductDetailEntity featuredDetailEntity = featuredService.getFeaturedDetailById(productId);
+        ProductDetailEntity featuredDetailEntity = productService.getFeaturedDetailById(productId);
         ProductDetailVo featuredDetailVo = new ProductDetailVo();
         BeanUtils.copyProperties(featured, featuredDetailVo);
         //临时校验
@@ -154,6 +156,20 @@ public class ClientProductController {
     ) {
         PageVo<ProductCommentVo> commentPage = commentService.getCommentByProductId(productId,pageNumber,pageSize);
         return Response.success(BusinessStates.SUCCESS, commentPage);
+    }
+
+    /**
+     * 获取首页标签
+     */
+    @GetMapping("/tag")
+    @Operation(summary = "获取首页标签")
+    public Response<List<TagVo>> getTagList() {
+        LambdaQueryChainWrapper<ProductEntity> last = productService.lambdaQuery().select().last("limit 4");
+    return Response.success(BusinessStates.SUCCESS, last.list().stream().map(product -> {
+        TagVo tagVo = new TagVo();
+        tagVo.setTagName(product.getTitle());
+        return tagVo;
+    }).toList());
     }
 }
 

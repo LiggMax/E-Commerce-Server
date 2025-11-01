@@ -20,6 +20,7 @@ public interface ProductService extends IService<ProductEntity> {
 
     /**
      * 获取分页精选商品列表
+     *
      * @return 精选商品列表
      */
     PageVo<FeaturedSearchVo> getProductDetailPagelist(Long pageNumber, Long pageSize);

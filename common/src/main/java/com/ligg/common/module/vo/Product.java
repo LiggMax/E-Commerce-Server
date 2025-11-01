@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * @Time 2025/9/27
  **/
 @Data
-public class FeaturedVo {
+public class Product {
     /**
      * 商品id
      */

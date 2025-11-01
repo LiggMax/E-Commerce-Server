@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 @Validated
 @Tag(name = "商品接口")
 @RestController
-@RequestMapping("/api/admin/featured")
+@RequestMapping("/api/admin/product")
 @RequiredArgsConstructor
 public class AdminProductController {
 
