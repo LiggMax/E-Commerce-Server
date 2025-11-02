@@ -36,7 +36,7 @@ jobs:
             entrance/target/entrance*.jar
             entrance/src/main/resources/application-prod.yaml
             restart.sh
-          target: ${{ secrets.SERVER_PROJECT_PATH }}/
+          target: ${{ secrets.SERVER_PROJECT_PATH }}
 
       # 5. 调用服务器的 restart.sh 重启项目
       - name: Restart Spring Boot app
