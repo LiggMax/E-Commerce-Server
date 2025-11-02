@@ -1,6 +1,6 @@
 #!/bin/bash
 APP_NAME="project.jar"
-APP_PATH="/www/wwwroot/e-commerce/service"
+APP_PATH="path"
 PID_FILE="$APP_PATH/app.pid"
 LOG_FILE="$APP_PATH/app.log"
 
