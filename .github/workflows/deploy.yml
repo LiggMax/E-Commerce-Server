@@ -32,10 +32,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: |
-            entrance/target/entrance*.jar
-            entrance/src/main/resources/application-prod.yaml
-            restart.sh
+          source: "entrance/target/entrance*.jar"
           target: "${{ secrets.SERVER_PROJECT_PATH }}"
 
       # 5. 调用服务器的 restart.sh 优雅重启项目
