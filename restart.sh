@@ -1,6 +1,6 @@
 #!/bin/bash
 APP_NAME="project.jar"
-APP_PATH="path"
+APP_PATH="app_path"
 PID_FILE="$APP_PATH/app.pid"
 LOG_FILE="$APP_PATH/app.log"
 
@@ -30,6 +30,6 @@ fi
 
 # 启动新的实例
 echo "🚀 正在启动 $APP_NAME..."
-nohup java -jar $APP_PATH/$APP_NAME --spring.profiles.active=prod > $LOG_FILE 2>&1 &
+nohup java -jar $APP_PATH$APP_NAME --spring.profiles.active=prod > $LOG_FILE 2>&1 &
 echo $! > $PID_FILE
 echo "✅ 启动成功，新进程 PID: $(cat $PID_FILE)"
