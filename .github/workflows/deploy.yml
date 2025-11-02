@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: |
             entrance/target/entrance*.jar
-            ./restart.sh
+            .github/workflows/restart.sh
           target: "${{ secrets.SERVER_PROJECT_PATH }}"
 
       # 调用服务器的 restart.sh 优雅重启项目
