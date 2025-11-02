@@ -33,7 +33,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "entrance/target/entrance-*-SNAPSHOT.jar"
-          target: "/www/wwwroot/e-commerce/service/"
+          target: "${{ secrets.SERVER_PROJECT_PATH }}"
 
       # 5. 调用服务器的 restart.sh 优雅重启项目
       - name: Restart Spring Boot app
