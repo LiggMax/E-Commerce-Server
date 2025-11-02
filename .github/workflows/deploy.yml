@@ -25,8 +25,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      # 上传 jar 到服务器
-      - name: Upload jar via SSH
+      # 上传文件到服务器
+      - name: Upload file via SSH
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -53,7 +53,7 @@ jobs:
             LATEST_JAR=$(ls -t *.jar | head -n 1)
             echo "最新 jar 包：$LATEST_JAR"
             
-            # 更新 APP_NAME、SERVER_PROJECT_PATH 到 restart.sh 中（如果需要动态）
+            # 更新 APP_NAME、SERVER_PROJECT_PATH 到 restart.sh 中
             sed -i "s/^APP_NAME=.*/APP_NAME=\"$LATEST_JAR\"/" restart.sh
             sed -i "s/^APP_PATH=.*/APP_PATH=\"${{ secrets.SERVER_PROJECT_PATH }}\"/" restart.sh
             
