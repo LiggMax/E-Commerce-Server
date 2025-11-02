@@ -187,6 +187,8 @@ public class AdminProductController {
             imageVo.setSort(featuredImage.getSort());
             imageVo.setUrl(featuredImage.getImagePath());
             return imageVo;
+            //返回
+
         }).toList());
     }
 }
