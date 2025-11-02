@@ -35,7 +35,8 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: |
             entrance/target/entrance*.jar,
-            entrance/src/main/resources/application-prod.yaml
+            entrance/src/main/resources/application-prod.yaml,
+            restart.sh
           target: "${{ secrets.SERVER_PROJECT_PATH }}"
 
       # 调用服务器的 restart.sh 优雅重启项目
