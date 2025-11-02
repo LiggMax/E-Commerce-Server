@@ -39,7 +39,7 @@ jobs:
             restart.sh
           target: "${{ secrets.SERVER_PROJECT_PATH }}"
 
-      # 调用服务器的 restart.sh 优雅重启项目
+      # 调用服务器的 restart.sh 重启项目
       - name: Restart Spring Boot app
         uses: appleboy/ssh-action@v1.1.0
         with:
@@ -55,7 +55,7 @@ jobs:
             
             # 更新 APP_NAME、SERVER_PROJECT_PATH 到 restart.sh 中
             sed -i "s/^APP_NAME=.*/APP_NAME=\"$LATEST_JAR\"/" restart.sh
-            sed -i "s/^APP_PATH=.*/APP_PATH=\"${{ secrets.SERVER_PROJECT_PATH }}\"/" restart.sh
+            sed -i "s|^APP_PATH=.*|APP_PATH=\"${{ secrets.SERVER_PROJECT_PATH }}\"|" restart.sh
             
-            echo "执行优雅重启脚本..."
+            echo "执行重启脚本..."
             bash restart.sh
