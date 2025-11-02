@@ -69,4 +69,4 @@ jobs:
             sed -i "s|^APP_PATH=.*|APP_PATH=\"${{ secrets.SERVER_PROJECT_PATH }}\"|" restart.sh
             
             echo "执行重启脚本..."
-            bash restart.sh
+            bash -l restart.sh
