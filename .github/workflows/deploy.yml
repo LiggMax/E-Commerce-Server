@@ -9,22 +9,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 拉取项目代码
+      #  拉取项目代码
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. 安装 JDK
+      #  安装 JDK
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
+          cache: maven
 
-      # 3. 编译打包
+      # 编译打包
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      # 4. 上传 jar 到服务器
+      # 上传 jar 到服务器
       - name: Upload jar via SSH
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -32,10 +33,11 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "entrance/target/entrance*.jar"
+          source: |
+            entrance/target/entrance*.jar
           target: "${{ secrets.SERVER_PROJECT_PATH }}"
 
-      # 5. 调用服务器的 restart.sh 优雅重启项目
+      # 调用服务器的 restart.sh 优雅重启项目
       - name: Restart Spring Boot app
         uses: appleboy/ssh-action@v1.1.0
         with:
