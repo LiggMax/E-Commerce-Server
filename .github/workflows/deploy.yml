@@ -33,7 +33,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: |
-            entrance/target/entrance-*-SNAPSHOT.jar
+            entrance/target/entrance*.jar
             entrance/src/main/resources/application-prod.yaml
             restart.sh
           target: ${{ secrets.SERVER_PROJECT_PATH }}/
