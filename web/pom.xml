@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.ligg</groupId>
         <artifactId>e-commerce-server</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <modules>

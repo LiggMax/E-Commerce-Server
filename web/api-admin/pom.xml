@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>api-admin</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>api-admin</name>
     <description>api-admin</description>
     <packaging>jar</packaging>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>com.ligg</groupId>
         <artifactId>web</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <dependencies>
