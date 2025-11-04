@@ -2,15 +2,16 @@
 APP_NAME="project.jar"
 APP_PATH="app_path"
 PID_FILE="$APP_PATH/app.pid"
-LOG_FILE="$APP_PATH/app.log"
+LOG_FILE="$APP_FILE/app.log"
+PORT=0
 
 cd $APP_PATH
 
-# 通过APP_NAME查找进程PID并停止
-echo "🔍 正在查找 $APP_NAME 进程..."
-PID=$(ps -ef | grep $APP_NAME | grep -v grep | awk '{print $2}')
+# 通过PORT端口查找进程PID并停止
+echo "🔍 正在查找占用端口 $PORT 的进程..."
+PID=$(lsof -t -i:$PORT)
 if [ -n "$PID" ]; then
-  echo "🛑 正在停止 $APP_NAME (PID: $PID)..."
+  echo "🛑 正在停止进程 (PID: $PID)..."
   kill -15 $PID
   sleep 3
 
@@ -20,7 +21,7 @@ if [ -n "$PID" ]; then
     kill -9 $PID
   fi
 else
-  echo "ℹ️  未找到运行中的 $APP_NAME 进程"
+  echo "ℹ️ 占用端口 $PORT 的进程不存在"
 fi
 
 # 如果存在PID文件则删除
