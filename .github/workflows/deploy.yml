@@ -45,24 +45,24 @@ jobs:
       - name: Upload file via SSH
         uses: appleboy/scp-action@v1
         with:
-          host: ${{ env.HOST }}
-          username: ${{ env.USER }}
-          port: ${{ env.PORT }}
-          key: ${{ env.SSH_KEY }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          port: ${{ secrets.SERVER_PORT }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           source: "upload/*"
-          target: ${{ env.PROJECT_PATH }}
+          target: ${{ secrets.SERVER_PROJECT_PATH }}
           strip_components: 1
 
       # 执行 restart.sh
       - name: perform restart.sh
         uses: appleboy/ssh-action@v1.1.0
         with:
-          host: ${{ env.HOST }}
-          username: ${{ env.USER }}
-          port: ${{ env.PORT }}
-          key: ${{ env.SSH_KEY }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          port: ${{ secrets.SERVER_PORT }}
+          key: ${{ secrets.SERVER_PORT }}
           script: |  
-            cd ${{ env.PROJECT_PATH }}
+            cd ${{ secrets.SERVER_PROJECT_PATH }}
             chmod 755 restart.sh
             # 获取最新 jar 文件名
             LATEST_JAR=$(ls -t *.jar | head -n 1)
@@ -72,7 +72,7 @@ jobs:
             
             # 更新 APP_NAME、PROJECT_PATH 到 restart.sh 中
             sed -i "s/^APP_NAME=.*/APP_NAME=\"$LATEST_JAR\"/" restart.sh
-            sed -i "s|^APP_PATH=.*|APP_PATH=\"${{ env.PROJECT_PATH }}\"|" restart.sh
+            sed -i "s|^APP_PATH=.*|APP_PATH=\"${{ secrets.SERVER_PROJECT_PATH }}\"|" restart.sh
             sed -i "s/^PORT=.*/PORT=$PORT/" restart.sh
             
             echo "执行重启脚本..."
