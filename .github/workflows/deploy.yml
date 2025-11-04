@@ -34,7 +34,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "entrance/target/entrance*.jar,entrance/src/main/resources/application-prod.yaml,restart.sh"
-          target: "${{ secrets.SERVER_PROJECT_PATH }}"
+          target: ${{ secrets.SERVER_PROJECT_PATH }}
 
       # 执行 restart.sh
       - name: perform restart.sh
