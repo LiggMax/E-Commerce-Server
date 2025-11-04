@@ -8,7 +8,7 @@ cd $APP_PATH
 
 # 通过APP_NAME查找进程PID并停止
 echo "🔍 正在查找 $APP_NAME 进程..."
-PID=$(ps -ef | grep $APP_NAME | grep -v grep | awk '{print $2}')
+PID=$(ps -ef | grep "$APP_NAME" | grep -v grep | awk '{print $2}')
 if [ -n "$PID" ]; then
   echo "🛑 正在停止 $APP_NAME (PID: $PID)..."
   kill -15 $PID
@@ -30,6 +30,7 @@ fi
 
 # 启动新的实例
 echo "🚀 正在启动 $APP_NAME..."
-nohup java -jar $APP_PATH$APP_NAME --spring.profiles.active=prod > $LOG_FILE 2>&1 &
+JAR_FILE=$(ls -t entrance*.jar | head -n 1)
+nohup java -jar $JAR_FILE --spring.profiles.active=prod > $LOG_FILE 2>&1 &
 echo $! > $PID_FILE
 echo "✅ 启动成功，新进程 PID: $(cat $PID_FILE)"
