@@ -13,14 +13,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Initialize
-        run: |
-          echo "HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV
-          echo "USER=${{ secrets.SERVER_USER }}" >> $GITHUB_ENV
-          echo "PORT=${{ secrets.SERVER_PORT }}" >> $GITHUB_ENV
-          echo "SSH_KEY=${{ secrets.SERVER_SSH_KEY }}" >> $GITHUB_ENV
-          echo "PROJECT_PATH=${{ secrets.SERVER_PROJECT_PATH }}" >> $GITHUB_ENV
-
       #  安装 JDK
       - name: Set up JDK
         uses: actions/setup-java@v4
