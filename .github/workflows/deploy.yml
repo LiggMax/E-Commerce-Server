@@ -25,6 +25,14 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
+      # 创建待上传文件夹并复制文件
+      - name: Prepare files for upload
+        run: |          
+          mkdir -p upload
+          cp entrance/target/entrance*.jar upload/
+          cp entrance/src/main/resources/application-prod.yaml upload/
+          cp restart.sh upload/
+
       # 上传文件到服务器
       - name: Upload file via SSH
         uses: appleboy/scp-action@v1
@@ -33,7 +41,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "entrance/target/entrance*.jar,entrance/src/main/resources/application-prod.yaml,restart.sh"
+          source: "upload/*"
           target: ${{ secrets.SERVER_PROJECT_PATH }}
 
       # 执行 restart.sh
@@ -44,7 +52,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |  
+          script: |
             cd ${{ secrets.SERVER_PROJECT_PATH }}
             chmod 755 restart.sh
             # 获取最新 jar 文件名
