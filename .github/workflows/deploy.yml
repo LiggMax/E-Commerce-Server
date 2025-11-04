@@ -38,7 +38,6 @@ jobs:
         run: |
          mkdir -p upload
          cp entrance/target/entrance*.jar upload/
-         cp entrance/src/main/resources/application-prod.yaml upload/
          cp restart.sh upload/
 
       # 上传文件到服务器
