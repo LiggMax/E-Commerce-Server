@@ -5,7 +5,7 @@
 
     <groupId>com.ligg</groupId>
     <artifactId>e-commerce-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>e-commerce-server</name>
     <description>e-commerce-server</description>
     <packaging>pom</packaging>
@@ -39,11 +39,6 @@
 
     <dependencyManagement>
         <dependencies>
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-starter-web</artifactId>-->
-<!--            </dependency>-->
-
             <!-- bcrypt依赖 -->
             <dependency>
                 <groupId>org.mindrot</groupId>
