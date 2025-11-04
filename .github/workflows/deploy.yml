@@ -39,8 +39,8 @@ jobs:
             restart.sh
           target: "${{ secrets.SERVER_PROJECT_PATH }}"
 
-      # 设置 restart.sh 权限
-      - name: Set permissions for restart.sh
+      # 执行 restart.sh
+      - name: perform restart.sh
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -48,18 +48,8 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |  
-            chmod 755 ${{ secrets.SERVER_PROJECT_PATH }}restart.sh
-
-      # 调用服务器的 restart.sh 重启项目
-      - name: Restart Spring Boot app
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          port: ${{ secrets.SERVER_PORT }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
             cd ${{ secrets.SERVER_PROJECT_PATH }}
+            chmod 755 restart.sh
             # 获取最新 jar 文件名
             LATEST_JAR=$(ls -t *.jar | head -n 1)
             echo "最新 jar 包：$LATEST_JAR"
