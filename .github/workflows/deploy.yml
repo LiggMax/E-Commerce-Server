@@ -27,16 +27,13 @@ jobs:
 
       # 上传文件到服务器
       - name: Upload file via SSH
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           port: ${{ secrets.SERVER_PORT }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: |
-            entrance/target/entrance*.jar,
-            entrance/src/main/resources/application-prod.yaml,
-            restart.sh
+          source: "entrance/target/entrance*.jar,entrance/src/main/resources/application-prod.yaml,restart.sh"
           target: "${{ secrets.SERVER_PROJECT_PATH }}"
 
       # 执行 restart.sh
