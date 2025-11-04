@@ -13,6 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Initialize
+        run: |
+          echo "HOST=${{ secrets.SERVER_HOST }}" >> $GITHUB_ENV
+          echo "USER=${{ secrets.SERVER_USER }}" >> $GITHUB_ENV
+          echo "PORT=${{ secrets.SERVER_PORT }}" >> $GITHUB_ENV
+          echo "SSH_KEY=${{ secrets.SERVER_SSH_KEY }}" >> $GITHUB_ENV
+          echo "PROJECT_PATH=${{ secrets.SERVER_PROJECT_PATH }}" >> $GITHUB_ENV
+
       #  安装 JDK
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -37,32 +45,35 @@ jobs:
       - name: Upload file via SSH
         uses: appleboy/scp-action@v1
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          port: ${{ secrets.SERVER_PORT }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          host: ${{ env.HOST }}
+          username: ${{ env.USER }}
+          port: ${{ env.PORT }}
+          key: ${{ env.SSH_KEY }}
           source: "upload/*"
-          target: ${{ secrets.SERVER_PROJECT_PATH }}
+          target: ${{ env.PROJECT_PATH }}
           strip_components: 1
 
       # 执行 restart.sh
       - name: perform restart.sh
         uses: appleboy/ssh-action@v1.1.0
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          port: ${{ secrets.SERVER_PORT }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          host: ${{ env.HOST }}
+          username: ${{ env.USER }}
+          port: ${{ env.PORT }}
+          key: ${{ env.SSH_KEY }}
           script: |  
-            cd ${{ secrets.SERVER_PROJECT_PATH }}
+            cd ${{ env.PROJECT_PATH }}
             chmod 755 restart.sh
             # 获取最新 jar 文件名
             LATEST_JAR=$(ls -t *.jar | head -n 1)
             echo "最新 jar 包：$LATEST_JAR"
+            #获取端口号
+            PORT=$(grep -A 2 "server:" application-prod.yaml | grep "port:" | awk '{print $2}')
             
-            # 更新 APP_NAME、SERVER_PROJECT_PATH 到 restart.sh 中
+            # 更新 APP_NAME、PROJECT_PATH 到 restart.sh 中
             sed -i "s/^APP_NAME=.*/APP_NAME=\"$LATEST_JAR\"/" restart.sh
-            sed -i "s|^APP_PATH=.*|APP_PATH=\"${{ secrets.SERVER_PROJECT_PATH }}\"|" restart.sh
+            sed -i "s|^APP_PATH=.*|APP_PATH=\"${{ env.PROJECT_PATH }}\"|" restart.sh
+            sed -i "s/^PORT=.*/PORT=$PORT/" restart.sh
             
             echo "执行重启脚本..."
             bash -l restart.sh
