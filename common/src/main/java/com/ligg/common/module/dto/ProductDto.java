@@ -26,9 +26,13 @@ public class ProductDto {
     /**
      * 原价
      */
-
     @Schema(description = "原价")
     private Double originalPrice;
+
+    /**
+     * 库存
+     */
+    private Integer stock;
 
     /**
      * 现价

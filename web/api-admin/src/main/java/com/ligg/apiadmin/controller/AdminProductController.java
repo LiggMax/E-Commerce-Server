@@ -71,7 +71,7 @@ public class AdminProductController {
         featuredEntity.setStatus(UserStatus.ENABLED);
         featuredEntity.setCreatedAt(LocalDateTime.now());
         featuredEntity.setUpdateAt(LocalDateTime.now());
-        productService.saveFeatured(featuredEntity);
+        productService.save(featuredEntity);
 
         //保存详情数据
         ProductDetailEntity detailEntity = new ProductDetailEntity();
