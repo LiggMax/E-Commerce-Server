@@ -6,6 +6,7 @@
     <select id="selectProductDetailPage" resultType="com.ligg.common.module.vo.search.FeaturedSearchVo">
         select p.id,
                p.title,
+               p.stock,
                p.image_path,
                p.original_price,
                p.current_price,

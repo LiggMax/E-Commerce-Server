@@ -3,12 +3,15 @@ package com.ligg.common.service.impl.product;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ligg.common.constants.ProductConstant;
+import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.mapper.product.ProductMapper;
 import com.ligg.common.service.product.ProductService;
 import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.module.vo.search.FeaturedSearchVo;
+import com.ligg.common.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +26,16 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
 
     private final ProductMapper productMapper;
 
+    private final RedisUtil redisUtil;
+
     @Override
-    public void saveFeatured(ProductEntity featuredEntity) {
-        productMapper.insert(featuredEntity);
+    public void saveFeatured(ProductEntity product) {
+        int insert = productMapper.insert(product);
+        if (insert > 0) {
+            //商品库存缓存没有过期时间
+            redisUtil.set(ProductConstant.STOCK_KEY_PREFIX + product.getId(), product.getStock());
+        }
+        throw new RuntimeException(String.valueOf(BusinessStates.INTERNAL_SERVER_ERROR));
     }
 
     /**
