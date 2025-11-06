@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : mysql
  Source Server Type    : MySQL
  Source Server Version : 80040
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80040
  File Encoding         : 65001
 
- Date: 04/11/2025 16:00:06
+ Date: 06/11/2025 18:17:46
 */
 
 SET NAMES utf8mb4;
@@ -132,6 +132,7 @@ CREATE TABLE `product`  (
   `update_at` datetime NOT NULL COMMENT '更新时间',
   `status` tinyint NOT NULL COMMENT '状态(1=上架，0=下架)',
   `stock` int NULL DEFAULT 0 COMMENT '商品库存',
+  `views` tinyint NOT NULL DEFAULT 0 COMMENT '浏览数',
   PRIMARY KEY (`id`) USING BTREE,
   CONSTRAINT `product_chk_1` CHECK (`stock` >= 0)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品' ROW_FORMAT = Dynamic;
@@ -157,7 +158,7 @@ CREATE TABLE `product_comment`  (
   INDEX `idx_product`(`product_id` ASC) USING BTREE,
   INDEX `idx_user`(`user_id` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_detail
@@ -196,7 +197,7 @@ CREATE TABLE `product_image`  (
   `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片路径',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `featured_image_featured_id_index`(`product_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_spec
@@ -211,7 +212,7 @@ CREATE TABLE `product_spec`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `spec_product_id_index`(`product_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_spec_value
@@ -227,7 +228,7 @@ CREATE TABLE `product_spec_value`  (
   `price` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '规格价格',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `spec_value_spec_id_index`(`spec_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '规则值' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '规则值' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user
@@ -269,6 +270,6 @@ CREATE TABLE `user_address`  (
   `user_id` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_address_user_id_index`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
