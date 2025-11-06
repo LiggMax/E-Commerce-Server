@@ -1,5 +1,6 @@
 package com.ligg.common.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.module.vo.UserInfoVo;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
  * @Author Ligg
  * @Time 2025/9/22
  **/
-public interface UserService {
+public interface UserService extends IService<UserEntity> {
     /**
      * 注册账号
      *

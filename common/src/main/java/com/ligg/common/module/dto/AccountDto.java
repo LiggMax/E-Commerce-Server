@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
  **/
 @Data
 public class AccountDto {
+
+    /**
+     * 昵称
+     */
     private String nickName;
 
     /**

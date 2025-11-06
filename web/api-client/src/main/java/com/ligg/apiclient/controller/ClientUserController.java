@@ -70,12 +70,9 @@ public class ClientUserController {
             }
             userService.updateUserAvatar(avatarFile);
         }
-        Map<String, Object> UserInfo = ThreadLocalUtil.get();
-        String userId = (String) UserInfo.get(UserConstant.USER_ID);
 
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(userDto, userEntity);
-        userEntity.setUserId(userId);
         return userService.updateUserInfo(userEntity) < 1
                 ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
                 : Response.success(BusinessStates.SUCCESS);
@@ -93,7 +90,10 @@ public class ClientUserController {
         if (imageFiles != null && imageFiles.length < 6) {
             List<String> imagePaths = new ArrayList<>();
             for (MultipartFile imageFile : imageFiles) {
-                if (imageFile != null && !imageFile.isEmpty() && imageFile.getSize() < Constant.FILE_SIZE) {
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    if (imageFile.getSize() > Constant.FILE_SIZE) {
+                        return Response.error(BusinessStates.FILE_UPLOAD_FAILED, "图片大小不能超过2M");
+                    }
                     String imagePath = fileService.uploadImage(imageFile, Constant.COMMENT_FILE_PATH);
                     imagePaths.add(imagePath);
                 }
