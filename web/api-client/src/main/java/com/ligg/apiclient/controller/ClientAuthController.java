@@ -4,6 +4,7 @@
  **/
 package com.ligg.apiclient.controller;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ligg.apiclient.service.ClientAccountService;
 import com.ligg.common.enums.UserRole;
 import com.ligg.common.enums.UserStatus;
@@ -18,13 +19,11 @@ import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -90,7 +89,7 @@ public class ClientAuthController {
         if (userInfo == null || !BCryptUtil.verify(account.getPassword(), userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
         }
-        if (userInfo.getStatus().equals(UserStatus.DISABLED)){
+        if (userInfo.getStatus().equals(UserStatus.DISABLED)) {
             return Response.error(BusinessStates.FORBIDDEN, "账号已被禁用");
         }
         String token = tokenService.generateToken(userInfo);
@@ -99,5 +98,30 @@ public class ClientAuthController {
         }
         tokenService.saveToken(token, userInfo.getUserId());
         return Response.success(BusinessStates.SUCCESS, token);
+    }
+
+    /**
+     * 找回密码
+     */
+    @Operation(summary = "找回密码")
+    @PutMapping("/forget")
+    public Response<String> forget(@Pattern(regexp = "^[a-zA-Z0-9_-]{6,20}$", message = "参数不合法") String account,
+                                   @Pattern(regexp = "^[a-zA-Z0-9]{6,20}$", message = "参数不合法") String password,
+                                   @Pattern(regexp = "^[a-zA-Z0-9]{6}$", message = "参数不合法") String code,
+                                   String uuid) {
+        if (!captchaService.verifyCaptcha(code, uuid)) {
+            Response.error(BusinessStates.VALIDATION_FAILED, "验证码错误");
+        }
+        UserEntity userInfo = userService.getUserInfoByAccount(account);
+
+        if (userInfo == null) {
+            return Response.error(BusinessStates.NOT_FOUND, "查找的账户不存在");
+        }
+
+        userService.update(new LambdaUpdateWrapper<UserEntity>()
+                .eq(UserEntity::getAccount, account)
+                .set(UserEntity::getPassword, BCryptUtil.encrypt(password))
+                .set(UserEntity::getUpdateTime, LocalDateTime.now()));
+        return Response.success(BusinessStates.SUCCESS);
     }
 }

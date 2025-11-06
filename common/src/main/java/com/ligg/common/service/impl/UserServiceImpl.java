@@ -6,8 +6,7 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.exception.OrderException;
@@ -16,7 +15,6 @@ import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductFavoriteEntity;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
-import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.service.FileService;
 import com.ligg.common.service.UserService;
 import com.ligg.common.service.product.ProductService;
@@ -40,7 +38,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
 
     private final RedisUtil redisUtil;
 
@@ -151,6 +149,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int updateUserInfo(UserEntity userEntity) {
+        if (userEntity.getPassword() != null) {
+            userEntity.setPassword(BCryptUtil.encrypt(userEntity.getPassword()));
+        }
+        Map<String, Object> UserInfo = ThreadLocalUtil.get();
+        String userId = (String) UserInfo.get(UserConstant.USER_ID);
+        userEntity.setUserId(userId);
         int number = userMapper.updateUserInfo(userEntity);
         if (number > 0) {
             String userKey = UserConstant.USER_INFO + ":" + userEntity.getUserId();
