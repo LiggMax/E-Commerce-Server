@@ -1,7 +1,3 @@
-/**
- * @Author Ligg
- * @Time 2025/10/10
- **/
 package com.ligg.apiclient.controller;
 
 import com.ligg.common.constants.Constant;
@@ -34,8 +30,10 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 用户接口
- */
+ * @Author Ligg
+ * @time 2025/10/10
+ * @update_time 2025/11/6 14:28
+ **/
 @Slf4j
 @Tag(name = "用户接口", description = "管理账户信息")
 @RestController
