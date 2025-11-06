@@ -60,6 +60,11 @@ public class ProductEntity {
     private Integer stock;
 
     /**
+     * 阅览量
+     */
+    private Integer views;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createdAt;

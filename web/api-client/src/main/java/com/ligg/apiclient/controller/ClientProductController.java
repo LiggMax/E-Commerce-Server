@@ -115,6 +115,12 @@ public class ClientProductController {
         //获取规格信息
         List<SpecVo> specVoList = specService.getSpecDetailByProductId(productId);
         featuredDetailVo.setSpecs(specVoList);
+
+        //阅览数++
+        productService.lambdaUpdate()
+                .eq(ProductEntity::getId, productId)
+                .setIncrBy(ProductEntity::getViews, 1)
+                .update();
         return Response.success(BusinessStates.SUCCESS, featuredDetailVo);
     }
 
