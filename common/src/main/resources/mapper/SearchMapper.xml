@@ -14,13 +14,25 @@
         p.rating
         from product p
         left join product_detail pd on p.id = pd.product_id
-        where p.title like concat('%', #{keyword}, '%')
-        or pd.description like concat('%', #{keyword}, '%')
-        <if test="sort == 2">
-            order by p.current_price
-        </if>
-        <if test="sort == 3">
-            order by p.current_price desc
-        </if>
+        <where>
+            <if test="keyword != null and keyword != ''">
+                where p.title like concat('%', #{keyword}, '%')
+                or pd.description like concat('%', #{keyword}, '%')
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.name() == 'PRICE_ASC'">
+                order by p.current_price desc
+            </when>
+            <when test="sort != null and sort.name() == 'RATING_ASC'">
+                order by p.rating desc
+            </when>
+            <when test="sort != null and sort.name() == 'HOT_ASC'">
+                order by p.views desc
+            </when>
+            <otherwise>
+                order by p.created_at desc
+            </otherwise>
+        </choose>
     </select>
 </mapper>

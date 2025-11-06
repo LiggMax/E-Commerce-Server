@@ -5,6 +5,7 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ligg.common.enums.SearchSorting;
 import com.ligg.common.module.entity.ProductEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,5 +23,5 @@ public interface SearchMapper {
      */
     IPage<ProductEntity> selectCommodity(@Param("page") IPage<ProductEntity> page,
                                          @Param("keyword") String keyword,
-                                         @Param("sort") Integer sort);
+                                         @Param("sort") SearchSorting sort);
 }

@@ -6,6 +6,7 @@ package com.ligg.common.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ligg.common.enums.SearchSorting;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.mapper.SearchMapper;
 import com.ligg.common.service.SearchService;
@@ -29,7 +30,7 @@ public class SearchServiceImpl implements SearchService {
      * @return 商品列表
      */
     @Override
-    public PageVo<ProductEntity> searchCommodityPageList(String keyword, Long pageNumber, long pageSize, Integer sort) {
+    public PageVo<ProductEntity> searchCommodityPageList(String keyword, Long pageNumber, long pageSize, SearchSorting sort) {
         Page<ProductEntity> page = new Page<>(pageNumber, pageSize);
         IPage<ProductEntity> result = searchMapper.selectCommodity(page, keyword,sort);
         PageVo<ProductEntity> pageVo = new PageVo<>();

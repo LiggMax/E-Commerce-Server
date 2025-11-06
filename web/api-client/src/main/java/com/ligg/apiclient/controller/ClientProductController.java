@@ -6,6 +6,7 @@ package com.ligg.apiclient.controller;
 
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.ligg.apiclient.pojo.vo.TagVo;
+import com.ligg.common.enums.SearchSorting;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.entity.ProductImageEntity;
@@ -131,7 +132,7 @@ public class ClientProductController {
     @Operation(summary = "商品搜索")
     public Response<PageVo<SearchVo>> search(@Schema(description = "关键字") @NotNull String keyword,
                                              @Schema(description = "页码") @NotNull Long pageNumber,
-                                             @Schema(description = "排序") @RequestParam(required = false) Integer sort) {
+                                             @Schema(description = "排序") @RequestParam(required = false) SearchSorting sort) {
         //获取商品分页列表
         PageVo<ProductEntity> searchData = searchService.searchCommodityPageList(keyword, pageNumber, 20L, sort);
         List<SearchVo> searchResult = searchData.getList().stream().map(search -> {

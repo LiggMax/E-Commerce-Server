@@ -4,6 +4,7 @@
  **/
 package com.ligg.apiclient.controller;
 
+import com.ligg.common.enums.SearchSorting;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.SearchService;
@@ -15,7 +16,6 @@ import com.ligg.common.module.vo.search.SearchVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,9 +46,9 @@ public class SearchController {
      */
     @Operation(summary = "搜索商品")
     @GetMapping
-    public Response<PageVo<SearchVo>> searchCommodity(@Schema(description = "关键字") @RequestParam @NotNull String keyword,
+    public Response<PageVo<SearchVo>> searchCommodity(@Schema(description = "关键字") @RequestParam(required = false) String keyword,
                                                       @Schema(description = "页码") @RequestParam(defaultValue = "1") Long pageNumber,
-                                                      @Schema(description = "排序") @RequestParam(defaultValue = "1") Integer sort) {
+                                                      @Schema(description = "排序") @RequestParam(defaultValue = "1") SearchSorting sort) {
         PageVo<ProductEntity> pageVo = searchService.searchCommodityPageList(keyword, pageNumber, 20L, sort);
         List<SearchVo> pageVolist = pageVo.getList().stream().map(product -> {
             SearchVo searchVo = new SearchVo();
