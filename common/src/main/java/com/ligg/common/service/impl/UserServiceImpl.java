@@ -151,6 +151,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int updateUserInfo(UserEntity userEntity) {
+        if (userEntity.getPassword() != null) {
+            userEntity.setPassword(BCryptUtil.encrypt(userEntity.getPassword()));
+        }
         int number = userMapper.updateUserInfo(userEntity);
         if (number > 0) {
             String userKey = UserConstant.USER_INFO + ":" + userEntity.getUserId();
