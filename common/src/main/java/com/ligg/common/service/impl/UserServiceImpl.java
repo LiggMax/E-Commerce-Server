@@ -87,7 +87,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
      * 根据用户id获取用户信息
      */
     @Override
-    public UserInfoVo getUserInfoById(String userId) {
+    public UserInfoVo getUserInfo() {
+        Map<String, Object> userObject = ThreadLocalUtil.get();
+        String userId = (String) userObject.get(UserConstant.USER_ID);
         UserEntity redisUserInfo = getRedisUserInfo(userId);
         UserInfoVo userInfoVo = new UserInfoVo();
 

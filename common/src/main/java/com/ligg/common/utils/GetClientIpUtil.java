@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * 获取客户端真实IP地址
  */
 
-public final class GetClientIp {
+public final class GetClientIpUtil {
 
     public static String getIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");

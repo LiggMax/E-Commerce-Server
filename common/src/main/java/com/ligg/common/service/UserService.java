@@ -2,7 +2,6 @@ package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.module.entity.UserEntity;
-import com.ligg.common.module.vo.PageVo;
 import com.ligg.common.module.vo.UserInfoVo;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,9 +27,9 @@ public interface UserService extends IService<UserEntity> {
     UserEntity getUserInfoByAccount(String account);
 
     /**
-     * 根据用户id获取用户信息
+     * 获取用户信息
      */
-    UserInfoVo getUserInfoById(String userId);
+    UserInfoVo getUserInfo();
 
     /**
      * 账户扣款

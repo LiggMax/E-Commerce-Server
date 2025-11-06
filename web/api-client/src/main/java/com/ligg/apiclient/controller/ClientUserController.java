@@ -53,9 +53,7 @@ public class ClientUserController {
     @Operation(summary = "获取用户信息")
     @GetMapping("/info")
     public Response<UserInfoVo> getUserInfo() {
-        Map<String, Object> userObject = ThreadLocalUtil.get();
-        String userId = (String) userObject.get(UserConstant.USER_ID);
-        UserInfoVo userInfo = userService.getUserInfoById(userId);
+        UserInfoVo userInfo = userService.getUserInfo();
         return Response.success(BusinessStates.SUCCESS, userInfo);
     }
 

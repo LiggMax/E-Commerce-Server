@@ -6,6 +6,7 @@ public interface TokenService {
 
     /**
      * 生成token
+     * 同时更新最后登录时间
      */
     String generateToken(UserEntity userEntity);
 

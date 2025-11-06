@@ -1,6 +1,7 @@
 package com.ligg.common.module.vo;
 
 import com.ligg.common.enums.UserRole;
+import com.ligg.common.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,7 +41,7 @@ public class UserInfoVo {
     /**
      * 状态 0-禁用 1-正常
      */
-    private Integer status;
+    private UserStatus status;
 
     /**
      * 邮箱
@@ -61,5 +62,4 @@ public class UserInfoVo {
      * 最后登录时间
      */
     private LocalDateTime lastLoginTime;
-
 }

@@ -1,16 +1,19 @@
 package com.ligg.common.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.service.TokenService;
-import com.ligg.common.utils.GetClientIp;
+import com.ligg.common.service.UserService;
+import com.ligg.common.utils.GetClientIpUtil;
 import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.RedisUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -25,9 +28,11 @@ public class TokenServiceImpl implements TokenService {
 
     private final HttpServletRequest request;
 
+    private final UserService userService;
+
     /**
      * 生成token
-     *
+     * 同时更新最后登录时间
      * @param userEntity 用户信息
      * @return token
      */
@@ -36,8 +41,12 @@ public class TokenServiceImpl implements TokenService {
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put(UserConstant.USER_ID, userEntity.getUserId());
         userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
-        userInfo.put(UserConstant.USER_IP, GetClientIp.getIp(request));
+        userInfo.put(UserConstant.USER_IP, GetClientIpUtil.getIp(request));
         userInfo.put(UserConstant.USER_ROLE, userEntity.getRole().toString());
+
+        userService.update(new LambdaUpdateWrapper<UserEntity>()
+                .eq(UserEntity::getUserId, userEntity.getUserId())
+                .set(UserEntity::getLastLoginTime, LocalDateTime.now()));
         return JWTUtil.createToken(userInfo, EXPIRE);
     }
 
