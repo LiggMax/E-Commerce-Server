@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.time.LocalDate;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -54,11 +55,17 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
 
         // 生成验证码
         int code = ThreadLocalRandom.current().nextInt(1000, 9999);
+        long expire = 3;
+        String brand_name = "Ecommerce";
+        int year = LocalDate.now().getYear();
 
         //构建邮件内容
         Context context = new Context();
         context.setVariable("CODE", code);
-        String htmlContent = templateEngine.process("emailCode", context);
+        context.setVariable("BRAND_NAME", brand_name);
+        context.setVariable("EXPIRE_MINUTES", expire);
+        context.setVariable("YEAR", year);
+        String htmlContent = templateEngine.process("MailPage", context);
 
         //发送邮件
         MimeMessage message = mailSender.createMimeMessage();
@@ -66,11 +73,11 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom(FROM);
             helper.setTo(toEmail);
-            helper.setSubject("【Ecommerce】邮箱验证码");
+            helper.setSubject("【" + brand_name + "】邮箱验证码");
             helper.setText(htmlContent, true);
             mailSender.send(message);
 
-            redisUtil.set(Constant.EMAIL_CAPTCHA_REDIS_KEY + toEmail, code, 3, TimeUnit.MINUTES);
+            redisUtil.set(Constant.EMAIL_CAPTCHA_REDIS_KEY + toEmail, code, expire, TimeUnit.MINUTES);
         } catch (MessagingException e) {
             log.error("邮件向:{}发送失败:{}", toEmail, e.getMessage());
         }
