@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>邮箱验证码</title>
+    <link rel="stylesheet" href="../static/css/emailCode.css"/>
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="email-content">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <div class="card">
+                        <div class="card-header">
+                            <img src="../static/image/logo.svg" alt="logo" class="logo"/>
+                            <div class="brand">[[${BRAND_NAME}]]</div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="greeting">你好，</div>
+                            <div class="instruction">你正在使用 <strong>[[${BRAND_NAME}]]</strong>
+                                的邮箱验证功能。请在下方输入验证码以完成操作。若非你本人操作，请忽略此邮件。
+                            </div>
+
+                            <div class="code-box">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 5px">
+                                    <img class="email-logo" src="../static/image/email.svg" alt="">
+                                    <div class="code">[[${CODE}]]</div>
+                                </div>
+                                <div class="expire">验证码将在 <strong>[[${EXPIRE_MINUTES}]] 分钟</strong> 后失效</div>
+                            </div>
+
+                            <div class="help">请将以下网站中使用验证码完成注册操作：<br/><a
+                                    href="{{VERIFY_URL}}"
+                                    style="color:#0ea5a5; word-break:break-all;">[[${VERIFY_URL}]]</a></div>
+                            <div style="display: flex; justify-content: right">
+                                <p style="font-size:13px;color:#aaa;">— 来自 [[${BRAND_NAME}]] 团队</p>
+                                <img style="width: 22px" src="../static/image/love.svg" alt="">
+                            </div>
+                        </div>
+
+                        <div class="footer">© [[${YEAR}]] [[${BRAND_NAME}]]。保留所有权利。</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div style="display:none; white-space:nowrap; font-size:1px; line-height:1px; color:#f4f6fb;">来自
+            [[${BRAND_NAME}]] 的验证码：[[${CODE}]]（有效期 [[${EXPIRE_MINUTES}]] 分钟）
+        </div>
+    </div>
+</div>
+</body>
+</html>

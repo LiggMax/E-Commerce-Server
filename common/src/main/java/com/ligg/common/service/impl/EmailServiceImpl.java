@@ -57,7 +57,7 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
 
         //构建邮件内容
         Context context = new Context();
-        context.setVariable("code", code);
+        context.setVariable("CODE", code);
         String htmlContent = templateEngine.process("emailCode", context);
 
         //发送邮件
