@@ -33,14 +33,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 商品接口
  */
 @Tag(name = "商品接口")
 @RestController
-@RequestMapping("/api/client/product")
 @RequiredArgsConstructor
+@RequestMapping("/api/client/product")
 public class ClientProductController {
 
     private final SpecService specService;
@@ -57,11 +58,11 @@ public class ClientProductController {
      * 获取商品分页列表
      */
     @GetMapping
-    @Operation(summary = "获取精选商品列表")
-    public Response<PageVo<Product>> pagelist(@Validated @NotNull(message = "页码不能为空") Long pageNumber) {
+    @Operation(summary = "获取商品列表")
+    public Response<PageVo<ProductVo>> pagelist(@Validated @NotNull(message = "页码不能为空") Long pageNumber) {
         PageVo<ProductEntity> featuredPage = productService.getFeaturedPageList(pageNumber, 10L);
-        List<Product> featuredVoList = featuredPage.getList().stream().map(featured -> {
-            Product featuredVo = new Product();
+        List<ProductVo> featuredVoList = featuredPage.getList().stream().map(featured -> {
+            ProductVo featuredVo = new ProductVo();
             BeanUtils.copyProperties(featured, featuredVo);
             ImagesVo imagePath = ImageUtil.getImagePath(featured.getImagePath());
             featuredVo.setImages(imagePath);
@@ -71,7 +72,7 @@ public class ClientProductController {
             return featuredVo;
         }).toList();
 
-        PageVo<Product> result = new PageVo<>();
+        PageVo<ProductVo> result = new PageVo<>();
         result.setTotal(featuredPage.getTotal());
         result.setPages(featuredPage.getPages());
         result.setList(featuredVoList);
@@ -81,7 +82,7 @@ public class ClientProductController {
     /**
      * 获取商品详情
      */
-    @Operation(summary = "获取精选商品详情")
+    @Operation(summary = "获取商品详情")
     @GetMapping("/detail")
     public Response<ProductDetailVo> getFeaturedDetail(@Schema(description = "商品id") String productId) {
         ProductEntity featured = productService.getById(productId);
@@ -120,7 +121,7 @@ public class ClientProductController {
         //阅览数++
         productService.lambdaUpdate()
                 .eq(ProductEntity::getId, productId)
-                .setIncrBy(ProductEntity::getViews, 1)
+                .setIncrBy(ProductEntity::getViews, ThreadLocalRandom.current().nextInt(10,21))
                 .update();
         return Response.success(BusinessStates.SUCCESS, featuredDetailVo);
     }
@@ -161,7 +162,7 @@ public class ClientProductController {
                                                          @NotNull @Max(100) Long pageNumber,
                                                          @NotNull @Min(5) @Max(20) Long pageSize
     ) {
-        PageVo<ProductCommentVo> commentPage = commentService.getCommentByProductId(productId,pageNumber,pageSize);
+        PageVo<ProductCommentVo> commentPage = commentService.getCommentByProductId(productId, pageNumber, pageSize);
         return Response.success(BusinessStates.SUCCESS, commentPage);
     }
 
@@ -172,11 +173,11 @@ public class ClientProductController {
     @Operation(summary = "获取首页标签")
     public Response<List<TagVo>> getTagList() {
         LambdaQueryChainWrapper<ProductEntity> last = productService.lambdaQuery().select().last("limit 4");
-    return Response.success(BusinessStates.SUCCESS, last.list().stream().map(product -> {
-        TagVo tagVo = new TagVo();
-        tagVo.setTagName(product.getTitle());
-        return tagVo;
-    }).toList());
+        return Response.success(BusinessStates.SUCCESS, last.list().stream().map(product -> {
+            TagVo tagVo = new TagVo();
+            tagVo.setTagName(product.getTitle());
+            return tagVo;
+        }).toList());
     }
 }
 

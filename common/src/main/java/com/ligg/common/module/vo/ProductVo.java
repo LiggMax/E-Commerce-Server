@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * @Time 2025/9/27
  **/
 @Data
-public class Product {
+public class ProductVo {
     /**
      * 商品id
      */
@@ -64,6 +64,12 @@ public class Product {
      */
     @Schema(description = "库存")
     private Integer stock;
+
+    /**
+     * 浏览数
+     */
+    @Schema(description = "浏览数")
+    private Integer views;
 
     /**
      * 创建时间
