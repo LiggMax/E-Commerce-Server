@@ -8,6 +8,18 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/e_commerce?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     username: root
     password: 200309
+
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: ${EMAIL_USER}
+    password: ${EMAIL_KEY}
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+
   data:
     ## redis配置
     redis:

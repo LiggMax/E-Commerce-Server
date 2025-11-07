@@ -11,7 +11,19 @@ import jakarta.validation.constraints.NotNull;
 public interface EmailService extends IService<EmailEntity> {
 
     /**
-     * 获取邮箱
+     * 发送邮件验证码
+     */
+    void sendVerificationCode(String toEmail);
+
+    /**
+     * 检查是否可以发送验证码（频率限制检查）
+     *
+     * @param email 邮箱
+     * @return true表示可以发送，false表示发送过于频繁
+     */
+    boolean canSendVerificationCode(String email);
+    /**
+     * 根据邮箱号获取信息
      *
      * @param email 邮箱
      * @return 邮箱

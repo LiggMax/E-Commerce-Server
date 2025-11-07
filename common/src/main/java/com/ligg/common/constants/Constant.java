@@ -70,4 +70,9 @@ public class Constant {
      * 验证码前缀
      */
     public static final String CAPTCHA_REDIS_KEY = "captcha:";
+
+    /**
+     * 邮件验证码前缀
+     */
+    public static final String EMAIL_CAPTCHA_REDIS_KEY = "email:captcha:";
 }
