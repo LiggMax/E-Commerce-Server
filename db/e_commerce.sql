@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : mysql
+ Source Server         : localhost_3306
  Source Server Type    : MySQL
- Source Server Version : 80040
+ Source Server Version : 80039
  Source Host           : localhost:3306
  Source Schema         : e_commerce
 
  Target Server Type    : MySQL
- Target Server Version : 80040
+ Target Server Version : 80039
  File Encoding         : 65001
 
- Date: 07/11/2025 19:10:31
+ Date: 08/11/2025 00:03:33
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `carousel`  (
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `update_at` datetime NOT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_cs_0900_ai_ci COMMENT = '轮播图' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_cs_0900_ai_ci COMMENT = '轮播图' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for email
@@ -47,7 +47,27 @@ CREATE TABLE `email`  (
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `update_at` int NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for order
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order`  (
+  `id` bigint NOT NULL,
+  `order_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单号',
+  `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
+  `total_amount` decimal(10, 2) NOT NULL COMMENT '订单总价',
+  `pay_type` tinyint NOT NULL COMMENT '支付方式',
+  `status` tinyint NOT NULL COMMENT '订单状态（0=待支付，1=已支付，2=已发货，3=已收货，4=已取消）',
+  `address_id` bigint NOT NULL COMMENT '收货地址id',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '订单备注',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建使时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `pay_time` datetime NOT NULL COMMENT '支付时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `order_pk_2`(`order_no` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for order_item
@@ -64,7 +84,7 @@ CREATE TABLE `order_item`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `order_item_product_id_index`(`product_id` ASC) USING BTREE,
   INDEX `order_item_order_id_index`(`order_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for order_item_spec
@@ -77,7 +97,7 @@ CREATE TABLE `order_item_spec`  (
   `spec_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格名称（冗余存储）',
   `spec_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格内容（冗余存储）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单明细规格表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for orders
@@ -99,7 +119,7 @@ CREATE TABLE `orders`  (
   UNIQUE INDEX `order_pk_2`(`order_no` ASC) USING BTREE,
   INDEX `orders_create_time_index`(`create_time` ASC) USING BTREE,
   INDEX `orders_update_time_index`(`update_time` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for payment_log
@@ -114,7 +134,7 @@ CREATE TABLE `payment_log`  (
   `pay_status` tinyint NOT NULL COMMENT '支付状态（0=未支付，1=支付成功）',
   `pay_time` datetime NOT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '支付记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '支付记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for product
@@ -158,7 +178,7 @@ CREATE TABLE `product_comment`  (
   INDEX `idx_product`(`product_id` ASC) USING BTREE,
   INDEX `idx_user`(`user_id` ASC) USING BTREE,
   INDEX `idx_status`(`status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评论表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for product_detail
@@ -169,7 +189,7 @@ CREATE TABLE `product_detail`  (
   `product_id` bigint NOT NULL COMMENT '商品id',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品描述',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '精选商品详情' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '精选商品详情' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_favorite
@@ -184,7 +204,7 @@ CREATE TABLE `product_favorite`  (
   UNIQUE INDEX `product_favorite_pk`(`user_id` ASC, `product_id` ASC) USING BTREE,
   INDEX `product_favorite_product_id_fk`(`product_id` ASC) USING BTREE,
   CONSTRAINT `product_favorite_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品收藏表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品收藏表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for product_image
@@ -197,7 +217,7 @@ CREATE TABLE `product_image`  (
   `image_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片路径',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `featured_image_featured_id_index`(`product_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product_spec
@@ -212,7 +232,7 @@ CREATE TABLE `product_spec`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `spec_product_id_index`(`product_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for product_spec_value
@@ -228,7 +248,38 @@ CREATE TABLE `product_spec_value`  (
   `price` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '规格价格',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `spec_value_spec_id_index`(`spec_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '规则值' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '规则值' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for spec
+-- ----------------------------
+DROP TABLE IF EXISTS `spec`;
+CREATE TABLE `spec`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `product_id` bigint NOT NULL COMMENT '商品id',
+  `name` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格名称：如“颜色”、“尺寸”',
+  `sort` int NOT NULL COMMENT '排序',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `spec_product_id_index`(`product_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for spec_value
+-- ----------------------------
+DROP TABLE IF EXISTS `spec_value`;
+CREATE TABLE `spec_value`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `spec_id` int NOT NULL COMMENT '规格id',
+  `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '值(内容)',
+  `sort` int NOT NULL COMMENT '排序',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `price` double NULL DEFAULT 0 COMMENT '规格价格',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `spec_value_spec_id_index`(`spec_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '规则值' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user
@@ -238,7 +289,7 @@ CREATE TABLE `user`  (
   `user_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_cs_0900_ai_ci NOT NULL,
   `nick_name` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_cs_0900_ai_ci NOT NULL COMMENT '昵称',
   `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_cs_0900_ai_ci NOT NULL,
-  `account` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_cs_0900_ai_ci NOT NULL COMMENT '账号',
+  `account` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '账号',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_cs_0900_ai_ci NULL DEFAULT NULL,
   `role` int NOT NULL DEFAULT 1 COMMENT '角色(1用户、2管理员)',
   `status` int NOT NULL DEFAULT 1 COMMENT '用户状态(1=正常  0=禁用)',
@@ -248,8 +299,8 @@ CREATE TABLE `user`  (
   `account_balance` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '余额',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`user_id`) USING BTREE,
-  UNIQUE INDEX `user_pk`(`account` ASC) USING BTREE,
-  UNIQUE INDEX `user_pk_2`(`email` ASC) USING BTREE,
+  UNIQUE INDEX `user_pk`(`email` ASC) USING BTREE,
+  INDEX `user_email_index`(`email` ASC) USING BTREE,
   CONSTRAINT `check_name` CHECK (`account_balance` >= 0)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '账户' ROW_FORMAT = Dynamic;
 
@@ -271,6 +322,6 @@ CREATE TABLE `user_address`  (
   `user_id` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_address_user_id_index`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收货地址' ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;
