@@ -78,6 +78,7 @@ public class AdminProductController {
         detailEntity.setDescription(product.getDescription());
         detailEntity.setProductId(featuredEntity.getId());
         productDetailService.save(detailEntity);
+
         return Response.success(BusinessStates.SUCCESS);
     }
 
@@ -105,6 +106,12 @@ public class AdminProductController {
         BeanUtils.copyProperties(featured, featuredEntity);
         featuredEntity.setUpdateAt(LocalDateTime.now());
         productService.updateById(featuredEntity);
+        if (featured.getDescription() != null && StringUtils.hasText(featured.getDescription())) {
+            productDetailService.lambdaUpdate()
+                    .eq(ProductDetailEntity::getProductId, featured.getId())
+                    .set(ProductDetailEntity::getDescription, featured.getDescription())
+                    .update();
+        }
         return Response.success(BusinessStates.SUCCESS);
     }
 
