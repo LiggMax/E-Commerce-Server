@@ -16,7 +16,7 @@
         left join product_detail pd on p.id = pd.product_id
         <where>
             <if test="keyword != null and keyword != ''">
-                where p.title like concat('%', #{keyword}, '%')
+                p.title like concat('%', #{keyword}, '%')
                 or pd.description like concat('%', #{keyword}, '%')
             </if>
         </where>
