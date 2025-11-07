@@ -46,7 +46,7 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
     private final SpringTemplateEngine templateEngine;
 
     @Override
-    @Async("mailTaskExecutor")
+    @Async("emailTaskExecutor")
     public void sendVerificationCode(String toEmail) {
         if (redisUtil.hasKey(Constant.EMAIL_CAPTCHA_REDIS_KEY + toEmail)) {
             log.warn("邮箱验证码已发送,请勿重复发送");
@@ -54,10 +54,11 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
         }
 
         // 生成验证码
-        int code = ThreadLocalRandom.current().nextInt(1000, 9999);
-        long expire = 3;
-        String brand_name = "Ecommerce";
+        int code = ThreadLocalRandom.current().nextInt(100000, 999999);
+        long expire = Constant.EMAIL_EXPIRE;
+        String verifyUrl = "logg.top";
         int year = LocalDate.now().getYear();
+        String brand_name = "Ecommerce";
 
         //构建邮件内容
         Context context = new Context();
@@ -65,6 +66,7 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
         context.setVariable("BRAND_NAME", brand_name);
         context.setVariable("EXPIRE_MINUTES", expire);
         context.setVariable("YEAR", year);
+        context.setVariable("VERIF_YURL", verifyUrl);
         String htmlContent = templateEngine.process("MailPage", context);
 
         //发送邮件
@@ -76,16 +78,22 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
             helper.setSubject("【" + brand_name + "】邮箱验证码");
             helper.setText(htmlContent, true);
             mailSender.send(message);
-
             redisUtil.set(Constant.EMAIL_CAPTCHA_REDIS_KEY + toEmail, code, expire, TimeUnit.MINUTES);
+            log.info("向{}成功发送邮件验证码{}", toEmail, code);
         } catch (MessagingException e) {
             log.error("邮件向:{}发送失败:{}", toEmail, e.getMessage());
         }
     }
 
+    /**
+     * 检查验证码已存在
+     *
+     * @param email 邮箱
+     * @return false表示可以发送，true表示发送过于频繁
+     */
     @Override
     public boolean canSendVerificationCode(String email) {
-        return !redisUtil.hasKey(Constant.EMAIL_CAPTCHA_REDIS_KEY + email);
+        return redisUtil.hasKey(Constant.EMAIL_CAPTCHA_REDIS_KEY + email);
     }
 
     /**
@@ -98,5 +106,21 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
     public EmailEntity getEmail(String email) {
         return emailMapper.selectOne(new LambdaQueryWrapper<EmailEntity>()
                 .eq(EmailEntity::getEmail, email));
+    }
+
+    /**
+     * 校验邮件验证码
+     */
+    @Override
+    public boolean verifyEmailCode(String email, int emailCode) {
+        if (redisUtil.hasKey(Constant.EMAIL_CAPTCHA_REDIS_KEY + email)) {
+            int code = (int) redisUtil.get(Constant.EMAIL_CAPTCHA_REDIS_KEY + email);
+            if (code != emailCode) {
+                return false;
+            }
+            redisUtil.del(Constant.EMAIL_CAPTCHA_REDIS_KEY + email);
+            return true;
+        }
+        return false;
     }
 }

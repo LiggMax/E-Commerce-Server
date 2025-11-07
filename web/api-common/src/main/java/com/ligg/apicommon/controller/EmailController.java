@@ -59,13 +59,14 @@ public class EmailController {
     @Operation(summary = "发送邮件验证码")
     @GetMapping("/send_code")
     public Response<String> sendEmailCode(@NotNull @Email String toEmail) {
+        if (emailService.canSendVerificationCode(toEmail)) {
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "请勿重复发送验证码");
+        }
+
         if (userService.lambdaQuery().eq(UserEntity::getEmail, toEmail).exists()) {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "该邮箱已经被使用,请更换邮箱");
         }
 
-        if (!emailService.canSendVerificationCode(toEmail)) {
-            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "请勿重复发送验证码");
-        }
         /*
          * 发送验证码，发送邮箱是异步执行不可以直接捕获异常给前端进行反馈
          */

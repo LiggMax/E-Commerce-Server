@@ -1,6 +1,8 @@
-package com.ligg.common.module.dto;
+package com.ligg.apiclient.pojo.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -18,31 +20,27 @@ public class AccountDto {
     private String nickName;
 
     /**
-     * 账号
-     * 必须大于六位，不能是123456
-     */
-    @NotNull
-    private String account;
-
-    /**
      * 密码必须大于6位等于6，不能是123456
      */
     @NotNull
+    @Pattern(regexp = "^[a-zA-Z0-9]{6,20}$", message = "参数不合法")
     private String password;
-
-    private String avatar;
 
     /**
      * 验证码
+     * 必须等于六位
      */
+    @NotNull
+    @Pattern(regexp = "^[a-zA-Z0-9]{6}$", message = "参数不合法")
     private String code;
 
     /**
      * uuid
      */
+    @NotNull
     private String uuid;
 
+    @Email
+    @NotNull
     private String email;
-
-    private LocalDateTime createTime;
 }

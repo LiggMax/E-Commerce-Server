@@ -1,4 +1,4 @@
-package com.ligg.common.module.dto;
+package com.ligg.apiclient.pojo.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

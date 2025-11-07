@@ -17,6 +17,11 @@ public class Constant {
     public static final String ACCOUNT = "account";
 
     /**
+     * 邮箱
+     */
+    public static final String EMAIL = "email";
+
+    /**
      * Token
      */
     public static final String TOKEN = "Token:";
@@ -25,6 +30,16 @@ public class Constant {
      * 过期时间6小时
      */
     public static final long EXPIRE = 6 * 60 * 60;
+
+    /**
+     * 邮件过期时间
+     */
+    public static final long EMAIL_EXPIRE = 5;
+
+    /**
+     * 注册前缀
+     */
+    public static final String REGISTER = "register:";
 
     /**
      * 三分钟

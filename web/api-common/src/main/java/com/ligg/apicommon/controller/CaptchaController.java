@@ -2,7 +2,7 @@
  * @author  Ligg
  * @time 2025/10/10
  **/
-package com.ligg.apiclient.controller;
+package com.ligg.apicommon.controller;
 
 import com.ligg.common.module.dto.CaptchaDto;
 import com.ligg.common.enums.BusinessStates;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Tag(name = "验证码接口")
 @RestController
-@RequestMapping("/api/client/captcha")
+@RequestMapping("/api/captcha")
 @RequiredArgsConstructor
 public class CaptchaController {
 
@@ -34,7 +34,6 @@ public class CaptchaController {
     @GetMapping
     @Operation(summary = "获取验证码")
     public Response<CaptchaDto> getCaptcha(@RequestParam(required = false) String lastTimeUid) {
-        Thread.sleep(1000);
         return Response.success(BusinessStates.SUCCESS,
                 captchaService.createCaptcha(lastTimeUid));
     }

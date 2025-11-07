@@ -16,12 +16,13 @@ public interface EmailService extends IService<EmailEntity> {
     void sendVerificationCode(String toEmail);
 
     /**
-     * 检查是否可以发送验证码（频率限制检查）
+     * 检查验证码已存在
      *
      * @param email 邮箱
-     * @return true表示可以发送，false表示发送过于频繁
+     * @return false表示可以发送，true表示发送过于频繁
      */
     boolean canSendVerificationCode(String email);
+
     /**
      * 根据邮箱号获取信息
      *
@@ -29,4 +30,9 @@ public interface EmailService extends IService<EmailEntity> {
      * @return 邮箱
      */
     EmailEntity getEmail(@NotNull String email);
+
+    /**
+     * 校验邮件验证码
+     */
+    boolean verifyEmailCode(String email,int emailCode);
 }

@@ -12,4 +12,19 @@ public interface ClientAccountService {
      * 注册
      */
     int register(UserEntity userEntity);
+
+    /**
+     * 将注册信息添加到缓存中
+     */
+    void addRegisterInfoToCache(UserEntity userEntity);
+
+    /**
+     * 根据邮件验证码获取保存的信息
+     */
+    UserEntity getRegisterInfo(String email);
+
+    /**
+     * 校验注册信息在缓存中是否存在
+     */
+    boolean checkRegisterInfo(String email);
 }

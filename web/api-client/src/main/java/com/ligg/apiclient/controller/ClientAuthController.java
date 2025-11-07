@@ -1,27 +1,25 @@
-/**
- * @Author Ligg
- * @Time 2025/10/10
- **/
 package com.ligg.apiclient.controller;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ligg.apiclient.service.ClientAccountService;
 import com.ligg.common.enums.UserRole;
 import com.ligg.common.enums.UserStatus;
-import com.ligg.common.module.dto.AccountDto;
-import com.ligg.common.module.dto.LoginDto;
+import com.ligg.apiclient.pojo.dto.AccountDto;
+import com.ligg.apiclient.pojo.dto.LoginDto;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.CaptchaService;
+import com.ligg.common.service.EmailService;
 import com.ligg.common.service.TokenService;
 import com.ligg.common.service.UserService;
 import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +27,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * 账户
- */
+ * @Author Ligg
+ * @Time 2025/10/10
+ **/
 @Tag(name = "账户接口")
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/client/auth")
@@ -43,47 +43,60 @@ public class ClientAuthController {
 
     private final CaptchaService captchaService;
 
+    private final EmailService emailService;
+
     private final ClientAccountService clientAccountService;
 
-    /**
-     * 注册
-     */
-    @Operation(summary = "注册")
     @PostMapping("/register")
+    @Operation(summary = "注册", description = "提交注册信息获取邮件验证码")
     public Response<String> register(@Validated @RequestBody AccountDto account) {
-        if (account.getAccount().length() < 6 || account.getAccount().length() > 20 ||
-                account.getPassword().length() < 6 || account.getPassword().length() > 20) {
-            return Response.error(BusinessStates.VALIDATION_FAILED);
-        }
-        if (!StringUtils.hasText(account.getCode()) || account.getCode().length() != 6) {
-            return Response.error(BusinessStates.VALIDATION_FAILED);
-        }
         boolean isTrue = captchaService.verifyCaptcha(account.getCode(), account.getUuid());
         if (!isTrue) {
             return Response.error(BusinessStates.VALIDATION_FAILED, "验证码错误");
         }
 
-        if (userService.getUserInfoByAccount(account.getAccount()) != null) {
-            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "该账号已被注册");
+        if (emailService.getEmail(account.getEmail()) != null) {
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "该邮箱已被注册,请更换邮箱.");
+        }
+
+        if (emailService.canSendVerificationCode(account.getEmail())) {
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "请勿重复发送验证码");
         }
 
         UserEntity userEntity = new UserEntity();
-        userEntity.setAccount(account.getAccount());
         userEntity.setPassword(BCryptUtil.encrypt(account.getPassword()));
         userEntity.setEmail(account.getEmail());
         userEntity.setRole(UserRole.USER);
-        userEntity.setNickName("user_" + UUID.randomUUID().toString().substring(0, 6));
+        if (account.getNickName() == null) {
+            userEntity.setNickName("user_" + UUID.randomUUID().toString().substring(0, 6));
+        } else {
+            userEntity.setNickName(account.getNickName());
+        }
         userEntity.setCreateTime(LocalDateTime.now());
-        return clientAccountService.register(userEntity) < 1
-                ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
-                : Response.success(BusinessStates.SUCCESS);
+        emailService.sendVerificationCode(account.getEmail());
+        clientAccountService.addRegisterInfoToCache(userEntity);
+        return Response.success(BusinessStates.SUCCESS);
     }
 
-    /**
-     * 登录
-     */
-    @Operation(summary = "登录")
+    @PostMapping("/verify")
+    @Operation(summary = "注册校验", description = "提交提交获取的邮件完成注册")
+    public Response<String> verify(@Email String email,
+                                   @NotNull int emailCode) {
+        UserEntity redisUserInfo = clientAccountService.getRegisterInfo(email);
+        if (redisUserInfo == null) {
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "验证码已过期");
+        }
+        if (!emailService.verifyEmailCode(email, emailCode)) {
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "验证码错误或已过期");
+        }
+        return clientAccountService.register(redisUserInfo) > 0
+                ? Response.success(BusinessStates.SUCCESS)
+                : Response.error(BusinessStates.INTERNAL_SERVER_ERROR);
+    }
+
+
     @PostMapping("/login")
+    @Operation(summary = "登录", description = "提交登录信息获取token")
     public Response<String> login(@Validated @RequestBody LoginDto account) {
         UserEntity userInfo = userService.getUserInfoByAccount(account.getAccount());
         if (userInfo == null || !BCryptUtil.verify(account.getPassword(), userInfo.getPassword())) {

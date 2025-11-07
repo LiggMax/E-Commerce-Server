@@ -41,6 +41,7 @@ public class TokenServiceImpl implements TokenService {
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put(UserConstant.USER_ID, userEntity.getUserId());
         userInfo.put(Constant.ACCOUNT, userEntity.getAccount());
+        userInfo.put(Constant.EMAIL, userEntity.getEmail());
         userInfo.put(UserConstant.USER_IP, GetClientIpUtil.getIp(request));
         userInfo.put(UserConstant.USER_ROLE, userEntity.getRole().toString());
 
