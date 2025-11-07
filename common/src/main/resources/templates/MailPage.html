@@ -11,8 +11,8 @@
         }
 
         table, td {
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
+            mso-table-lspace: 0;
+            mso-table-rspace: 0;
         }
 
         img {
@@ -47,7 +47,7 @@
         .card-header {
             gap: 5px;
             align-items: center;
-            padding: 28px;
+            padding: 20px;
             display: flex;
             justify-content: center;
             background: linear-gradient(90deg, #4f46e5 0%, #06b6d4 100%);
@@ -84,15 +84,11 @@
             margin: 20px 0;
         }
 
-        .email-logo {
-            width: 54px;
-        }
-
         .code {
             display: inline-block;
-            padding: 16px 20px;
+            padding: 13px 20px;
             border-radius: 10px;
-            background: linear-gradient(180deg, #0ea5a5 0%, #06b6d4 100%);
+            background: linear-gradient(180deg, rgba(14, 165, 165, 0.69) 0%, rgba(6, 182, 212, 0.81) 100%);
             color: white;
             font-size: 10px;
             letter-spacing: 6px;
@@ -104,16 +100,6 @@
             color: #64748b;
             font-size: 13px;
             margin-top: 8px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 22px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            background: #111827;
-            color: #ffffff;
         }
 
         .help {
@@ -153,34 +139,7 @@
                 <td>
                     <div class="card">
                         <div class="card-header">
-                            <svg width="30px" t="1762511555739" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                 xmlns="http://www.w3.org/2000/svg" p-id="1726"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" >
-                                <path d="M737.101 807.531 990.297 78.301 710.078 797.087Z" fill="#1296db"
-                                      p-id="1727"></path>
-                                <path d="M776.657 822.816 990.297 78.301 750.664 812.778Z" fill="#1296db"
-                                      p-id="1728"></path>
-                                <path d="M695.1 791.3 990.297 78.301 669.612 781.455Z" fill="#1296db"
-                                      p-id="1729"></path>
-                                <path d="M824.234 841.198 852.167 851.99 990.297 78.301Z" fill="#1296db"
-                                      p-id="1730"></path>
-                                <path d="M812.951 836.835 990.297 78.301 788.982 827.576Z" fill="#1296db"
-                                      p-id="1731"></path>
-                                <path d="M459.344 700.209 990.297 78.301 424.819 686.866Z" fill="#1296db"
-                                      p-id="1732"></path>
-                                <path d="M510.003 719.79 990.297 78.301 483.502 709.549Z" fill="#1296db"
-                                      p-id="1733"></path>
-                                <path d="M653.145 775.091 990.297 78.301 623.922 763.796Z" fill="#1296db"
-                                      p-id="1734"></path>
-                                <path d="M605.791 756.791 990.297 78.301 579.756 746.738Z" fill="#1296db"
-                                      p-id="1735"></path>
-                                <path d="M559.779 739.016 990.297 78.301 532.146 728.339Z" fill="#1296db"
-                                      p-id="1736"></path>
-                                <path d="M36.617 504.328 390.035 655.77 946.557 63.347Z" fill="#1296db"
-                                      p-id="1737"></path>
-                                <path d="M425.33 957.53 623.922 791.3 425.33 713.709Z" fill="#1296db"
-                                      p-id="1738"></path>
-                            </svg>
+                            <img width="30" src="data:image/svg+xml;charset=utf-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzYyNTExNTU1NzM5IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE3MjYiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTczNy4xMDEgODA3LjUzMSA5OTAuMjk3IDc4LjMwMSA3MTAuMDc4IDc5Ny4wODdaIiBmaWxsPSIjMTI5NmRiIiBwLWlkPSIxNzI3Ij48L3BhdGg+PHBhdGggZD0iTTc3Ni42NTcgODIyLjgxNiA5OTAuMjk3IDc4LjMwMSA3NTAuNjY0IDgxMi43NzhaIiBmaWxsPSIjMTI5NmRiIiBwLWlkPSIxNzI4Ij48L3BhdGg+PHBhdGggZD0iTTY5NS4xIDc5MS4zIDk5MC4yOTcgNzguMzAxIDY2OS42MTIgNzgxLjQ1NVoiIGZpbGw9IiMxMjk2ZGIiIHAtaWQ9IjE3MjkiPjwvcGF0aD48cGF0aCBkPSJNODI0LjIzNCA4NDEuMTk4IDg1Mi4xNjcgODUxLjk5IDk5MC4yOTcgNzguMzAxWiIgZmlsbD0iIzEyOTZkYiIgcC1pZD0iMTczMCI+PC9wYXRoPjxwYXRoIGQ9Ik04MTIuOTUxIDgzNi44MzUgOTkwLjI5NyA3OC4zMDEgNzg4Ljk4MiA4MjcuNTc2WiIgZmlsbD0iIzEyOTZkYiIgcC1pZD0iMTczMSI+PC9wYXRoPjxwYXRoIGQ9Ik00NTkuMzQ0IDcwMC4yMDkgOTkwLjI5NyA3OC4zMDEgNDI0LjgxOSA2ODYuODY2WiIgZmlsbD0iIzEyOTZkYiIgcC1pZD0iMTczMiI+PC9wYXRoPjxwYXRoIGQ9Ik01MTAuMDAzIDcxOS43OSA5OTAuMjk3IDc4LjMwMSA0ODMuNTAyIDcwOS41NDlaIiBmaWxsPSIjMTI5NmRiIiBwLWlkPSIxNzMzIj48L3BhdGg+PHBhdGggZD0iTTY1My4xNDUgNzc1LjA5MSA5OTAuMjk3IDc4LjMwMSA2MjMuOTIyIDc2My43OTZaIiBmaWxsPSIjMTI5NmRiIiBwLWlkPSIxNzM0Ij48L3BhdGg+PHBhdGggZD0iTTYwNS43OTEgNzU2Ljc5MSA5OTAuMjk3IDc4LjMwMSA1NzkuNzU2IDc0Ni43MzhaIiBmaWxsPSIjMTI5NmRiIiBwLWlkPSIxNzM1Ij48L3BhdGg+PHBhdGggZD0iTTU1OS43NzkgNzM5LjAxNiA5OTAuMjk3IDc4LjMwMSA1MzIuMTQ2IDcyOC4zMzlaIiBmaWxsPSIjMTI5NmRiIiBwLWlkPSIxNzM2Ij48L3BhdGg+PHBhdGggZD0iTTM2LjYxNyA1MDQuMzI4IDM5MC4wMzUgNjU1Ljc3IDk0Ni41NTcgNjMuMzQ3WiIgZmlsbD0iIzEyOTZkYiIgcC1pZD0iMTczNyI+PC9wYXRoPjxwYXRoIGQ9Ik00MjUuMzMgOTU3LjUzIDYyMy45MjIgNzkxLjMgNDI1LjMzIDcxMy43MDlaIiBmaWxsPSIjMTI5NmRiIiBwLWlkPSIxNzM4Ij48L3BhdGg+PC9zdmc+">
                             <div class="brand">[[${BRAND_NAME}]]</div>
                         </div>
 
@@ -192,11 +151,7 @@
 
                             <div class="code-box">
                                 <div style="display: flex; align-items: center; justify-content: center; gap: 5px">
-                                    <svg t="1762511968506" class="icon" viewBox="0 0 1334 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4162"
-                                         xmlns:xlink="http://www.w3.org/1999/xlink" width="50" >
-                                        <path d="M1318.787879 837.818182c0 27.927273-6.206061 55.854545-21.721212 77.575757L884.363636 453.042424 1290.860606 99.29697c15.515152 24.824242 24.824242 55.854545 24.824242 86.884848l3.103031 651.636364z m-651.636364-297.890909l567.854546-496.484849C1210.181818 31.030303 1185.357576 21.721212 1157.430303 21.721212H179.975758c-27.927273 0-55.854545 6.206061-77.575758 21.721212l564.751515 496.484849z m155.151515-31.030303l-130.327272 114.812121c-15.515152 15.515152-37.236364 15.515152-52.751516 0l-130.327272-114.812121L93.090909 977.454545c24.824242 15.515152 55.854545 24.824242 86.884849 24.824243h977.454545c31.030303 0 58.957576-9.309091 86.884849-24.824243L822.30303 508.89697zM40.339394 99.29697C24.824242 124.121212 15.515152 155.151515 15.515152 183.078788v651.636364c0 27.927273 6.206061 55.854545 21.721212 77.575757l412.70303-462.351515L40.339394 99.29697z"
-                                              fill="#09aec0" p-id="4163"></path>
-                                    </svg>
+                                    <img width="45" src="data:image/svg+xml;charset=utf-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzYyNTExOTY4NTA2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEzMzQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQxNjIiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjYwLjU0Njg3NSIgaGVpZ2h0PSIyMDAiPjxwYXRoIGQ9Ik0xMzE4Ljc4Nzg3OSA4MzcuODE4MTgyYzAgMjcuOTI3MjczLTYuMjA2MDYxIDU1Ljg1NDU0NS0yMS43MjEyMTIgNzcuNTc1NzU3TDg4NC4zNjM2MzYgNDUzLjA0MjQyNCAxMjkwLjg2MDYwNiA5OS4yOTY5N2MxNS41MTUxNTIgMjQuODI0MjQyIDI0LjgyNDI0MiA1NS44NTQ1NDUgMjQuODI0MjQyIDg2Ljg4NDg0OGwzLjEwMzAzMSA2NTEuNjM2MzY0eiBtLTY1MS42MzYzNjQtMjk3Ljg5MDkwOWw1NjcuODU0NTQ2LTQ5Ni40ODQ4NDlDMTIxMC4xODE4MTggMzEuMDMwMzAzIDExODUuMzU3NTc2IDIxLjcyMTIxMiAxMTU3LjQzMDMwMyAyMS43MjEyMTJIMTc5Ljk3NTc1OGMtMjcuOTI3MjczIDAtNTUuODU0NTQ1IDYuMjA2MDYxLTc3LjU3NTc1OCAyMS43MjEyMTJsNTY0Ljc1MTUxNSA0OTYuNDg0ODQ5eiBtMTU1LjE1MTUxNS0zMS4wMzAzMDNsLTEzMC4zMjcyNzIgMTE0LjgxMjEyMWMtMTUuNTE1MTUyIDE1LjUxNTE1Mi0zNy4yMzYzNjQgMTUuNTE1MTUyLTUyLjc1MTUxNiAwbC0xMzAuMzI3MjcyLTExNC44MTIxMjFMOTMuMDkwOTA5IDk3Ny40NTQ1NDVjMjQuODI0MjQyIDE1LjUxNTE1MiA1NS44NTQ1NDUgMjQuODI0MjQyIDg2Ljg4NDg0OSAyNC44MjQyNDNoOTc3LjQ1NDU0NWMzMS4wMzAzMDMgMCA1OC45NTc1NzYtOS4zMDkwOTEgODYuODg0ODQ5LTI0LjgyNDI0M0w4MjIuMzAzMDMgNTA4Ljg5Njk3ek00MC4zMzkzOTQgOTkuMjk2OTdDMjQuODI0MjQyIDEyNC4xMjEyMTIgMTUuNTE1MTUyIDE1NS4xNTE1MTUgMTUuNTE1MTUyIDE4My4wNzg3ODh2NjUxLjYzNjM2NGMwIDI3LjkyNzI3MyA2LjIwNjA2MSA1NS44NTQ1NDUgMjEuNzIxMjEyIDc3LjU3NTc1N2w0MTIuNzAzMDMtNDYyLjM1MTUxNUw0MC4zMzkzOTQgOTkuMjk2OTd6IiBmaWxsPSIjMDlhZWMwIiBwLWlkPSI0MTYzIj48L3BhdGg+PC9zdmc+">
                                     <div class="code">[[${CODE}]]</div>
                                 </div>
                                 <div class="expire">验证码将在 <strong>[[${EXPIRE_MINUTES}]] 分钟</strong> 后失效</div>
@@ -206,14 +161,9 @@
                                     href="{{VERIFY_URL}}"
                                     style="color:#0ea5a5; word-break:break-all;">[[${VERIFY_URL}]]</a>
                             </div>
-                            <div style="display: flex; justify-content: right; align-items: center;">
+                            <div style="display: flex; justify-content: right; align-items: center; ">
                                 <p style="font-size:13px;color:#aaa;margin: 0;">— 来自 [[${BRAND_NAME}]] 团队</p>
-                                <svg t="1762513233745" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                     xmlns="http://www.w3.org/2000/svg" p-id="5712"
-                                     style="width: 22px; height: 22px; margin-left: 5px;">
-                                    <path d="M512.001023 857.386308l-3.543709-3.913123c-6.236028-1.168616-10.215666-5.347798-11.968589-9.298783-0.473791-1.065262-0.939395-2.433422-1.191128-4.03899-33.998325-27.125801-188.201359-119.909997-284.491403-176.12123C116.743888 609.785094 65.058738 504.854253 79.201853 396.72865c15.290241-116.765377 107.24556-210.577996 223.63436-228.116441 65.332984-9.846252 135.858224 16.939811 209.16481 79.631642 73.321936-62.698994 143.840012-89.514733 209.16481-79.631642 116.439966 17.553795 208.40347 111.395066 223.641523 228.212632 14.121626 108.221794-37.674041 213.174124-131.937938 267.381723-96.127338 56.116065-250.190179 148.818397-284.165991 175.921685-0.251733 1.612731-0.717338 2.980891-1.191128 4.03899-1.74576 3.949962-5.725398 8.129144-11.961426 9.305947L512.001023 857.386308z"
-                                          fill="#09aec0" p-id="5713"></path>
-                                </svg>
+                                <img width="22" src="data:image/svg+xml;charset=utf-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNzYyNTEzMjMzNzQ1IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjU3MTIiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PHBhdGggZD0iTTUxMi4wMDEwMjMgODU3LjM4NjMwOGwtMy41NDM3MDktMy45MTMxMjNjLTYuMjM2MDI4LTEuMTY4NjE2LTEwLjIxNTY2Ni01LjM0Nzc5OC0xMS45Njg1ODktOS4yOTg3ODMtMC40NzM3OTEtMS4wNjUyNjItMC45MzkzOTUtMi40MzM0MjItMS4xOTExMjgtNC4wMzg5OS0zMy45OTgzMjUtMjcuMTI1ODAxLTE4OC4yMDEzNTktMTE5LjkwOTk5Ny0yODQuNDkxNDAzLTE3Ni4xMjEyM0MxMTYuNzQzODg4IDYwOS43ODUwOTQgNjUuMDU4NzM4IDUwNC44NTQyNTMgNzkuMjAxODUzIDM5Ni43Mjg2NWMxNS4yOTAyNDEtMTE2Ljc2NTM3NyAxMDcuMjQ1NTYtMjEwLjU3Nzk5NiAyMjMuNjM0MzYtMjI4LjExNjQ0MSA2NS4zMzI5ODQtOS44NDYyNTIgMTM1Ljg1ODIyNCAxNi45Mzk4MTEgMjA5LjE2NDgxIDc5LjYzMTY0MiA3My4zMjE5MzYtNjIuNjk4OTk0IDE0My44NDAwMTItODkuNTE0NzMzIDIwOS4xNjQ4MS03OS42MzE2NDIgMTE2LjQzOTk2NiAxNy41NTM3OTUgMjA4LjQwMzQ3IDExMS4zOTUwNjYgMjIzLjY0MTUyMyAyMjguMjEyNjMyIDE0LjEyMTYyNiAxMDguMjIxNzk0LTM3LjY3NDA0MSAyMTMuMTc0MTI0LTEzMS45Mzc5MzggMjY3LjM4MTcyMy05Ni4xMjczMzggNTYuMTE2MDY1LTI1MC4xOTAxNzkgMTQ4LjgxODM5Ny0yODQuMTY1OTkxIDE3NS45MjE2ODUtMC4yNTE3MzMgMS42MTI3MzEtMC43MTczMzggMi45ODA4OTEtMS4xOTExMjggNC4wMzg5OS0xLjc0NTc2IDMuOTQ5OTYyLTUuNzI1Mzk4IDguMTI5MTQ0LTExLjk2MTQyNiA5LjMwNTk0N0w1MTIuMDAxMDIzIDg1Ny4zODYzMDh6IiBmaWxsPSIjMDlhZWMwIiBwLWlkPSI1NzEzIj48L3BhdGg+PC9zdmc+" alt="">
                             </div>
                         </div>
 
