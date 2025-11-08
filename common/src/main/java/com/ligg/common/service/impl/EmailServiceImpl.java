@@ -53,14 +53,12 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
             return;
         }
 
-        // 生成验证码
+        //构建邮件内容
         int code = ThreadLocalRandom.current().nextInt(100000, 999999);
         long expire = Constant.EMAIL_EXPIRE;
         String verifyUrl = "logg.top";
         int year = LocalDate.now().getYear();
         String brand_name = "Ecommerce";
-
-        //构建邮件内容
         Context context = new Context();
         context.setVariable("CODE", code);
         context.setVariable("BRAND_NAME", brand_name);

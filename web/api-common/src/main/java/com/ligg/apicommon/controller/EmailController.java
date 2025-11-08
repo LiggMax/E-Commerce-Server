@@ -56,8 +56,8 @@ public class EmailController {
     /**
      * 获取邮件验证码
      */
-    @Operation(summary = "发送邮件验证码")
     @GetMapping("/send_code")
+    @Operation(summary = "发送邮件验证码")
     public Response<String> sendEmailCode(@NotNull @Email String toEmail) {
         if (emailService.canSendVerificationCode(toEmail)) {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "请勿重复发送验证码");
