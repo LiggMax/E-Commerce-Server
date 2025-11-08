@@ -34,7 +34,7 @@ public class Constant {
     /**
      * 邮件过期时间
      */
-    public static final long EMAIL_EXPIRE = 5;
+    public static final long EMAIL_EXPIRE = 15;
 
     /**
      * 注册前缀

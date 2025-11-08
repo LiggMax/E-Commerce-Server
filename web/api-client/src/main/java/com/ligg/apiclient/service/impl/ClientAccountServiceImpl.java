@@ -1,13 +1,16 @@
 package com.ligg.apiclient.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ligg.apiclient.service.ClientAccountService;
 import com.ligg.common.constants.Constant;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.utils.RedisUtil;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,14 +54,18 @@ public class ClientAccountServiceImpl implements ClientAccountService {
     }
 
     /**
-     * 校验注册信息在缓存中是否存在
+     * 根据邮箱更新/创建用户信息
      */
     @Override
-    public boolean checkRegisterInfo(String email) {
-        if (redisUtil.hasKey(REGISTER + email)) {
-            redisUtil.del(REGISTER + email);
-            return true;
+    public int updateOrInsertUserInfo(UserEntity userEntity, boolean type) {
+        if (type) {
+            int insert = userMapper.insert(userEntity);
+            redisUtil.del(REGISTER + userEntity.getEmail());
+            return insert;
+        } else {
+            int update = userMapper.updateUserInfoByEmail(userEntity);
+            redisUtil.del(REGISTER + userEntity.getEmail());
+            return update;
         }
-        return false;
     }
 }

@@ -64,7 +64,7 @@ public class EmailServiceImpl extends ServiceImpl<EmailMapper, EmailEntity> impl
         context.setVariable("BRAND_NAME", brand_name);
         context.setVariable("EXPIRE_MINUTES", expire);
         context.setVariable("YEAR", year);
-        context.setVariable("VERIF_YURL", verifyUrl);
+        context.setVariable("VERIFY_URL", verifyUrl);
         String htmlContent = templateEngine.process("MailPage", context);
 
         //发送邮件

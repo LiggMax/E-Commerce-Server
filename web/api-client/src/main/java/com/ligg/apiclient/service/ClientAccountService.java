@@ -24,7 +24,7 @@ public interface ClientAccountService {
     UserEntity getRegisterInfo(String email);
 
     /**
-     * 校验注册信息在缓存中是否存在
+     * 更新/创建用户信息
      */
-    boolean checkRegisterInfo(String email);
+    int updateOrInsertUserInfo(UserEntity userEntity,boolean type);
 }

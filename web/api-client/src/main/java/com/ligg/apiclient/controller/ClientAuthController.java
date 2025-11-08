@@ -1,6 +1,5 @@
 package com.ligg.apiclient.controller;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ligg.apiclient.service.ClientAccountService;
 import com.ligg.common.enums.UserRole;
 import com.ligg.common.enums.UserStatus;
@@ -63,6 +62,9 @@ public class ClientAuthController {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "请勿重复发送验证码");
         }
 
+        //发送验证码
+        emailService.sendVerificationCode(account.getEmail());
+
         UserEntity userEntity = new UserEntity();
         userEntity.setPassword(BCryptUtil.encrypt(account.getPassword()));
         userEntity.setEmail(account.getEmail());
@@ -73,15 +75,15 @@ public class ClientAuthController {
             userEntity.setNickName(account.getNickName());
         }
         userEntity.setCreateTime(LocalDateTime.now());
-        emailService.sendVerificationCode(account.getEmail());
         clientAccountService.addRegisterInfoToCache(userEntity);
         return Response.success(BusinessStates.SUCCESS);
     }
 
     @PostMapping("/verify")
-    @Operation(summary = "注册校验", description = "提交提交获取的邮件完成注册")
+    @Operation(summary = "邮件校验", description = "提交提交获取的邮件处理用户信息，type? '注册用户信息' : '更新用户信息'")
     public Response<String> verify(@Email String email,
-                                   @NotNull int emailCode) {
+                                   @NotNull int emailCode,
+                                   @NotNull boolean type) {
         UserEntity redisUserInfo = clientAccountService.getRegisterInfo(email);
         if (redisUserInfo == null) {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "验证码已过期");
@@ -89,7 +91,7 @@ public class ClientAuthController {
         if (!emailService.verifyEmailCode(email, emailCode)) {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "验证码错误或已过期");
         }
-        return clientAccountService.register(redisUserInfo) > 0
+        return clientAccountService.updateOrInsertUserInfo(redisUserInfo,type) > 0
                 ? Response.success(BusinessStates.SUCCESS)
                 : Response.error(BusinessStates.INTERNAL_SERVER_ERROR);
     }
@@ -98,7 +100,7 @@ public class ClientAuthController {
     @PostMapping("/login")
     @Operation(summary = "登录", description = "提交登录信息获取token")
     public Response<String> login(@Validated @RequestBody LoginDto account) {
-        UserEntity userInfo = userService.getUserInfoByAccount(account.getAccount());
+        UserEntity userInfo = userService.getUserInfoByAccount(account.getEmail());
         if (userInfo == null || !BCryptUtil.verify(account.getPassword(), userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
         }
@@ -118,23 +120,31 @@ public class ClientAuthController {
      */
     @Operation(summary = "找回密码")
     @PutMapping("/forget")
-    public Response<String> forget(@Pattern(regexp = "^[a-zA-Z0-9_-]{6,20}$", message = "参数不合法") String account,
+    public Response<String> forget(@Email(message = "参数不合法") String email,
                                    @Pattern(regexp = "^[a-zA-Z0-9]{6,20}$", message = "参数不合法") String password,
                                    @Pattern(regexp = "^[a-zA-Z0-9]{6}$", message = "参数不合法") String code,
                                    String uuid) {
         if (!captchaService.verifyCaptcha(code, uuid)) {
             Response.error(BusinessStates.VALIDATION_FAILED, "验证码错误");
         }
-        UserEntity userInfo = userService.getUserInfoByAccount(account);
+        UserEntity userInfo = userService.getUserInfoByAccount(email);
 
         if (userInfo == null) {
             return Response.error(BusinessStates.NOT_FOUND, "查找的账户不存在");
         }
 
-        userService.update(new LambdaUpdateWrapper<UserEntity>()
-                .eq(UserEntity::getAccount, account)
-                .set(UserEntity::getPassword, BCryptUtil.encrypt(password))
-                .set(UserEntity::getUpdateTime, LocalDateTime.now()));
+        if (emailService.canSendVerificationCode(email)) {
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "请勿重复发送验证码");
+        }
+
+        //发送验证码
+        emailService.sendVerificationCode(email);
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(email);
+        userEntity.setUpdateTime(LocalDateTime.now());
+        userEntity.setPassword(BCryptUtil.encrypt(password));
+        clientAccountService.addRegisterInfoToCache(userEntity);
         return Response.success(BusinessStates.SUCCESS);
     }
 }

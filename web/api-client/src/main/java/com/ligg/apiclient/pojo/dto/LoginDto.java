@@ -1,5 +1,6 @@
 package com.ligg.apiclient.pojo.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,8 @@ public class LoginDto {
      * 账号
      */
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z0-9]{6,20}$", message = "参数不合法")
-    private String account;
+    @Email
+    private String email;
 
     /**
      * 密码

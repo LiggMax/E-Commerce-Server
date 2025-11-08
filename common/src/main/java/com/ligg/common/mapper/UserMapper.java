@@ -34,6 +34,11 @@ public interface UserMapper extends BaseMapper<UserEntity> {
     int updateUserInfo(UserEntity userEntity);
 
     /**
+     * 根据邮箱更新用户信息
+     */
+    int updateUserInfoByEmail(UserEntity userEntity);
+
+    /**
      * 充值
      * @param amount 充值金额
      * @param userId 用户id
