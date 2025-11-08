@@ -43,6 +43,8 @@ public class UserInfoDto {
      */
     private UserRole role;
 
+    private String password;
+
     /**
      * 邮箱
      */

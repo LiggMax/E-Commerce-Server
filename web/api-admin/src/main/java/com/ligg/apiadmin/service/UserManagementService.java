@@ -2,6 +2,7 @@ package com.ligg.apiadmin.service;
 
 import com.ligg.apiadmin.pojo.vo.UserManagementVo;
 import com.ligg.apiadmin.pojo.dto.UserInfoDto;
+import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.module.vo.PageVo;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,6 +21,10 @@ public interface UserManagementService {
      */
     void updateUserStatus(@NotNull String userId, @NotNull Boolean status);
 
+    /**
+     * 添加用户信息
+     */
+    int addUserInfo(UserEntity userEntity);
 
     /**
      * 更新用户信息

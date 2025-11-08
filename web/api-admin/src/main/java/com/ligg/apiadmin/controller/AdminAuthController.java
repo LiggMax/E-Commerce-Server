@@ -12,7 +12,9 @@ import com.ligg.common.utils.BCryptUtil;
 import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,9 +55,9 @@ public class AdminAuthController {
      * 登录
      */
     @PostMapping("/login")
-    public Response<String> login(@Schema(description = "账号") @RequestParam @NotNull String account,
-                                  @Schema(description = "密码") @RequestParam @NotNull String password) {
-        UserEntity userInfo = userService.getUserInfoByEmail(account);
+    public Response<String> login(@Schema(description = "邮箱") @RequestParam @NotNull @Email(message = "邮箱格式错误") String email,
+                                  @Schema(description = "密码") @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,30}$", message = "密码格式错误") @RequestParam @NotNull String password) {
+        UserEntity userInfo = userService.getUserInfoByEmail(email);
         if (userInfo == null || !BCryptUtil.verify(password, userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
         }

@@ -35,7 +35,7 @@ public class UserManagementServiceImpl implements UserManagementService {
     @Override
     public PageVo<UserManagementVo> getUserListPage(Long pageNumber, Long pageSize, String search) {
         IPage<UserManagementVo> page = new Page<>(pageNumber, pageSize);
-        IPage<UserManagementVo> userInfoVoIPage = userManagementMapper.selectUserList(page,search);
+        IPage<UserManagementVo> userInfoVoIPage = userManagementMapper.selectUserList(page, search);
         PageVo<UserManagementVo> userList = new PageVo<>();
         userList.setPages(userInfoVoIPage.getPages());
         userList.setTotal(userInfoVoIPage.getTotal());
@@ -66,6 +66,11 @@ public class UserManagementServiceImpl implements UserManagementService {
     }
 
     @Override
+    public int addUserInfo(UserEntity userEntity) {
+        return userMapper.insert(userEntity);
+    }
+
+    @Override
     public int updateUSerRoleInfo(UserInfoDto userInfo) {
         UserEntity userEntity = userMapper.selectById(userInfo.getUserId());
         if (userEntity == null) {
@@ -82,7 +87,7 @@ public class UserManagementServiceImpl implements UserManagementService {
         }
         int updateStatus = userMapper.update(updateWrapper);
         if (updateStatus > 0) {
-            redisUtil.del(String.format("%s:%s",UserConstant.USER_INFO, userInfo.getUserId()));
+            redisUtil.del(String.format("%s:%s", UserConstant.USER_INFO, userInfo.getUserId()));
         }
         return updateStatus;
     }
