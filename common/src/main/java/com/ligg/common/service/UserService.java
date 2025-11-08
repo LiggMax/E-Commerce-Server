@@ -24,7 +24,7 @@ public interface UserService extends IService<UserEntity> {
     /**
      * 根据账号获取用户信息
      */
-    UserEntity getUserInfoByAccount(String account);
+    UserEntity getUserInfoByEmail(String email);
 
     /**
      * 获取用户信息

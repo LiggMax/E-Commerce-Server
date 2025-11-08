@@ -79,8 +79,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
      * 根据账号获取用户信息
      */
     @Override
-    public UserEntity getUserInfoByAccount(String account) {
-        return userMapper.selectOne(new LambdaQueryWrapper<UserEntity>().eq(UserEntity::getAccount, account));
+    public UserEntity getUserInfoByEmail(String email) {
+        return userMapper.selectOne(new LambdaQueryWrapper<UserEntity>()
+                .eq(UserEntity::getEmail, email));
     }
 
     /**

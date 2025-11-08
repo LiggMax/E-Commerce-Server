@@ -42,7 +42,7 @@ public class AdminAuthController {
             return Response.error(BusinessStates.VALIDATION_FAILED);
         }
 
-        if (userService.getUserInfoByAccount(account) != null) {
+        if (userService.getUserInfoByEmail(account) != null) {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "该账号已被注册");
         }
         userService.register(account, password);
@@ -55,7 +55,7 @@ public class AdminAuthController {
     @PostMapping("/login")
     public Response<String> login(@Schema(description = "账号") @RequestParam @NotNull String account,
                                   @Schema(description = "密码") @RequestParam @NotNull String password) {
-        UserEntity userInfo = userService.getUserInfoByAccount(account);
+        UserEntity userInfo = userService.getUserInfoByEmail(account);
         if (userInfo == null || !BCryptUtil.verify(password, userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
         }

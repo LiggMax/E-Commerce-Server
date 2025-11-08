@@ -91,7 +91,7 @@ public class ClientAuthController {
         if (!emailService.verifyEmailCode(email, emailCode)) {
             return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "验证码错误或已过期");
         }
-        return clientAccountService.updateOrInsertUserInfo(redisUserInfo,type) > 0
+        return clientAccountService.updateOrInsertUserInfo(redisUserInfo, type) > 0
                 ? Response.success(BusinessStates.SUCCESS)
                 : Response.error(BusinessStates.INTERNAL_SERVER_ERROR);
     }
@@ -100,7 +100,7 @@ public class ClientAuthController {
     @PostMapping("/login")
     @Operation(summary = "登录", description = "提交登录信息获取token")
     public Response<String> login(@Validated @RequestBody LoginDto account) {
-        UserEntity userInfo = userService.getUserInfoByAccount(account.getEmail());
+        UserEntity userInfo = userService.getUserInfoByEmail(account.getEmail());
         if (userInfo == null || !BCryptUtil.verify(account.getPassword(), userInfo.getPassword())) {
             return Response.error(BusinessStates.FORBIDDEN, "账号或密码错误");
         }
@@ -127,10 +127,14 @@ public class ClientAuthController {
         if (!captchaService.verifyCaptcha(code, uuid)) {
             Response.error(BusinessStates.VALIDATION_FAILED, "验证码错误");
         }
-        UserEntity userInfo = userService.getUserInfoByAccount(email);
 
+        UserEntity userInfo = userService.getUserInfoByEmail(email);
         if (userInfo == null) {
             return Response.error(BusinessStates.NOT_FOUND, "查找的账户不存在");
+        }
+
+        if (BCryptUtil.verify(password, userInfo.getPassword())) {
+            return Response.error(BusinessStates.METHOD_NOT_ALLOWED, "新密码不能与旧密码相同");
         }
 
         if (emailService.canSendVerificationCode(email)) {
