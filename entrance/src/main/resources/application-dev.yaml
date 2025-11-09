@@ -13,7 +13,7 @@ spring:
     host: smtp.163.com
     port: 465
     username: ${EMAIL_USER}
-    password: ${EMAIL_KEY}
+    password: RLtWNHDJkCfTjBmy
     properties:
       mail:
         smtp:
