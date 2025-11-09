@@ -56,5 +56,9 @@ public interface UserService extends IService<UserEntity> {
      */
     int productFavorite(Long productId, boolean isFavorite);
 
-
+    /**
+     * 根据用户id查询商品收藏是否已存在
+     * 临时方案
+     */
+    boolean isProductFavoriteByUserId(String productId, String userId);
 }

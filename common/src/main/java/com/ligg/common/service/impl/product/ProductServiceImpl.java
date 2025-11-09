@@ -35,7 +35,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
             //商品库存缓存没有过期时间
             redisUtil.set(ProductConstant.STOCK_KEY_PREFIX + product.getId(), product.getStock());
         }
-        throw new RuntimeException(String.valueOf(BusinessStates.INTERNAL_SERVER_ERROR));
     }
 
     /**

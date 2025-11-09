@@ -19,6 +19,13 @@ public class ProductDetailVo extends ProductVo {
     private String description;
     private List<ProductImageVo> detailImages;
     private List<SpecVo> specs;
+    private User user;
+
+    @Getter
+    @Setter
+    public static class User {
+        private boolean favorite;
+    }
 //    private List<Images> images;
 
 //    @Getter

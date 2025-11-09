@@ -215,8 +215,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         }
     }
 
+    /**
+     * 根据用户id查询商品收藏是否已存在
+     * 临时方案
+     */
+    @Override
+    public boolean isProductFavoriteByUserId(String productId, String userId) {
+        return productFavoriteMapper.selectOne(new LambdaQueryWrapper<ProductFavoriteEntity>()
+                .eq(ProductFavoriteEntity::getProductId, productId)
+                .eq(ProductFavoriteEntity::getUserId, userId)) != null;
+    }
+
 
     private UserEntity getRedisUserInfo(String userId) {
         return (UserEntity) redisUtil.get(UserConstant.USER_INFO + ":" + userId);
     }
+
+
 }

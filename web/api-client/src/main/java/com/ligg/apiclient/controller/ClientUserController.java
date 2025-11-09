@@ -16,6 +16,7 @@ import com.ligg.common.utils.ThreadLocalUtil;
 import com.ligg.common.module.vo.UserInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -117,6 +118,14 @@ public class ClientUserController {
         Map<String, Object> userInfo = ThreadLocalUtil.get();
         String userId = (String) userInfo.get(UserConstant.USER_ID);
         return userService.recharge(payment.getAmount(), userId) < 1
+                ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
+                : Response.success(BusinessStates.SUCCESS);
+    }
+
+    @Operation(summary = "商品收藏")
+    @PostMapping("/favorite")
+    public Response<String> productFavorite(@NotNull Long productId, @NotNull boolean isFavorite) {
+        return userService.productFavorite(productId, isFavorite) < 1
                 ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
                 : Response.success(BusinessStates.SUCCESS);
     }

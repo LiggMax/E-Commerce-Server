@@ -50,7 +50,7 @@ public class FileServiceImpl implements FileService {
             String originalFilename = imageFile.getOriginalFilename();
 
             // 生成唯一文件名
-            String uniqueFileName = UUID.randomUUID().toString().substring(0, 8) + '-' + originalFilename;
+            String uniqueFileName = UUID.randomUUID().toString().substring(0, 8) + ".jpg";
 
             //创建目录
             String datePath = java.time.LocalDate.now().toString();
@@ -62,8 +62,13 @@ public class FileServiceImpl implements FileService {
             //构建文件完整路径
             Path filePath = directoryPath.resolve(uniqueFileName);
 
-            // 保存文件
-            imageFile.transferTo(filePath);
+            // 如果是JPG格式直接保存，否则进行转换
+            if (isJpegImage(contentType, originalFilename)) {
+                imageFile.transferTo(filePath);
+            } else {
+                // 转换为JPG格式
+                convertToJpeg(imageFile, filePath);
+            }
 
             return Constant.IMAGE_RELATIVE_PATH + typePath + '/' + datePath + '/' + uniqueFileName;
         } catch (IOException e) {
@@ -95,6 +100,26 @@ public class FileServiceImpl implements FileService {
                         .toOutputStream(outputStream);
             }
         };
+    }
+
+    /**
+     * 判断是否为JPEG图片
+     */
+    private boolean isJpegImage(String contentType, String filename) {
+        return "image/jpeg".equals(contentType) ||
+                (filename != null && (filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg")));
+    }
+
+    /**
+     * 转换图片为JPG格式
+     */
+    private void convertToJpeg(MultipartFile imageFile, Path targetPath) throws IOException {
+        try (InputStream inputStream = imageFile.getInputStream()) {
+            Thumbnails.of(inputStream)
+                    .scale(1.0) // 保持原尺寸
+                    .outputFormat("jpg")
+                    .toFile(targetPath.toFile());
+        }
     }
 
     /**

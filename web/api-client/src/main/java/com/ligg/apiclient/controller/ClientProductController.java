@@ -6,12 +6,15 @@ package com.ligg.apiclient.controller;
 
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.ligg.apiclient.pojo.vo.TagVo;
+import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.SearchSorting;
+import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.entity.ProductImageEntity;
 import com.ligg.common.module.vo.*;
 import com.ligg.common.module.vo.search.SearchVo;
+import com.ligg.common.service.UserService;
 import com.ligg.common.service.product.ProductCommentService;
 import com.ligg.common.service.product.ProductImageService;
 import com.ligg.common.service.product.ProductService;
@@ -20,10 +23,12 @@ import com.ligg.common.service.SearchService;
 import com.ligg.common.service.SpecService;
 import com.ligg.common.utils.DiscountUtil;
 import com.ligg.common.utils.ImageUtil;
+import com.ligg.common.utils.JWTUtil;
 import com.ligg.common.utils.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +38,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -53,6 +59,9 @@ public class ClientProductController {
     private final ProductCommentService commentService;
 
     private final ProductImageService productImageService;
+
+    private final HttpServletRequest request;
+    private final UserService userService;
 
     /**
      * 获取商品分页列表
@@ -118,10 +127,23 @@ public class ClientProductController {
         List<SpecVo> specVoList = specService.getSpecDetailByProductId(productId);
         featuredDetailVo.setSpecs(specVoList);
 
+        /*
+         * 用户信息
+         * 临时方案
+         */
+        String authorization = request.getHeader("Authorization");
+        if (authorization != null) {
+            Map<String, Object> userInfo = JWTUtil.parseToken(authorization);
+            String userId = (String) userInfo.get(UserConstant.USER_ID);
+            ProductDetailVo.User user = new ProductDetailVo.User();
+            user.setFavorite(userService.isProductFavoriteByUserId(productId, userId));
+            featuredDetailVo.setUser(user);
+        }
+
         //阅览数++
         productService.lambdaUpdate()
                 .eq(ProductEntity::getId, productId)
-                .setIncrBy(ProductEntity::getViews, ThreadLocalRandom.current().nextInt(10,21))
+                .setIncrBy(ProductEntity::getViews, ThreadLocalRandom.current().nextInt(10, 21))
                 .update();
         return Response.success(BusinessStates.SUCCESS, featuredDetailVo);
     }
