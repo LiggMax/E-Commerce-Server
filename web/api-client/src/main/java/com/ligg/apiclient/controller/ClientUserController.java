@@ -1,5 +1,6 @@
 package com.ligg.apiclient.controller;
 
+import com.ligg.common.module.vo.FavoriteVo;
 import com.ligg.common.constants.Constant;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.BusinessStates;
@@ -31,7 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @Author Ligg
+ * @author Ligg
  * @time 2025/10/10
  * @update_time 2025/11/6 14:28
  **/
@@ -44,13 +45,10 @@ public class ClientUserController {
 
     private final UserService userService;
 
-    private final ProductCommentService commentService;
-
     private final FileService fileService;
 
-    /**
-     * 获取用户信息
-     */
+    private final ProductCommentService commentService;
+
     @Operation(summary = "获取用户信息")
     @GetMapping("/info")
     public Response<UserInfoVo> getUserInfo() {
@@ -59,6 +57,7 @@ public class ClientUserController {
     }
 
     @PutMapping
+    @Operation(summary = "更新用户信息")
     public Response<String> updateUserInfo(@Validated UserDto userDto,
                                            MultipartFile avatarFile) {
         if (avatarFile != null && !avatarFile.isEmpty() && Objects.requireNonNull(avatarFile.getContentType()).startsWith("image")) {
@@ -75,9 +74,7 @@ public class ClientUserController {
                 : Response.success(BusinessStates.SUCCESS);
     }
 
-    /**
-     * 发布商品评价
-     */
+    @Operation(summary = "发布商品评价")
     @PostMapping("/comment")
     public Response<String> publishComment(@RequestParam(required = false) MultipartFile[] imageFiles,
                                            ProductCommentDto content) {
@@ -104,9 +101,7 @@ public class ClientUserController {
     }
 
 
-    /**
-     * 余额充值
-     */
+    @Operation(summary = "余额充值")
     @PatchMapping("/recharge")
     public Response<String> recharge(@RequestBody PaymentDto payment) {
         //金额是否小于0
@@ -128,5 +123,13 @@ public class ClientUserController {
         return userService.productFavorite(productId, isFavorite) < 1
                 ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
                 : Response.success(BusinessStates.SUCCESS);
+    }
+
+    @Operation(summary = "获取收藏商品")
+    @GetMapping("/favorite")
+    public Response<List<FavoriteVo>> getUserFavorite() {
+        Map<String, Object> userInf = ThreadLocalUtil.get();
+        String userId = (String) userInf.get(UserConstant.USER_ID);
+        return Response.success(BusinessStates.SUCCESS, userService.getUserFavorite(userId));
     }
 }

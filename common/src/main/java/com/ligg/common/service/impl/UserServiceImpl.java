@@ -15,6 +15,7 @@ import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductFavoriteEntity;
 import com.ligg.common.module.entity.UserEntity;
 import com.ligg.common.mapper.UserMapper;
+import com.ligg.common.module.vo.FavoriteVo;
 import com.ligg.common.service.FileService;
 import com.ligg.common.service.UserService;
 import com.ligg.common.service.product.ProductService;
@@ -32,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -224,6 +226,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return productFavoriteMapper.selectOne(new LambdaQueryWrapper<ProductFavoriteEntity>()
                 .eq(ProductFavoriteEntity::getProductId, productId)
                 .eq(ProductFavoriteEntity::getUserId, userId)) != null;
+    }
+
+    /**
+     * 获取用户收藏商品
+     */
+    @Override
+    public List<FavoriteVo> getUserFavorite(String userId) {
+        return userMapper.selectUserFavorite(userId);
     }
 
 

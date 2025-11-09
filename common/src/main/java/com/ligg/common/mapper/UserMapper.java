@@ -1,14 +1,14 @@
 package com.ligg.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ligg.common.module.entity.UserEntity;
-import com.ligg.common.module.vo.UserInfoVo;
+import com.ligg.common.module.vo.FavoriteVo;
 import jakarta.validation.constraints.NotNull;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @Author Ligg
@@ -45,4 +45,9 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      */
     @Update("update user set account_balance = account_balance + #{amount} where user_id = #{userId}")
     int recharge(BigDecimal amount, String userId);
+
+    /**
+     * 查询用户收藏商品
+     */
+    List<FavoriteVo> selectUserFavorite(String userId);
 }

@@ -2,11 +2,13 @@ package com.ligg.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ligg.common.module.entity.UserEntity;
+import com.ligg.common.module.vo.FavoriteVo;
 import com.ligg.common.module.vo.UserInfoVo;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @Author Ligg
@@ -61,4 +63,9 @@ public interface UserService extends IService<UserEntity> {
      * 临时方案
      */
     boolean isProductFavoriteByUserId(String productId, String userId);
+
+    /**
+     * 获取用户收藏商品
+     */
+    List<FavoriteVo> getUserFavorite(String userId);
 }

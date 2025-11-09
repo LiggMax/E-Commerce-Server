@@ -43,4 +43,19 @@
         </set>
         where email = #{email}
     </update>
+
+    <!--根据商品id和用户id查询商品收藏信息-->
+    <select id="selectUserFavorite" resultType="com.ligg.common.module.vo.FavoriteVo">
+        select p.id as productId,
+               p.title,
+               p.image_path,
+               p.original_price,
+               p.current_price,
+               p.rating,
+               p.stock,
+               p.views
+        from product_favorite pf
+                 left join product p on pf.product_id = p.id
+        where pf.user_id = #{userId}
+    </select>
 </mapper>
