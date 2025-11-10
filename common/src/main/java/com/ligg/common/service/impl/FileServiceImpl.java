@@ -55,7 +55,7 @@ public class FileServiceImpl implements FileService {
             //创建目录
             String datePath = java.time.LocalDate.now().toString();
             String typePath = path == null ? "" : path.contains("/") ? path : '/' + path;
-            Path directoryPath = Paths.get(IMAGE_PATH + typePath + '/' + datePath);
+            Path directoryPath = Paths.get(IMAGE_PATH + typePath + '/' + datePath).toAbsolutePath().normalize();
             if (!Files.exists(directoryPath)) {
                 Files.createDirectories(directoryPath);
             }
@@ -87,8 +87,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public StreamingResponseBody getImageInputStream(String path, String type, String date, String imageName) {
 
-        Path imagePath = Paths.get(IMAGE_PATH, path, date, imageName);
-        Files.exists(imagePath);
+        Path imagePath = Paths.get(IMAGE_PATH, path, date, imageName).toAbsolutePath().normalize();
+        if (!Files.exists(imagePath)) {
+            throw new RuntimeException("图片资源不存在不存在");
+        }
         ImageType imageType = ImageType.valueOf(type.toLowerCase());
 
         return outputStream -> {
@@ -132,8 +134,10 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public StreamingResponseBody getImageInputStream(String path, String date, String imageName) {
-        Path imagePath = Paths.get(IMAGE_PATH, path, date, imageName);
-        Files.exists(imagePath);
+        Path imagePath = Paths.get(IMAGE_PATH, path, date, imageName).toAbsolutePath().normalize();
+        if (Files.exists(imagePath)) {
+            throw new RuntimeException("图片资源不存在");
+        }
         return outputStream -> {
             try (InputStream inputStream = Files.newInputStream(imagePath)) {
                 inputStream.transferTo(outputStream);
@@ -149,7 +153,7 @@ public class FileServiceImpl implements FileService {
     @Override
     @Deprecated
     public void deleteFile(String filePath) {
-        Path imagePath = Paths.get(IMAGE_PATH, filePath);
+        Path imagePath = Paths.get(getBasePath(), filePath).toAbsolutePath().normalize() ;
         //检查文件是否存在
         if (Files.exists(imagePath)) {
             try {
@@ -181,5 +185,19 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             log.error("文件删除失败: {}, 错误信息: {}", filePath, e.getMessage());
         }
+    }
+
+    /**
+     * 获取基础路径
+     * @return 绝对路径
+     */
+    private String getBasePath() {
+        // 如果IMAGE_PATH已经是绝对路径，则直接返回
+        Path basePath = Paths.get(IMAGE_PATH);
+        if (basePath.isAbsolute()) {
+            return IMAGE_PATH;
+        }
+        // 如果是相对路径，则基于当前工作目录
+        return Paths.get(System.getProperty("user.dir"), IMAGE_PATH).toString();
     }
 }

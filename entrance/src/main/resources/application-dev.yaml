@@ -50,4 +50,4 @@ mybatis-plus:
 ##文件配置
 file:
   image:
-    base-path: resources/image # 用相对路径(相对于项目运行目录)
+    base-path: ${user.dir}/resources/image # 用相对路径(相对于项目运行目录)
