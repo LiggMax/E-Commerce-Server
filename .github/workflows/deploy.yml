@@ -55,6 +55,7 @@ jobs:
           script: |  
             cd ${{ secrets.SERVER_PROJECT_PATH }}
             chmod 755 restart.sh
+            chmod 755 app.log
             # 获取最新 jar 文件名
             LATEST_JAR=$(ls -t *.jar | head -n 1)
             echo "最新 jar 包：$LATEST_JAR"
