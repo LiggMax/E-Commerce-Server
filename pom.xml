@@ -35,6 +35,7 @@
         <thumbnailator.version>0.4.20</thumbnailator.version>
         <hutool-captcha.version>5.8.26</hutool-captcha.version>
         <jbcrypt.version>0.4</jbcrypt.version>
+        <minio.version>8.2.1</minio.version>
     </properties>
 
     <dependencyManagement>
@@ -53,6 +54,12 @@
                 <version>${knife4j.version}</version>
             </dependency>
 
+            <!--minio-->
+                    <dependency>
+                        <groupId>io.minio</groupId>
+                        <artifactId>minio</artifactId>
+                        <version>${minio.version}</version>
+                    </dependency>
             <dependency>
                 <groupId>net.coobird</groupId>
                 <artifactId>thumbnailator</artifactId>
@@ -147,13 +154,6 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.83</version>
         </dependency>
-
-        <!--minio-->
-        <!--        <dependency>-->
-        <!--            <groupId>io.minio</groupId>-->
-        <!--            <artifactId>minio</artifactId>-->
-        <!--            <version>8.2.1</version>-->
-        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

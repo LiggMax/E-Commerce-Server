@@ -4,9 +4,15 @@
  **/
 package com.ligg.common.service.impl;
 
+import com.ligg.common.config.MinioConfig;
+import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.enums.ImageType;
 import com.ligg.common.constants.Constant;
 import com.ligg.common.service.FileService;
+import io.minio.*;
+import io.minio.errors.*;
+import io.minio.http.Method;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,15 +27,23 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
     // 图片存储根路径
     @Value("${file.image.base-path}")
     private String IMAGE_PATH;
+
+    private final MinioConfig minioConfig;
+
+    private final MinioClient minioClient;
+
 
     @Override
     public String uploadImage(MultipartFile imageFile, String path) {
@@ -74,6 +88,75 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String minioFileUpload(MultipartFile imageFile, String filePath) {
+        String bucketName = minioConfig.getBucketName();
+        String datePath = java.time.LocalDate.now().toString();
+        String fullFilePath = String.join("/", (filePath != null ? filePath : ""), datePath, UUID.randomUUID() + "_" + imageFile.getOriginalFilename());
+        //创建存储桶(如果不存在)
+        try {
+            if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+                //设置访问权限
+                minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
+                        .bucket(bucketName)
+                        .config(getPublicReadPolicy(bucketName))
+                        .build());
+            }
+        } catch (Exception e) {
+            log.error("创建存储桶失败: {}", e.getMessage());
+            throw new RuntimeException(BusinessStates.INTERNAL_SERVER_ERROR.getMessage());
+        }
+
+        //上传文件
+        try (InputStream inputStream = imageFile.getInputStream()) {
+            minioClient.putObject(PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(fullFilePath)
+                    .stream(inputStream, imageFile.getSize(), -1)
+                    .contentType(imageFile.getContentType())
+                    .build());
+        } catch (Exception e) {
+            log.error("上传文件失败: {}", e.getMessage());
+        }
+
+        return minioConfig.getEndpoint() + "/" + bucketName + "/" + fullFilePath;
+    }
+
+    /**
+     * url签名
+     */
+    private String getUrlSignature(String bucketName, String objectName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                .bucket(bucketName)
+                .object(objectName)
+                .method(Method.GET)
+                .build());
+    }
+
+    /**
+     * 存储桶配置
+     * "Principal": "*" 表示允许所有用户访问。
+     * "Action": "s3:GetObject" 表示允许下载/读取对象
+     * "Action": "s3:PutObject" 表示允许上传/写入对象
+     * %s 是格式化占位符，会被传入的 bucketName 替换
+     */
+    private String getPublicReadPolicy(String bucketName) {
+        return """
+                {
+                  "Version":"2012-10-17",
+                  "Statement":[
+                    {
+                      "Effect":"Allow",
+                      "Principal":"*",
+                      "Action":["s3:GetObject"],
+                      "Resource":["arn:aws:s3:::%s/*"]
+                    }
+                  ]
+                }
+                """.formatted( bucketName);
     }
 
     /**
@@ -153,7 +236,7 @@ public class FileServiceImpl implements FileService {
     @Override
     @Deprecated
     public void deleteFile(String filePath) {
-        Path imagePath = Paths.get(getBasePath(), filePath).toAbsolutePath().normalize() ;
+        Path imagePath = Paths.get(getBasePath(), filePath).toAbsolutePath().normalize();
         //检查文件是否存在
         if (Files.exists(imagePath)) {
             try {
@@ -189,6 +272,7 @@ public class FileServiceImpl implements FileService {
 
     /**
      * 获取基础路径
+     *
      * @return 绝对路径
      */
     private String getBasePath() {

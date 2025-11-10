@@ -33,6 +33,12 @@
             <artifactId>thumbnailator</artifactId>
         </dependency>
 
+        <!--minio-->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
+
         <!-- 邮件服务 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,6 +51,7 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- 验证码 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-captcha</artifactId>

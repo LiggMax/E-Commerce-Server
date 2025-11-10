@@ -51,3 +51,10 @@ mybatis-plus:
 file:
   image:
     base-path: ${user.dir}/resources/image # 用相对路径(相对于项目运行目录)
+
+minio:
+  endpoint: ${ENDPOINT}
+  access-key: ${ACCESS_KEY}
+  secret-key: ${SECRET_KEY}
+  bucket-name: e-commerce
+
