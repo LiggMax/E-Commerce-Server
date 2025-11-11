@@ -1,15 +1,14 @@
 package com.ligg.apicommon.controller;
 
+import com.ligg.common.constants.Constant;
 import com.ligg.common.service.FileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.nio.file.Files;
@@ -75,4 +74,8 @@ public class imageController {
         return ResponseEntity.ok().headers(headers).body(imageInputStream);
     }
 
+    @PostMapping("/upload")
+    public String uploadImage(@RequestParam("image") MultipartFile imageFile) {
+        return fileService.minioFileUpload(imageFile, Constant.AVATAR_FILE_PATH);
+    }
 }

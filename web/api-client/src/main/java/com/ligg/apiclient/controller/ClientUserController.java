@@ -60,15 +60,20 @@ public class ClientUserController {
     @Operation(summary = "更新用户信息")
     public Response<String> updateUserInfo(@Validated UserDto userDto,
                                            MultipartFile avatarFile) {
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(userDto, userEntity);
+
+        Map<String,Object> userInfo = ThreadLocalUtil.get();
+        String userId = (String) userInfo.get(UserConstant.USER_ID);
+        userEntity.setUserId(userId);
         if (avatarFile != null && !avatarFile.isEmpty() && Objects.requireNonNull(avatarFile.getContentType()).startsWith("image")) {
             if (avatarFile.getSize() > 1024 * 1024 * 2) {
                 return Response.error(BusinessStates.VALIDATION_FAILED, "图片大小不能超过2M");
             }
-            userService.updateUserAvatar(avatarFile);
+            String avatarUrl = userService.updateAvatar(avatarFile,userId);
+            userEntity.setAvatar(avatarUrl);
         }
 
-        UserEntity userEntity = new UserEntity();
-        BeanUtils.copyProperties(userDto, userEntity);
         return userService.updateUserInfo(userEntity) < 1
                 ? Response.error(BusinessStates.INTERNAL_SERVER_ERROR)
                 : Response.success(BusinessStates.SUCCESS);

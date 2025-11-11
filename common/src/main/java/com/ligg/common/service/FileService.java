@@ -16,6 +16,20 @@ public interface FileService {
     String uploadImage(MultipartFile imageFile, String FilePath);
 
     /**
+     * 上传图片文件到Minio
+     *
+     * @param imageFile 图片文件
+     * @param filePath  指定文件保存的路径(前缀)
+     * @return 图片访问路径
+     */
+    String minioFileUpload(MultipartFile imageFile, String filePath);
+
+    /**
+     * 删除minio中的文件
+     */
+    void deleteMinioFile(String fileUrl);
+
+    /**
      * 获取多种图片输入流
      *
      * @param type      图片类型

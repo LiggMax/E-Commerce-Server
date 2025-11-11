@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapp
 import com.ligg.apiclient.pojo.vo.TagVo;
 import com.ligg.common.constants.UserConstant;
 import com.ligg.common.enums.SearchSorting;
-import com.ligg.common.mapper.UserMapper;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.module.entity.ProductImageEntity;
@@ -73,8 +72,7 @@ public class ClientProductController {
         List<ProductVo> featuredVoList = featuredPage.getList().stream().map(featured -> {
             ProductVo featuredVo = new ProductVo();
             BeanUtils.copyProperties(featured, featuredVo);
-            ImagesVo imagePath = ImageUtil.getImagePath(featured.getImagePath());
-            featuredVo.setImages(imagePath);
+            featuredVo.setImages(featured.getImagePath());
             featuredVo.setDiscount(DiscountUtil.calculateDiscountPercentage(
                     featured.getOriginalPrice(),
                     featured.getCurrentPrice()).doubleValue());
@@ -107,7 +105,7 @@ public class ClientProductController {
         if (featuredDetailEntity != null) {
             featuredDetailVo.setDescription(featuredDetailEntity.getDescription());
         }
-        featuredDetailVo.setImages(ImageUtil.getImagePath(featured.getImagePath()));
+        featuredDetailVo.setImages(featured.getImagePath());
         featuredDetailVo.setDiscount(DiscountUtil.calculateDiscountPercentage(
                 featured.getOriginalPrice(),
                 featured.getCurrentPrice()

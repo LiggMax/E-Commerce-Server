@@ -15,7 +15,6 @@ import com.ligg.common.service.product.ProductService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.product.ProductImageService;
-import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.module.vo.ProductDetailVo;
 import com.ligg.common.module.vo.ProductImageVo;
@@ -63,7 +62,7 @@ public class AdminProductController {
     public Response<String> uploadFeatured(@Validated ProductDto product,
                                            @Schema(description = "图片文件") @NotNull(message = "图片文件不能为空") MultipartFile imageFile) {
         //保存基本数据
-        String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
+        String imagePath = fileService.minioFileUpload(imageFile, Constant.FEATURED_FILE_PATH);
         ProductEntity featuredEntity = new ProductEntity();
         BeanUtils.copyProperties(product, featuredEntity);
         featuredEntity.setRating(new Random().nextInt(5, 11));
@@ -93,15 +92,13 @@ public class AdminProductController {
             if (imageFile.getSize() > 1024 * 1024 * 2) {
                 return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
             }
-            String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
-
+            String imageUrl = fileService.minioFileUpload(imageFile, Constant.FEATURED_FILE_PATH);
             //上传封面成功后异步删除旧图片
-            if (imagePath != null) {
+            if (imageUrl != null) {
                 ProductEntity featuredData = productService.getById(featured.getId());
-                String dataImagePath = IMAGE_PATH + featuredData.getImagePath().replace("/api/image", "");
-                fileService.deleteFileAsync(dataImagePath);
+                fileService.deleteMinioFile(featuredData.getImagePath());
             }
-            featuredEntity.setImagePath(imagePath);
+            featuredEntity.setImagePath(imageUrl);
         }
         BeanUtils.copyProperties(featured, featuredEntity);
         featuredEntity.setUpdateAt(LocalDateTime.now());
@@ -128,7 +125,7 @@ public class AdminProductController {
         pageVo.setList(featuredList.getList().stream().map(featured -> {
             ProductDetailVo featuredVo = new ProductDetailVo();
             BeanUtils.copyProperties(featured, featuredVo);
-            featuredVo.setImages(ImageUtil.getImagePath(featured.getImagePath()));
+            featuredVo.setImages(featured.getImagePath());
             return featuredVo;
         }).collect(Collectors.toList()));
         return Response.success(BusinessStates.SUCCESS, pageVo);
@@ -165,9 +162,9 @@ public class AdminProductController {
         }
         List<ProductImageEntity> imageList = productImageService.getList(featuredId);
         if (imageList.size() >= 6) {
-            return Response.error(BusinessStates.BAD_REQUEST, "图片文件超出");
+            return Response.error(BusinessStates.BAD_REQUEST, "图片数量超出6张");
         }
-        String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
+        String imagePath = fileService.minioFileUpload(imageFile, Constant.FEATURED_FILE_PATH);
         if (StringUtils.hasText(imagePath)) {
             ProductImageEntity featuredImage = new ProductImageEntity();
             featuredImage.setProductId(featuredId);
@@ -194,8 +191,6 @@ public class AdminProductController {
             imageVo.setSort(featuredImage.getSort());
             imageVo.setUrl(featuredImage.getImagePath());
             return imageVo;
-            //返回
-
         }).toList());
     }
 }

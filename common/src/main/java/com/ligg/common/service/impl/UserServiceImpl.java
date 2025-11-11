@@ -29,6 +29,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
@@ -129,24 +130,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     /**
      * 更新用户头像
+     *
+     * @return 头像访问路径
      */
     @Override
-    public void updateUserAvatar(MultipartFile avatarFile) {
-        Map<String, Object> UserInfo = ThreadLocalUtil.get();
-        String userId = (String) UserInfo.get(UserConstant.USER_ID);
-
+    public String updateAvatar(MultipartFile avatarFile, String userId) {
         UserEntity userInfo = userMapper.selectById(userId);
-        String avatar = userInfo.getAvatar();
-        //如果头像不 != null || "" 则删除旧头像
-        if (avatar != null && !avatar.equals("/")) {
-            String avatarPath = IMAGE_PATH + avatar.replace(Constant.IMAGE_RELATIVE_PATH, "");
-            fileService.deleteFileAsync(avatarPath);
+        String userAvatarUrl = userInfo.getAvatar();
+        //如果头像不 != null && "/" 则删除旧头像
+        if (StringUtils.hasText(userAvatarUrl) && !userAvatarUrl.equals("/")) {
+            fileService.deleteMinioFile(userAvatarUrl);
         }
-        String imagePath = fileService.uploadImage(avatarFile, Constant.AVATAR_FILE_PATH);
-        UserEntity userEntity = new UserEntity();
-        userEntity.setAvatar(imagePath);
-        userEntity.setUserId(userId);
-        userMapper.updateUserInfo(userEntity);
+        return fileService.minioFileUpload(avatarFile, Constant.AVATAR_FILE_PATH);
     }
 
     /**
@@ -157,9 +152,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         if (userEntity.getPassword() != null) {
             userEntity.setPassword(BCryptUtil.encrypt(userEntity.getPassword()));
         }
-        Map<String, Object> UserInfo = ThreadLocalUtil.get();
-        String userId = (String) UserInfo.get(UserConstant.USER_ID);
-        userEntity.setUserId(userId);
         int number = userMapper.updateUserInfo(userEntity);
         if (number > 0) {
             String userKey = UserConstant.USER_INFO + ":" + userEntity.getUserId();

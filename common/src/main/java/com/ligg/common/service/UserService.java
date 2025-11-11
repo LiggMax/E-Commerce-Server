@@ -40,8 +40,10 @@ public interface UserService extends IService<UserEntity> {
 
     /**
      * 更新用户头像
+     *
+     * @return 头像地址
      */
-    void updateUserAvatar(MultipartFile avatarFile);
+    String updateAvatar(MultipartFile avatarFile,String userId);
 
     /**
      * 更新用户信息
