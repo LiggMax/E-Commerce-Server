@@ -92,15 +92,13 @@ public class AdminProductController {
             if (imageFile.getSize() > 1024 * 1024 * 2) {
                 return Response.error(BusinessStates.FILE_UPLOAD_FAILED);
             }
-            String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
-
+            String imageUrl = fileService.minioFileUpload(imageFile, Constant.FEATURED_FILE_PATH);
             //上传封面成功后异步删除旧图片
-            if (imagePath != null) {
+            if (imageUrl != null) {
                 ProductEntity featuredData = productService.getById(featured.getId());
-                String dataImagePath = IMAGE_PATH + featuredData.getImagePath().replace("/api/image", "");
-                fileService.deleteFileAsync(dataImagePath);
+                fileService.deleteMinioFile(featuredData.getImagePath());
             }
-            featuredEntity.setImagePath(imagePath);
+            featuredEntity.setImagePath(imageUrl);
         }
         BeanUtils.copyProperties(featured, featuredEntity);
         featuredEntity.setUpdateAt(LocalDateTime.now());
@@ -164,9 +162,9 @@ public class AdminProductController {
         }
         List<ProductImageEntity> imageList = productImageService.getList(featuredId);
         if (imageList.size() >= 6) {
-            return Response.error(BusinessStates.BAD_REQUEST, "图片文件超出");
+            return Response.error(BusinessStates.BAD_REQUEST, "图片数量超出6张");
         }
-        String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
+        String imagePath = fileService.minioFileUpload(imageFile, Constant.FEATURED_FILE_PATH);
         if (StringUtils.hasText(imagePath)) {
             ProductImageEntity featuredImage = new ProductImageEntity();
             featuredImage.setProductId(featuredId);
@@ -193,8 +191,6 @@ public class AdminProductController {
             imageVo.setSort(featuredImage.getSort());
             imageVo.setUrl(featuredImage.getImagePath());
             return imageVo;
-            //返回
-
         }).toList());
     }
 }

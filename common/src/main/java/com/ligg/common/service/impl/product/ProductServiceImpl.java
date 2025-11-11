@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ligg.common.constants.ProductConstant;
-import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.module.entity.ProductEntity;
 import com.ligg.common.module.entity.ProductDetailEntity;
 import com.ligg.common.mapper.product.ProductMapper;
@@ -27,6 +26,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, ProductEntity
     private final ProductMapper productMapper;
 
     private final RedisUtil redisUtil;
+
 
     @Override
     public void saveFeatured(ProductEntity product) {
