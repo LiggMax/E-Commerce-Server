@@ -29,6 +29,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
@@ -136,8 +137,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public String updateAvatar(MultipartFile avatarFile, String userId) {
         UserEntity userInfo = userMapper.selectById(userId);
         String userAvatarUrl = userInfo.getAvatar();
-        //如果头像不 != null || "/" 则删除旧头像
-        if (userAvatarUrl != null && !userAvatarUrl.equals("/")) {
+        //如果头像不 != null && "/" 则删除旧头像
+        if (StringUtils.hasText(userAvatarUrl) && !userAvatarUrl.equals("/")) {
             fileService.deleteMinioFile(userAvatarUrl);
         }
         return fileService.minioFileUpload(avatarFile, Constant.AVATAR_FILE_PATH);
