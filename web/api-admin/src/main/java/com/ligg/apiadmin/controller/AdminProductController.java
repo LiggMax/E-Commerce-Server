@@ -15,7 +15,6 @@ import com.ligg.common.service.product.ProductService;
 import com.ligg.common.service.FileService;
 import com.ligg.common.enums.BusinessStates;
 import com.ligg.common.service.product.ProductImageService;
-import com.ligg.common.utils.ImageUtil;
 import com.ligg.common.utils.Response;
 import com.ligg.common.module.vo.ProductDetailVo;
 import com.ligg.common.module.vo.ProductImageVo;
@@ -63,7 +62,7 @@ public class AdminProductController {
     public Response<String> uploadFeatured(@Validated ProductDto product,
                                            @Schema(description = "图片文件") @NotNull(message = "图片文件不能为空") MultipartFile imageFile) {
         //保存基本数据
-        String imagePath = fileService.uploadImage(imageFile, Constant.FEATURED_FILE_PATH);
+        String imagePath = fileService.minioFileUpload(imageFile, Constant.FEATURED_FILE_PATH);
         ProductEntity featuredEntity = new ProductEntity();
         BeanUtils.copyProperties(product, featuredEntity);
         featuredEntity.setRating(new Random().nextInt(5, 11));
@@ -128,7 +127,7 @@ public class AdminProductController {
         pageVo.setList(featuredList.getList().stream().map(featured -> {
             ProductDetailVo featuredVo = new ProductDetailVo();
             BeanUtils.copyProperties(featured, featuredVo);
-            featuredVo.setImages(ImageUtil.getImagePath(featured.getImagePath()));
+            featuredVo.setImages(featured.getImagePath());
             return featuredVo;
         }).collect(Collectors.toList()));
         return Response.success(BusinessStates.SUCCESS, pageVo);

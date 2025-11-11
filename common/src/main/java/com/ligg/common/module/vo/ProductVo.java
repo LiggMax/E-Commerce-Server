@@ -26,8 +26,8 @@ public class ProductVo {
     /**
      * 图片路径
      */
-    @Schema(description = "图片链接s")
-    private ImagesVo images;
+    @Schema(description = "图片链接")
+    private String images;
 
     /**
      * 原价
