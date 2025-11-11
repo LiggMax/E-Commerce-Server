@@ -90,6 +90,13 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 上传图片文件到Minio
+     *
+     * @param imageFile 图片文件
+     * @param filePath  指定文件保存的路径(前缀)
+     * @return 图片访问路径
+     */
     @Override
     public String minioFileUpload(MultipartFile imageFile, String filePath) {
         String bucketName = minioConfig.getBucketName();
@@ -121,8 +128,60 @@ public class FileServiceImpl implements FileService {
         } catch (Exception e) {
             log.error("上传文件失败: {}", e.getMessage());
         }
+        //这里不返回minioConfig.getEndpoint() (minio服务地址) 让前端自己做代理转发
+        return "/" + bucketName + fullFilePath;
+    }
 
-        return minioConfig.getEndpoint() + "/" + bucketName + "/" + fullFilePath;
+    /**
+     * 删除minio中的文件
+     */
+    @Override
+    @Async("fileTaskExecutor")
+    public void deleteMinioFile(String fileUrl) {
+        //截取相对路径url
+        String[] splitUrl = fileUrl.split(minioConfig.getBucketName());
+        //检查存储桶是否存在
+        try {
+            minioClient.bucketExists(
+                    BucketExistsArgs.builder().bucket(minioConfig.getBucketName()).build()
+            );
+        } catch (Exception e) {
+            log.error("存储桶不存在: {}", e.getMessage());
+            throw new RuntimeException(BusinessStates.METHOD_NOT_ALLOWED.getMessage());
+        }
+
+        //接收文件url的是存储桶的相对路径，而不是完整的url访问路径
+        if (isFileExist(splitUrl[1])) {
+            try {
+                //删除文件
+                minioClient.removeObject(RemoveObjectArgs.builder()
+                        .bucket(minioConfig.getBucketName())
+                        .object(splitUrl[1])
+                        .build());
+                return;
+            } catch (Exception e) {
+                log.error("删除文件失败: {}", e.getMessage());
+            }
+        }
+        log.error("文件不存在: {}", fileUrl);
+    }
+
+    /**
+     * 判断文件是否存储
+     * fileUrl接收的是存储桶的相对路径，而不是完整的url访问路径
+     */
+    private boolean isFileExist(String fileUrl) {
+        try {
+            minioClient.statObject(
+                    StatObjectArgs.builder()
+                            .bucket(minioConfig.getBucketName())
+                            .object(fileUrl)
+                            .build()
+            );
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -156,7 +215,7 @@ public class FileServiceImpl implements FileService {
                     }
                   ]
                 }
-                """.formatted( bucketName);
+                """.formatted(bucketName);
     }
 
     /**

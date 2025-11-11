@@ -25,6 +25,11 @@ public interface FileService {
     String minioFileUpload(MultipartFile imageFile, String filePath);
 
     /**
+     * 删除minio中的文件
+     */
+    void deleteMinioFile(String fileUrl);
+
+    /**
      * 获取多种图片输入流
      *
      * @param type      图片类型
