@@ -12,13 +12,13 @@ echo "🔍 正在查找占用端口 $PORT 的进程..."
 PID=$(lsof -t -i:$PORT)
 if [ -n "$PID" ]; then
   echo "🛑 正在停止进程 (PID: $PID)..."
-  kill -15 $PID
+  kill -15 "$PID"
   sleep 3
 
   # 强制杀死进程（如果还在运行）
-  if ps -p $PID > /dev/null 2>&1; then
+  if ps -p "$PID" > /dev/null 2>&1; then
     echo "⚠️  强制终止进程..."
-    kill -9 $PID
+    kill -9 "$PID"
   fi
 else
   echo "ℹ️ 占用端口 $PORT 的进程不存在"
@@ -31,6 +31,6 @@ fi
 
 # 启动新的实例
 echo "🚀 正在启动 $APP_NAME..."
-nohup java -jar $APP_PATH$APP_NAME --spring.profiles.active=prod > $LOG_FILE 2>&1 &
+nohup java -jar $APP_PATH$APP_NAME --spring.profiles.active=prod > "$LOG_FILE" 2>&1 &
 echo $! > $PID_FILE
 echo "✅ 启动成功，新进程 PID: $(cat $PID_FILE)"

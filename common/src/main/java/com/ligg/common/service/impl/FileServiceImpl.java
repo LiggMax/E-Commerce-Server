@@ -129,7 +129,7 @@ public class FileServiceImpl implements FileService {
             log.error("上传文件失败: {}", e.getMessage());
         }
         //这里不返回minioConfig.getEndpoint() (minio服务地址) 让前端自己做代理转发
-        return "/" + bucketName + fullFilePath;
+        return minioConfig.getEndpoint() + "/" + bucketName + fullFilePath;
     }
 
     /**
