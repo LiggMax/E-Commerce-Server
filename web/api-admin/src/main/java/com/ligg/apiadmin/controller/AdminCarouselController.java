@@ -77,7 +77,7 @@ public class AdminCarouselController {
     @Operation(summary = "上传轮播图数据")
     public Response<String> upload(@Validated CarouselDto carousel,
                                    @Schema(description = "图片文件") MultipartFile imageFile) {
-        String imagePath = fileService.uploadImage(imageFile, Constant.CAROUSEL_FILE_PATH);
+        String imagePath = fileService.minioFileUpload(imageFile, Constant.CAROUSEL_FILE_PATH);
         if (imageFile.getSize() > 1024 * 1024 * 2) {
             return Response.error(BusinessStates.BAD_REQUEST);
         }
